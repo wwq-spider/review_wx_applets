@@ -35,6 +35,10 @@
 			<view v-if="pCount > 0" class="savebutton" @click="startTest">开始测试</view>
 		</view>
 		
+		<view class="_scroll-list" >
+			<view class="savebutton" @click="videoTest">视频测试</view>
+		</view>
+		
 		<view class="_scroll-list">
 			<view class="_scroll-head">
 				<uni-icons type="list" size="20" color="#d6b477"></uni-icons>
@@ -156,6 +160,19 @@
 			this.loadData()
 		},
 		methods: {
+			
+			// sdkAppID: '1400584863',
+			// // 必要参数 开通实时音视频服务创建应用后分配的 sdkAppID
+			// userID: 'oE_EL5jr7oiD2sbr90bvxXd5e2zo',
+			// // 必要参数 用户 ID 可以由您的帐号系统指定
+			// userSig: '',
+			// // 必要参数 身份签名，相当于登录密码的作用
+			// template: '1v1'
+			videoTest() {
+				uni.navigateTo({
+					url: '/pages/room/room?userID=oE_EL5jr7oiD2sbr90bvxXd5e2zo&template=1v1&roomID=123&debugMode=false&cloudenv=PRO'
+				})
+			},
 			//开始测试
 			startTest() {
 				//如果未登录且是扫二维码进来的 则跳转到第一个量表
