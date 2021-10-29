@@ -261,8 +261,6 @@ class UserController {
    * 处理用户音频通知事件
    * @param {Object} data pusher 下发的数据 {userlist}
    */
-
-
   updateUserAudio(data) {
     // console.log(TAG_NAME, 'updateUserAudio', data)
     const incomingUserList = data.userlist;
