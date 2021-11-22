@@ -1,43 +1,38 @@
 <template>
 	<view>
-	<view class="article">
-		<!-- <view class="article-title">{{title}}</view>
-		<uni-list :border="false">
-			<uni-list-item thumbSize="lg" :thumb="data.author_avatar">
-				通过body插槽定义作者信息内容
-				<template v-slot:body>
-					<view class="header-content">
-						<view class="uni-title">{{data.author_name}}</view>
-						<view class="uni-note">更新于 {{data.last_modify_date}} </view>
+		<view class="article">
+			<view class="banner">
+				<!-- 文章开头，缩略图 -->
+				<image class="banner-img" :src="reviewClass.bannerImg || defaultCover" @error="imageError()" mode="widthFix"></image>
+				<!-- 文章摘要 -->
+				<view class="banner-title">
+					<view class="uni-ellipsis">{{reviewClass.title}}</view>
+					<view style="display: flex; font-size: 13px;">
+						<span class="iconfont" style="color: #dc7a54;font-size: 13px;">&#xe606;活动价:{{reviewClass.orgPrice - reviewClass.dicountPrice}}</span>
+						<text style="margin-left: 10px;">原价：{{reviewClass.orgPrice}}</text>
 					</view>
-				</template>
-				<template v-slot:footer>
-					<view class="footer">
-						<button class="footer-button">关注</button>
-					</view>
-				</template>
-			</uni-list-item>
-		</uni-list> -->
-		<view class="banner">
-			<!-- 文章开头，缩略图 -->
-			<image class="banner-img" :src="reviewClass.bannerImg || defaultCover" @error="imageError()" mode="widthFix"></image>
-			<!-- 文章摘要 -->
-			<view class="banner-title">
-				<view class="uni-ellipsis">{{reviewClass.title}}</view>
-				<view style="display: flex; font-size: 13px;">
-					<span class="iconfont" style="color: #dc7a54;font-size: 13px;">&#xe606;活动价:{{reviewClass.orgPrice}}</span>
-					<text style="margin-left: 10px;">原价：10.00</text>
 				</view>
 			</view>
+			<view class="article-content">
+				<rich-text :nodes="reviewClass.guide" style="font-size: 14px;line-height: 1.8;color:#333"></rich-text>
+			</view>
 		</view>
-		<view class="article-content">
-			<rich-text :nodes="reviewClass.guide" style="font-size: 14px;line-height: 1.8;color:#333"></rich-text>
+		<view class="organization">
+			<view class="savebutton" style="margin-left: 120px;" @click="buy">立即购买</view>
+			<view class="savebutton" @click="beginTest">开始评测</view>
 		</view>
-	</view>
-	<view class="organization">
-		<view class="savebutton" style="margin-left: 120px;" @click="buy">立即购买</view>
-		<view class="savebutton" @click="beginTest">开始评测</view>
-	</view>
+		
+		<uni-popup ref="showPayConfirm" :type="type" :mask-click="false" @change="change">
+			<view class="uni-tip">
+				<text class="uni-tip-title">支付确认</text>
+				<text class="uni-tip-content">量表名称：{{ reviewClass.title }}</text>
+				<text class="uni-tip-content">量表价格：{{ reviewClass.orgPrice - reviewClass.dicountPrice }}</text>
+				<view class="uni-tip-group-button">
+					<button class="uni-tip-button" @click="cancel()">取消</button>
+					<button class="uni-tip-button" @click="confirmBuy()" :loading="loading">确定</button>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -56,6 +51,7 @@
 				}, 
 				reviewClass: {},
 				defaultCover: '../../static/default_cover.jpeg',
+				loading: false,
 			}
 		},
 		computed:{
@@ -125,10 +121,58 @@
 				this.reviewClass.bannerImg = this.defaultCover 
 			},
 			buy() {
-				
+				this.$nextTick(() => {
+					this.$refs['showshowPayConfirm'].open()
+				})
+			},
+			confirmBuy() {
+				uni.showLoading({
+					title: "数据加载中"
+				})
+				this.loading = true
+				this.$apis.postCreatePrePayOrder({}).then(res => {
+					uni.hideLoading()
+					if(res.code == 200) {
+						let preOrder = res.data
+						if(preOrder && preOrder.prePayId) {
+							uni.requestPayment({
+							    timeStamp: preOrder.timeStamp,
+							    nonceStr: preOrder.nonceStr,
+							    package: preOrder.package,
+							    signType: 'MD5',
+							    paySign: preOrder.paySign,
+							    success: (res) => {
+							        uni.showToast({
+							            title: "支付成功，请开始测评！"
+							        })
+							    },
+							    fail: (res) => {
+							        uni.showModal({
+							            content: "支付失败,原因为: " + res.errMsg,
+							            showCancel: false
+							        })
+							    },
+							    complete: () => {
+							        this.loading = false;
+							    }
+							})
+						}
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+						this.loading = false;
+					}
+				})
+			},
+			cancel() {
+				this.$refs['showshowPayConfirm'].close()
 			},
 			beginTest() {
 				
+			},
+			change(e) {
+				console.log('是否打开:' + e.show)
 			}
 		}
 	}
@@ -252,5 +296,46 @@
 		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
 		background-color: #d0b074;
 		border-radius: 6px !important;
+	}
+	
+	/* 提示窗口 */
+	.uni-tip {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		flex-direction: column;
+		/* #endif */
+		padding: 15px;
+		width: 300px;
+		background-color: #fff;
+		border-radius: 10px;
+	}
+
+	.uni-tip-title {
+		margin-bottom: 10px;
+		text-align: center;
+		font-weight: bold;
+		font-size: 16px;
+		color: #333;
+	}
+
+	.uni-tip-content {
+		/* padding: 15px;*/
+		font-size: 14px;
+		color: #666;
+	}
+
+	.uni-tip-group-button {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		margin-top: 20px;
+	}
+
+	.uni-tip-button {
+		flex: 1;
+		text-align: center;
+		font-size: 14px;
+		color: #3b4144;
 	}
 </style>
