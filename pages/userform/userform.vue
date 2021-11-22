@@ -20,6 +20,19 @@
 					<u-form-item label="手机号" prop="mobilePhone" len="11" required label-width="140" border-bottom>
 						<u-input v-model="form.mobilePhone" placeholder="请输入联系方式" />
 					</u-form-item>
+					<!-- <u-form-item label="" prop="extra.isSick" label-width="140" border-bottom> -->
+					<view style="margin-bottom: 30px;"  v-if="showExtra" >
+						<text style="font-size: 12px; color: #565654;">自入学至今，你有生病或受伤吗？</text>
+						<u-radio-group v-model="form.extraObj.isSick">
+							<u-radio active-color="#EFE4C8" v-for="(item, index) in yesOrNo" :key="item.code"
+								:name="item.code" :disabled="item.disabled" @change="sickChange" :checked="item.checked">
+								{{ item.name }}
+							</u-radio>
+						</u-radio-group>
+						<textarea v-if="showExtra1" v-model="form.extraObj.sickDesc" maxlength="900" placeholder="请输入自评描述"
+						 style="margin-top: 30px; border: solid 1px; width: 100%; border-color:#ede3cb;"/>
+					</view>	 
+					<!-- </u-form-item> -->
 				</u-form>
 				<view class="savebutton" @click="submit">提交</view>
 			</view>
@@ -30,7 +43,6 @@
 <script>
 	import userCheck from '@/utils/userAction.js';
 	export default {
-		
 		onLoad(option) {
 			if (option.toPath) {
 				this.toPath = decodeURIComponent(option.toPath)
@@ -41,6 +53,10 @@
 				this.toIndex(this.projectId)
 				return
 			}
+			/* let pid = uni.getStorageSync('projectId')
+			if(pid && pid > 0) {
+				this.showExtra = true
+			} */
 			let that = this
 			userCheck.checkLogin(function(userData){
 				//1.保存用户信息
@@ -55,6 +71,8 @@
 		},
 		data() {
 			return {
+				showExtra: false,
+				showExtra1: false,
 				projectId: 0,
 				toPath: '',
 				code: '',
@@ -63,7 +81,8 @@
 					age: '',
 					mobilePhone: '',
 					sex: '',
-					openid: ''
+					openid: '',
+					extraObj: {}
 				},
 				sexList: [{
 						name: '男',
@@ -74,6 +93,19 @@
 						name: '女',
 						code: '2',
 						disabled: false
+					}
+				],
+				yesOrNo: [{
+						name: '是',
+						code: '1',
+						disabled: false,
+						checked: false
+					},
+					{
+						name: '否',
+						code: '2',
+						disabled: false,
+						checked: true
 					}
 				],
 				rules: {
@@ -110,6 +142,13 @@
 			}
 		},
 		methods: {
+			sickChange(val) {
+				if (val == '1') {
+					this.showExtra1 = true
+				} else {
+					this.showExtra1 = false
+				}
+			},
 			toOrgPath(toPath) {
 				uni.redirectTo({
 					url: decodeURIComponent(toPath)
@@ -153,7 +192,22 @@
 				})
 			},
 			submit() {
-				console.log('开始提交')
+				if (this.showExtra) {
+					if(!this.form.extraObj.isSick) {
+						uni.showToast({
+							title: '请选择是否生病',
+							icon: 'error'
+						})
+						return
+					} else if(this.form.extraObj.isSick == "1" && !this.form.extraObj.sickDesc) {
+						uni.showToast({
+							title: '请输入自评',
+							icon: 'error'
+						})
+						return
+					}
+				}
+				
 				let that = this
 				uni.showLoading({
 					title: '信息提交中'

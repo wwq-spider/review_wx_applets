@@ -25,3 +25,6 @@ export const postReviewReports = (data) => http.post(`${config.baseUrl}/reviewFr
 export const postJoinUserGroup = (data) => http.post(`${config.baseUrl}/reviewFront/joinUserGroup.do`, data)
 //获取项目详情
 export const postReviewProjectDetail = (data) => http.post(`${config.baseUrl}/reviewFront/getReviewProjectDetail.do`, data)
+
+//查询测评专题
+export const postReviewSubjectClass = (data) => http.post(`${config.baseUrl}/reviewFront/getReviewSubjectClass.do`, data)

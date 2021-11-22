@@ -74,6 +74,30 @@
 		    }
 		    
 		}
+        ,{
+            "path" : "pages/review/detail",
+            "style" : {
+                "app-plus": {
+                    "titleNView": {
+                        "buttons": [
+                            {
+                                "type": "share"
+                            }
+                        ],
+                        "type": "transparent"
+                    }
+                },
+                "h5": {
+                    "titleNView": {
+                        "buttons": [
+                        ],
+                        "type": "transparent"
+                    }
+                },
+                "navigationBarTitleText": "测评量表详情"
+            }
+            
+        }
     ],
 	"tabBar": {
 		"color": "#333",

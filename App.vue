@@ -54,6 +54,7 @@
 	/*每个页面公共css */
 	/* uni.css - 通用组件、模板样式库，可以当作一套ui库应用 */
 	@import './common/uni.css';
+	@import "./static/icons/iconfont.css";
 	body{
 		font-size: 16px;
 	}

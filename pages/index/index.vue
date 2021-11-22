@@ -11,20 +11,26 @@
 			</swiper>
 		</view>
 		<uni-notice-bar single="true" text="暂无通告" showIcon="true" style="width: 100%; margin-bottom: -10px;" background-color="blank" color="#b9b9b8"></uni-notice-bar>
-		<view class="_scroll-list" v-if="hotList.length > 0">
-		<view class="_scroll-head" v-if="hotList.length > 0">
-			<uni-icons type="list" size="20" color="#d6b477"></uni-icons>
-			<!-- <image src="@/static/ic-label.png" mode="widthFix"  style="width: 25rpx; height: 25rpx;" class="_img"></image> -->
-			<text class="_text">热门</text>
-		</view>
-		</view>
-		<view class="scroll-list" v-if="hotList.length > 0">
-			<view class="hot" v-for="(review, index) in hotList">
-				<view class="hotr" @click='beginTest(review.classId, review.title)'>
-					<view class="hotl">
-						<image class="hotlimg" :src="review.bannerImg || defaultCover" @error="imageError(index, 1)"></image>
-						<view class="title">{{review.title}}</view>
-						<view class="subtitle">{{review.classDesc}}</view>
+		<view v-for="(subject, index1) in subjectList" style="width: 100%;">
+			<view class="_scroll-list" v-if="subject.classList.length > 0">
+				<view class="_scroll-head" v-if="subject.classList.length > 0">
+					<uni-icons type="list" size="20" color="#d6b477"></uni-icons>
+					<!-- <image src="@/static/ic-label.png" mode="widthFix"  style="width: 25rpx; height: 25rpx;" class="_img"></image> -->
+					<text class="_text">{{subject.subjectName}}</text>
+				</view>
+			</view>
+			<view class="scroll-list" v-if="subject.classList.length > 0">
+				<view class="hot" v-for="(review, index2) in subject.classList">
+					<view class="hotr" @click='beginTest(review.classId, review.title)'>
+						<view class="hotl">
+							<image class="hotlimg" :src="review.bannerImg || defaultCover" @error="imageError(index1, index2, 1)"></image>
+							<view class="title">{{review.title}}</view>
+							<!-- <view class="subtitle">{{review.classDesc}}</view> -->
+							<view v-if="review.charge==1">
+								<span class="iconfont" style="color: #df7a58;font-size: 13px;">&#xe606;{{review.orgPrice}}</span>
+								<span style="padding-left: 20px; color: #857f77; font-size: 13px;">0人付款</span>
+							</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -45,11 +51,16 @@
 		<view class="question" v-for="(reviewClass, index) in reviewClassList">
 			<view class="questionr" @click='beginTest(reviewClass.classId, reviewClass.title)' :key="index">
 				<view class="questionl">
-					<image class="questionlimg" :src="reviewClass.bannerImg || defaultCover" @error="imageError(index, 2)"></image>
+					<image class="questionlimg" :src="reviewClass.bannerImg || defaultCover" @error="imageError(0, index, 2)"></image>
 				</view>
 				<view style="width: 70%;">
+					<!-- <uni-icons custom-prefix="iconfont" type="icon-qian" size="30"></uni-icons> -->
 					<view class="title">{{reviewClass.title}}</view>
 					<view class="subtitle">{{reviewClass.classDesc}}</view>
+					<view v-if="reviewClass.charge==1">
+						<span class="iconfont" style="color: #df7a58;font-size: 13px;">&#xe606;{{reviewClass.orgPrice}}</span>
+						<span style="float: right; color: #857f77; font-size: 13px;">0人付款</span>
+					</view>
 				</view>
 			</view>
 		</view>	
@@ -73,7 +84,8 @@
 				reviewClassList: [], // 上新测试
 				projectId: 0,
 				tipShow: false ,// 是否显示顶部提示框,
-				projectClassIdsObj: {}
+				projectClassIdsObj: {},
+				subjectList: [] //测评专题列表
 			}
 		},
 		onReady() {
@@ -151,6 +163,16 @@
 			} else if(option.source && option.source == '1') {
 				uni.removeStorageSync("projectId")
 				uni.removeStorageSync("projectClass")
+			} else {
+				let that = this
+				let pid = uni.getStorageSync("projectId")
+				if (pid && pid != "") {
+					this.$apis.postReviewProjectDetail({"id": pid}).then(res => {
+						if(res.code == 200) {
+							that.defaultBanner = that.$config.aliYunEndpoint +  res.result.cover
+						}
+					})
+				}
 			}
 			//初始化数据
 			this.loadData()
@@ -223,6 +245,29 @@
 					that.tipShow  = false
 					console.log(err)
 				})
+				
+				//查询分类
+				this.$apis.postReviewSubjectClass({"dataGrid": {"page": 1, "rows": 4}}).then(res => {
+					that.subjectList = []
+					that.hotList = []
+					if (res.code == 200) {
+						let projectClass = []
+						res.rows.forEach((row) => {
+							if (row.classList && row.classList.length > 0) {
+								row.classList.forEach((classInfo) => {
+									if (classInfo.bannerImg) {
+										classInfo.bannerImg = that.$config.aliYunEndpoint + classInfo.bannerImg
+									}
+								})
+							}
+						})
+						that.subjectList = res.rows
+					}
+				}).catch(err => {
+					uni.hideLoading()
+					that.tipShow  = false
+					console.log(err)
+				})
 			},
 			/**
 			 * 下拉刷新回调函数
@@ -232,11 +277,11 @@
 				//初始化数据
 				this.loadData(true)
 			},
-			imageError(index, type) {
+			imageError(index1, index2, type) {
 				if (type == 1) {
-					this.hotList[index]["bannerImg"] = this.defaultCover
+					this.subjectList[index1].classList[index2]["bannerImg"] = this.defaultCover
 				} else {
-					this.reviewClassList[index]["bannerImg"] = this.defaultCover
+					this.reviewClassList[index2]["bannerImg"] = this.defaultCover
 				}
 			},
 			beginTest(classid, title) {
@@ -247,7 +292,8 @@
 				//跳转到当前量表
 				uni.navigateTo({
 					//url: '/pages/questions/questions?classId='+classid + "&title=" + title
-					url: '/pages/report/guide?classId=' + classid
+					//url: '/pages/report/guide?classId=' + classid
+					url: '/pages/review/detail?classId=' + classid
 				})
 			},
 			//获取用户授权  匿名数据
