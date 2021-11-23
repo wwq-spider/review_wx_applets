@@ -78,6 +78,10 @@ $http.requestStart = function(options) {
 				options.header['projectId'] = projectId
 			}
 		}
+		//请求头加入classID
+		if(options.data && options.data.classId) {
+			options.header['classId'] = options.data.classId
+		}
 	}
 	return options;
 }

@@ -3,13 +3,13 @@
 		<view class="article">
 			<view class="banner">
 				<!-- 文章开头，缩略图 -->
-				<image class="banner-img" :src="reviewClass.bannerImg || defaultCover" @error="imageError()" mode="widthFix"></image>
+				<image class="banner-img" :src="reviewClass.bannerImg || defaultCover" @error="imageError()" mode="scaleToFill"></image>
 				<!-- 文章摘要 -->
 				<view class="banner-title">
 					<view class="uni-ellipsis">{{reviewClass.title}}</view>
-					<view style="display: flex; font-size: 13px;">
-						<span class="iconfont" style="color: #dc7a54;font-size: 13px;">&#xe606;活动价:{{reviewClass.orgPrice - reviewClass.dicountPrice}}</span>
-						<text style="margin-left: 10px;">原价：{{reviewClass.orgPrice}}</text>
+					<view style="display: flex; font-size: 13px;" v-if="charge">
+						<span class="iconfont" style="color: #dc7a54;font-size: 13px;">活动价:&#xe606;{{reviewClass.realPrice}}</span>
+						<span class="iconfont" style="margin-left: 20px; color: #dc7a54;font-size: 13px;">原价:&#xe606;{{reviewClass.orgPrice}}</span>
 					</view>
 				</view>
 			</view>
@@ -18,17 +18,17 @@
 			</view>
 		</view>
 		<view class="organization">
-			<view class="savebutton" style="margin-left: 120px;" @click="buy">立即购买</view>
-			<view class="savebutton" @click="beginTest">开始评测</view>
+			<button class="savebutton" style="margin-left: 120px;" @click="buy" :disabled="reviewClass.buy" v-if="charge">{{buyBtnText}}</button>
+			<button class="savebutton" @click="beginTest">开始评测</button>
 		</view>
 		
-		<uni-popup ref="showPayConfirm" :type="type" :mask-click="false" @change="change">
+		<uni-popup ref="showPayConfirm" @change="change">
 			<view class="uni-tip">
-				<text class="uni-tip-title">支付确认</text>
+				<text class="uni-tip-title">购买确认</text>
 				<text class="uni-tip-content">量表名称：{{ reviewClass.title }}</text>
-				<text class="uni-tip-content">量表价格：{{ reviewClass.orgPrice - reviewClass.dicountPrice }}</text>
+				<text class="uni-tip-content iconfont" style="color: #dc7a54;">量表价格：&#xe606;{{ reviewClass.realPrice }}</text>
 				<view class="uni-tip-group-button">
-					<button class="uni-tip-button" @click="cancel()">取消</button>
+					<button class="uni-tip-button" style="margin-right: 30px; background-color: #b7b5b2;" @click="cancel()">取消</button>
 					<button class="uni-tip-button" @click="confirmBuy()" :loading="loading">确定</button>
 				</view>
 			</view>
@@ -52,6 +52,7 @@
 				reviewClass: {},
 				defaultCover: '../../static/default_cover.jpeg',
 				loading: false,
+				buyBtnText: "立即购买",
 			}
 		},
 		computed:{
@@ -60,6 +61,9 @@
 			where(){
 				console.log(this.id);
 				return `_id =="${this.id}"`
+			},
+			charge() {
+				return this.reviewClass.charge == 1
 			}
 		},
 		onLoad(event) {
@@ -76,6 +80,7 @@
 			}
 		},
 		onReady() {
+			//this.$refs.showshowPayConfirm.close()
 			// 开始加载数据，修改 where 条件后才开始去加载 clinetDB 的数据 ，需要等组件渲染完毕后才开始执行 loadData，所以不能再 onLoad 中执行
 			if(this.id){// ID 不为空，则发起查询
 				//加载详情数据
@@ -103,6 +108,7 @@
 					uni.hideLoading()
 					if(res.code == 200) {
 						that.reviewClass = res.result
+						that.reviewClass.bannerImg = that.$config.aliYunEndpoint + res.result.bannerImg
 						if(that.title == '' && that.reviewClass.title){
 							that.title = that.reviewClass.title
 							uni.setNavigationBarTitle({
@@ -115,6 +121,9 @@
 						})
 					}
 				
+				}).catch(err => {
+					uni.hideLoading()
+					console.log(err)
 				})
 			},
 			imageError() {
@@ -122,54 +131,92 @@
 			},
 			buy() {
 				this.$nextTick(() => {
-					this.$refs['showshowPayConfirm'].open()
+					this.$refs.showPayConfirm.open("center")
 				})
+				//this.$refs.showPayConfirm.open()
 			},
 			confirmBuy() {
 				uni.showLoading({
 					title: "数据加载中"
 				})
+				let that = this
+				let pid = uni.getStorageSync("projectId")
 				this.loading = true
-				this.$apis.postCreatePrePayOrder({}).then(res => {
+				this.$apis.postCreatePrePayOrder({"classId": this.reviewClass.classId, "projectId": pid}).then(res => {
 					uni.hideLoading()
 					if(res.code == 200) {
 						let preOrder = res.data
-						if(preOrder && preOrder.prePayId) {
+						if(preOrder && preOrder.prePayID) {
 							uni.requestPayment({
 							    timeStamp: preOrder.timeStamp,
 							    nonceStr: preOrder.nonceStr,
-							    package: preOrder.package,
+							    package: preOrder.packageStr,
 							    signType: 'MD5',
 							    paySign: preOrder.paySign,
 							    success: (res) => {
-							        uni.showToast({
-							            title: "支付成功，请开始测评！"
-							        })
+									if(res && res.errMsg == "requestPayment:ok") {
+										that.buyBtnText = "已购买"
+										that.reviewClass = true
+										//更新订单状态
+										that.$apis.postUpdOrderStatus({"payId": preOrder.prePayID, "status": 2, "orderAmount": that.reviewClass.realPrice}).then(res => {
+											console.log(JSON.stringify(res))
+										})
+										uni.showToast({
+										    title: "支付成功",
+											icon: "success"
+										})
+									} else {
+										uni.showToast({
+										    title: "支付发起失败"
+										})
+									}
 							    },
 							    fail: (res) => {
 							        uni.showModal({
 							            content: "支付失败,原因为: " + res.errMsg,
-							            showCancel: false
+							            showCancel: false,
 							        })
 							    },
 							    complete: () => {
-							        this.loading = false;
+									that.cancel()
+							        that.loading = false;
 							    }
 							})
 						}
 					} else {
+						that.loading = false;
+						that.cancel()
 						uni.showToast({
 							title: res.msg
 						})
-						this.loading = false;
 					}
+				}).catch(err => {
+					that.loading = false;
+					that.cancel()
+					uni.hideLoading()
+					console.log(JSON.stringify(err))
 				})
 			},
 			cancel() {
-				this.$refs['showshowPayConfirm'].close()
+				this.$refs.showPayConfirm.close()
 			},
 			beginTest() {
-				
+				if (!this.reviewClass) {
+					uni.showToast({
+					    title: "量表信息为空"
+					})
+				}
+				//量表是否收费
+				if(this.reviewClass.charge == 0 || (this.reviewClass.charge == 1 && this.reviewClass.buy)) {
+					//跳转到当前量表
+					uni.navigateTo({
+						url: '/pages/report/guide?classId=' + this.reviewClass.classId
+					})
+				} else {
+					uni.showToast({
+					    title: "用户未购买"
+					})
+				}
 			},
 			change(e) {
 				console.log('是否打开:' + e.show)
@@ -304,10 +351,25 @@
 		display: flex;
 		flex-direction: column;
 		/* #endif */
+		/* align-items: center; */
+		justify-content: center;
+		padding: 15px;
+		width: 300px;
+		background-color: #e6e3e3;
+		border-radius: 10px;
+		buttom: 100px;
+	}
+	
+	.popup-content {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
 		padding: 15px;
 		width: 300px;
 		background-color: #fff;
-		border-radius: 10px;
 	}
 
 	.uni-tip-title {
@@ -321,7 +383,7 @@
 	.uni-tip-content {
 		/* padding: 15px;*/
 		font-size: 14px;
-		color: #666;
+		color: #353434;
 	}
 
 	.uni-tip-group-button {
@@ -336,6 +398,7 @@
 		flex: 1;
 		text-align: center;
 		font-size: 14px;
-		color: #3b4144;
+		color: #fff;
+		background-color: #e6a23c;;
 	}
 </style>

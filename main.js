@@ -26,6 +26,23 @@ Vue.prototype.$apis = $apis;
 Vue.prototype.$store = store;
 Vue.prototype.$config = config;
 Vue.prototype.$footFontSize = fontSize;
+
+Vue.prototype.NumberSub = function(arg1, arg2) {
+    var re1, re2, m, n;
+    try {
+        re1 = arg1.toString().split(".")[1].length;
+    } catch (e) {
+    re1 = 0;
+    }
+    try {
+        re2 = arg2.toString().split(".")[1].length;
+    } catch (e) {
+        re2 = 0;
+    }
+    m = Math.pow(10, Math.max(re1, re2)); 
+    n = (re1 >= re2) ? re1 : re2;
+    return ((arg1 * m - arg2 * m) / m).toFixed(n);
+}
 // 全局字体配置结束
 
 App.mpType = 'app'

@@ -27,8 +27,8 @@
 							<view class="title">{{review.title}}</view>
 							<!-- <view class="subtitle">{{review.classDesc}}</view> -->
 							<view v-if="review.charge==1">
-								<span class="iconfont" style="color: #df7a58;font-size: 13px;">&#xe606;{{review.orgPrice}}</span>
-								<span style="padding-left: 20px; color: #857f77; font-size: 13px;">0人付款</span>
+								<span class="iconfont" style="color: #df7a58;font-size: 13px;">&#xe606;{{review.realPrice}}</span>
+								<span style="padding-left: 20px; color: #857f77; font-size: 13px;">{{review.buyCount}}人付款</span>
 							</view>
 						</view>
 					</view>
@@ -58,8 +58,8 @@
 					<view class="title">{{reviewClass.title}}</view>
 					<view class="subtitle">{{reviewClass.classDesc}}</view>
 					<view v-if="reviewClass.charge==1">
-						<span class="iconfont" style="color: #df7a58;font-size: 13px;">&#xe606;{{reviewClass.orgPrice}}</span>
-						<span style="float: right; color: #857f77; font-size: 13px;">0人付款</span>
+						<span class="iconfont" style="color: #df7a58;font-size: 13px;">&#xe606;{{reviewClass.realPrice}}</span>
+						<span style="float: right; color: #857f77; font-size: 13px;">{{reviewClass.buyCount}}人付款</span>
 					</view>
 				</view>
 			</view>

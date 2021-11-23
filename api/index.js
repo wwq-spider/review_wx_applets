@@ -28,6 +28,7 @@ export const postReviewProjectDetail = (data) => http.post(`${config.baseUrl}/re
 
 //查询测评专题
 export const postReviewSubjectClass = (data) => http.post(`${config.baseUrl}/reviewFront/getReviewSubjectClass.do`, data)
-
 //创建预支付订单
 export const postCreatePrePayOrder = (data) => http.post(`${config.baseUrl}/reviewFront/order/createPrePayOrder.do`, data)
+//更新订单状态
+export const postUpdOrderStatus = (data) => http.post(`${config.baseUrl}/reviewFront/order/updateOrderStatus.do`, data)
