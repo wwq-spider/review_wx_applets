@@ -18,7 +18,13 @@
 						<u-input v-model="form.age" placeholder="请输入年龄" />
 					</u-form-item>
 					<u-form-item label="手机号" prop="mobilePhone" len="11" required label-width="140" border-bottom>
-						<u-input v-model="form.mobilePhone" placeholder="请输入联系方式" />
+						<view style="display: flex; justify-content: space-around; flex-flow: wrap row; width: 100%;">
+							<u-input v-model="form.mobilePhone" placeholder="请输入手机号" style="width: 60%;"/>
+							<button :disabled="isLock" class="msgbutton" @click="sendMsg()" style="width: 40%;">{{msgVerCode}}</button>
+						</view>
+					</u-form-item>
+					<u-form-item label="验证码" prop="msgCode" required label-width="140" border-bottom>
+						<u-input v-model="form.msgCode" placeholder="请输入短信验证码" type="number" max-length="4"/>
 					</u-form-item>
 					<!-- <u-form-item label="" prop="extra.isSick" label-width="140" border-bottom> -->
 					<view style="margin-bottom: 30px;"  v-if="showExtra" >
@@ -31,7 +37,16 @@
 						</u-radio-group>
 						<textarea v-if="showExtra1" v-model="form.extraObj.sickDesc" maxlength="900" placeholder="请输入自评描述"
 						 style="margin-top: 30px; border: solid 1px; width: 100%; border-color:#ede3cb;"/>
-					</view>	 
+					</view>
+					<view style="display: flex;">
+						 <label>
+							 <checkbox-group @change="secrecyCheck">
+								<checkbox value="0" :checked="secrecy" style="transform: scale(0.6);"/>
+							 </checkbox-group>
+							 
+						</label>
+						<label @click="toDetail()" style="font-size: 10px; color: #007AFF;line-height: 25px;">用户服务协议及隐私条款</label>
+					</view>
 					<!-- </u-form-item> -->
 				</u-form>
 				<view class="savebutton" @click="submit">提交</view>
@@ -71,6 +86,7 @@
 		},
 		data() {
 			return {
+				secrecy: false,
 				showExtra: false,
 				showExtra1: false,
 				projectId: 0,
@@ -82,7 +98,8 @@
 					mobilePhone: '',
 					sex: '',
 					openid: '',
-					extraObj: {}
+					extraObj: {},
+					msgCode: ''
 				},
 				sexList: [{
 						name: '男',
@@ -124,6 +141,11 @@
 						message: '请输入年龄',
 						trigger: ['change', 'blur']
 					}],
+					msgCode: [{
+						required: true,
+						message: '请输入短信验证码',
+						trigger: ['change', 'blur']
+					}],
 					mobilePhone: [{
 							required: true,
 							message: '请输入联系方式',
@@ -138,10 +160,80 @@
 							trigger: ['change', 'blur'],
 						}
 					]
-				}
+				},
+				countDown: 60,
+				timer: {},
+				msgVerCode: '获取验证码',
+				isLock: false,
+				codeBtnColor: "#ede3cb"
 			}
 		},
+		onUnload: function() {
+			this.timer && this.clearTimer();
+		},
 		methods: {
+			secrecyCheck(e){
+				if(e.detail.value=='0'){
+					this.secrecy = true
+				} else {
+					this.secrecy = false
+				}
+			},
+			toDetail() {
+				uni.navigateTo({
+					url: '/pages/user/privacyProto'
+				})
+			},
+			sendMsg(){
+				if (!this.form.mobilePhone || !this.$u.test.mobile(this.form.mobilePhone)) {
+					uni.showToast({
+						icon: 'fail',
+						title: '手机号为空或格式不正确'
+					})
+					return
+				}
+				this.isLock = true
+				let that = this
+				this.$apis.postSendMsgCode({"mobilePhone": this.form.mobilePhone}).then(res => {
+					if (res.code == 200) {
+						uni.showToast({
+							icon: 'success',
+							title: '验证码发送成功'
+						})
+						this.timer = setInterval(() => {
+								if (this.countDown == 0) {
+									this.reset();
+									this.timer && this.clearTimer();
+								} else {
+									this.loading();
+								}
+						}, 1000);
+					} else {
+						that.reset()
+						uni.showToast({
+							icon: 'fail',
+							title: res.msg
+						})
+					}
+				}).catch(err => {
+					that.reset()
+					console.log(err)
+				})
+			},
+			loading(){
+				this.isLock = true
+				this.countDown -= 1;
+				this.msgVerCode = this.countDown + '秒后重发';
+			},
+			reset(){
+				this.countDown = 60;
+				this.isLock = false;
+				this.msgVerCode = '获取验证码';
+			},
+			clearTimer() {
+				clearInterval(this.timer);
+				this.timer = null;
+			},
 			sickChange(val) {
 				if (val == '1') {
 					this.showExtra1 = true
@@ -155,8 +247,8 @@
 				})
 			},
 			toIndex(projectId) {
-				uni.navigateTo({
-					url: '/pages/project/index?projectId=' + projectId,
+				uni.switchTab({
+					url: '/pages/index/index?projectId=' + projectId,
 					success(res) {
 						console.log(res);
 					},
@@ -184,7 +276,9 @@
 							that.toIndex(that.projectId)
 						}
 					} else { //注册失败
-						alert(res.msg)
+						uni.showToast({
+							title: res.msg
+						})
 					}
 				}).catch(err => {
 					uni.hideLoading()
@@ -192,6 +286,13 @@
 				})
 			},
 			submit() {
+				if(!this.secrecy) {
+					uni.showToast({
+						title: "请选择同意用户隐私协议",
+						icon:"none"
+					})
+					return 
+				}
 				if (this.showExtra) {
 					if(!this.form.extraObj.isSick) {
 						uni.showToast({
@@ -222,7 +323,6 @@
 							uni.login({
 								provider: 'weixin',
 								success(login) {
-									console.log(login);
 									that.$apis.postGetOpenid({"code": login.code}).then(res => {
 										if (res.code == 200) {
 											that.form.openid = res.result
@@ -317,5 +417,17 @@
 		text-align: center;
 		/* background: url(../../static/background.png) no-repeat 50%/100%; */
 		background-color: #EFE4C8;
+	}
+	.msgbutton {
+		width: 160rpx;
+		line-height: 70rpx;
+		color: #594e3f;
+		font-size: 21rpx;
+		font-weight: 700;
+		/* margin: 10rpx auto; */
+		text-align: center;
+		background-color: #EFE4C8;
+		/* margin-bottom: 10px;*/
+		float: right;
 	}
 </style>

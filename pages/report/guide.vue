@@ -56,15 +56,30 @@
 				});
 			},
 			startTest(){
-				uni.redirectTo({
-					url: '/pages/questions/questions?classId=' + this.reviewClass.classId + "&title=" + this.reviewClass.title + "&source=1",
-					success(res) {
-						console.log(res)
-					},
-					fail(err) {
-						console.log(err)
-					}
-				});
+				let videoAnalysis = this.reviewClass.videoAnalysis
+				//视频分析
+				if (videoAnalysis == 1) { 
+					uni.redirectTo({
+						url: '/pages/review/video?classId=' + this.reviewClass.classId + "&title=" + this.reviewClass.title + "&source=1",
+						success(res) {
+							console.log(res)
+						},
+						fail(err) {
+							console.log(err)
+						}
+					});
+				} else {
+					uni.redirectTo({
+						url: '/pages/questions/questions?classId=' + this.reviewClass.classId + "&title=" + 
+							this.reviewClass.title + "&source=1&videoAnalysis=" + this.reviewClass.videoAnalysis,
+						success(res) {
+							console.log(res)
+						},
+						fail(err) {
+							console.log(err)
+						}
+					});
+				}
 			}
 		}
 	}

@@ -1,63 +1,34 @@
 <template>
 	<view>
-	 	<!-- <view class="usertop combg">
-			<view class="userimg">
-				<image class="avatar" src="@/static/user.png"></image>
-				<view class="righttext">
-					<view class="title">{{user.name}}</view>
-					<view class="datetime">评估时间：{{date}}</view>
-				</view>
-			</view>
-			<view class="detail">
-				<view class="detaill">
-					<view><text class="gray">性别：</text>{{user.sex}}</view>
-				</view>
-				<view class="detaill">
-					<view><text class="gray">年龄阶段：</text>{{user.age}}</view>
-				</view>
-			</view>
-			<view class="detail">
-				<view class="detaill">
-					<view><text class="gray">手机：</text>{{user.tel}}</view>
-				</view>
-			</view>
-		</view> -->
-		<view class="report combg">
-			<view class="listtitle">
+		<view class="report_combg">
+			<!-- <view class="listtitle">
 				<image class="titlea" src="@/static/titlec.png"></image><text>测评报告</text>
 			</view>
-			<view class="subtitle">您的报告已生成，有问题可以咨询老师哟</view>
-			<view class="charts-box">
-				<view class="reportItem">
-					<view class="title">测评名称：</view>
-					<view class="_subtitle">{{classTitle}}</view>
-				</view>
-				<view class="reportItem">
-					<view class="title">测评得分：</view>
-					<view class="_subtitle">{{reviewResult.gradeTotal}}</view>
-				</view>
-				<view class="varItem" v-if="resArr.length > 0" style="margin-top: 20px;">
-					<view class="title" style="width: 32%; text-align: center;">测评因子</view>
-					<view class="title" style="width: 32%; text-align: center;">得分</view>
-					<view class="title" style="width: 32%; text-align: center;">结果</view>
-					<!-- <view class="title" style="width: 100%;">详细结果：</view><view class="_subtitle"><u-parse :html="reviewResult.reviewResult"></u-parse></view> -->
-				</view>
-				<view class="varItem"  v-for="result in resArr">
-					<view class="title" style="width: 38%; text-align: left;">{{result.varName}}</view>
-					<view class="title" style="width: 20%; text-align: center;">{{result.grade}}</view>
-					<view class="_subtitle" style="width: 38%; text-align: center;">{{result.explain}}</view>
-				</view>
+			<view class="subtitle">您的报告已生成，有问题可以咨询老师哟</view> -->
+			<!-- <view class="reportItem">
+				<view class="title">测评名称：</view>
+				<view class="_subtitle">{{classTitle}}</view>
 			</view>
+			<view class="reportItem">
+				<view class="title">测评得分：</view>
+				<view class="_subtitle">{{reviewResult.gradeTotal}}</view>
+			</view> -->
+			<uni-card :is-shadow="false" is-full>
+				<text class="uni-h6">{{reportTips}}</text>
+			</uni-card>
+			<uni-card v-for="template in reportTemplateList" :title="template.title" :is-shadow="false" is-full >
+				<text class="uni-body">{{template.explanation}}</text>
+			</uni-card>
+			
+			<view class="subtitle" style="margin-top: 20px;">您本次测评的量表呈现结果</view>
+			
+			<uni-card v-for="result in resArr" :title="result.varName" :is-shadow="false" is-full>
+				<view><text class="uni-body">测评结果: {{result.grade}}</text></view>
+				<view><text class="uni-body">测评分数解读: {{result.explain}}</text></view>
+			</uni-card>
 			
 			<view class="savebutton" @click="restart">重新评测</view>
 		</view>
-		<!-- <view class="organization combg">
-			<view class="organizationtitle">
-				<image src="@/static/organ.png"></image>
-				<text>筑心康</text>
-			</view>
-			<view class="savebutton" @click="restart">重新评测</view>
-		</view> -->
 	</view>
 </template>
 <script>
@@ -88,7 +59,21 @@
 				this.classTitle = decodeURIComponent(option.title)
 			}
 			let resultId = option.resultId
+			let classId = option.classId
 			let that = this
+			
+			//查询报告模板
+			this.$apis.postReportTemplateList({"classId": classId}).then(res => {
+				if(res.code == 200) {
+					that.reportTips = res.data.reportTips
+					that.reportTemplateList = res.data.reportTemplateList
+				} else {
+					uni.showToast({
+						title: res.msg
+					})
+				}
+			})
+			
 			this.$apis.postReportDetail({"resultId": resultId}).then(res => {
 				if(res.code == 200) {
 					that.resArr = []
@@ -123,6 +108,8 @@
 					age: '',
 					tel: ''
 				},
+				reportTips: '',
+				reportTemplateList: []
 			}
 		},
 		methods: {
@@ -195,8 +182,8 @@
 	}
 
 	.subtitle {
-		font-size: 26rpx;
-		color: #c4bfb8;
+		font-size: 30rpx;
+		color: #c1952e;
 		margin: 20rpx auto;
 	}
 
@@ -318,13 +305,13 @@
 		width: 100%; 
 		margin: 20rpx auto;
 	}
-	.varItem {
-		display: flex; 
-		justify-content: flex-start; 
-		flex-flow: wrap row; 
-		width: 100%; 
+	.report_combg {
+		width: 93%;
+		padding: 10rpx;
 		margin: 10rpx auto;
-		border-bottom: 1px solid #d6b477;
+		background: #fff;
+		box-shadow: 0 40rpx 0 -22rpx rgb(221 138 0 / 23%), 0 -9rpx 0 0 rgb(105 100 87 / 14%) inset;
+		border-radius: 50rpx;
 		
 	}
 </style>

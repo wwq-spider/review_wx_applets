@@ -1,6 +1,10 @@
 import http from '@/config/requestConfig'
 import config from "@/config/index.config.js";
 
+//分析视频路径
+export const analysisVideoUrl = `${config.baseUrl}/reviewFront/user/videoAnalysis.do`
+//上传视频路径
+export const uploadVideoUrl = `${config.baseUrl}/reviewFront/user/uploadVideo.do`
 // 获取openid
 export const postGetOpenid = (data) => http.post(`${config.baseUrl}/reviewFront/getOpenid.do`, data);
 //题目查询
@@ -9,6 +13,8 @@ export const postQuestions = (data) => http.post(`${config.baseUrl}/reviewFront/
 export const postCompleteReview = (data) => http.post(`${config.baseUrl}/reviewFront/completeReview.do`, data)
 //提交用户信息
 export const postRegisterUserInfo = (data) => http.post(`${config.baseUrl}/reviewFront/register.do`, data)
+//修改用户信息
+export const postUpdateUserInfo = (data) => http.post(`${config.baseUrl}/reviewFront/user/update.do`, data)
 //用户是否注册
 export const postUserIsRegister = (data) => http.post(`${config.baseUrl}/reviewFront/getUserInfoByOpenid.do`, data)
 //查询测评分类
@@ -32,3 +38,17 @@ export const postReviewSubjectClass = (data) => http.post(`${config.baseUrl}/rev
 export const postCreatePrePayOrder = (data) => http.post(`${config.baseUrl}/reviewFront/order/createPrePayOrder.do`, data)
 //更新订单状态
 export const postUpdOrderStatus = (data) => http.post(`${config.baseUrl}/reviewFront/order/updateOrderStatus.do`, data)
+//查询我的订购
+export const postMyOrder = (data) => http.post(`${config.baseUrl}/reviewFront/order/myOrder.do`, data)
+
+//发送短信验证码
+export const postSendMsgCode = (data) => http.post(`${config.baseUrl}/reviewFront/sendMsg.do`, data)
+//查询通知公告
+export const postNoticeList = (data) => http.post(`${config.baseUrl}/reviewFront/notice/list.do`, data)
+//查询通知详情
+export const postNoticeDetail = (data) => http.post(`${config.baseUrl}/reviewFront/notice/detail.do`, data)
+//查询banner列表
+export const postBannerList = (data) => http.post(`${config.baseUrl}/reviewFront/banner/list.do`, data)
+
+//查询量表对应的报告模板
+export const postReportTemplateList = (data) => http.post(`${config.baseUrl}/reviewFront/report/list.do`, data)

@@ -24,6 +24,14 @@
 				<uni-icons type="map-filled" size="20" color="#d6b477"></uni-icons>
 				<text style="padding-left: 10px;">我的报告</text>
 			</view>
+			<view @click="toPage('/pages/user/myOrder')" class="user-item">
+				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
+				<text style="padding-left: 10px;">我的订购</text>
+			</view>
+			<view @click="toPage('/pages/user/myInfo')" class="user-item">
+				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
+				<text style="padding-left: 10px;">个人信息</text>
+			</view>
 			<!-- <navigator url="/pages/user/attention" class="user-item">
 				<uni-icons type="gear-filled" size="20" color="#d6b477"></uni-icons>
 				<text style="padding-left: 10px;">设置</text>

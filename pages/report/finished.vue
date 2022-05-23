@@ -3,7 +3,10 @@
 		<view class="report combg">
 			<view><uni-icons type="checkbox" size="100" style="margin-left: 30%;" color="#EFE4C8"></uni-icons></view>
 			<view style="text-align: center;"><text>您已完成本次测评</text></view>
-			<view class="savebutton" @click="toIndex">返回首页</view>
+			<view style="display: flex;">
+				<button class="savebutton" @click="viewReport">查看报告</button>
+				<button class="savebutton" @click="toIndex">返回首页</button>
+			</view>
 		</view>
 		</view>
 	</view>
@@ -19,6 +22,15 @@
 			this.date = aDate.getFullYear() + "年" + (aDate.getMonth() + 1) + "月" + aDate.getDate() + "日";
 		},
 		onLoad: function(option) {
+			if (option.classId) {
+				this.classId = option.classId
+			}
+			if (option.resultId) {
+				this.resultId = option.resultId
+			}
+			if (option.title) {
+				this.classTitle = option.title
+			}
 		},
 		data() {
 			return {
@@ -32,6 +44,8 @@
 					age: '',
 					tel: ''
 				},
+				classId: '',
+				resultId: ''
 			}
 		},
 		methods: {
@@ -45,6 +59,13 @@
 						console.log(err)
 					}
 				});
+			},
+			viewReport(){
+				let that = this
+				uni.navigateTo({
+					url: '/pages/report/report?source=1&classId=' + that.classId + "&resultId=" +
+					 that.resultId + "&title=" + that.classTitle
+				})
 			}
 		}
 	}
@@ -175,7 +196,7 @@
 	}
 	
 	.savebutton {
-		width: 622rpx;
+		width: 222rpx;
 		line-height: 80rpx;
 		color: #594e3f;
 		font-size: 32rpx;

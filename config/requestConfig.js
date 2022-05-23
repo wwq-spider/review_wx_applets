@@ -65,6 +65,10 @@ $http.requestStart = function(options) {
 		}
 	}
 	if (options.url) {
+		let sessionId = uni.getStorageSync("sessionid")
+		if (sessionId) {
+			options.header['Cookie'] = sessionId
+		}
 		//请求前加入token
 		let url = options.url.substring(options.url.lastIndexOf('/') + 1);
 		if(config.apiWhitePath.indexOf(url) < 0) {
@@ -102,6 +106,10 @@ $http.dataFactory = async function(res) {
 		data: res.data,
 		method: res.method,
 	});
+	if (res.response.header && res.response.header['Set-Cookie']) {
+		let sessionId = res.response.header['Set-Cookie'].split(" ")[0]
+		uni.setStorageSync('sessionid', sessionId); //登录返回，保存Cookie到Storage
+	}
 	if (res.response.statusCode && res.response.statusCode == 200) {
 		let httpData = res.response.data;
 		if (typeof(httpData) == "string") {

@@ -5,8 +5,8 @@ const CONFIG = {
 		copyrightTxt: "XXXv1.0", // 版本信息
 		assetsPath: "http://cdn.com/img", // 静态资源路径
 		//baseUrl: "https://review-system-1282746-1307626513.ap-shanghai.run.tcloudbase.com/review_system",
-		baseUrl: "http://127.0.0.1:8080",
-		//baseUrl: "https://www.zhuxinkang.com/review",
+		//baseUrl: "http://127.0.0.1:8087",
+		baseUrl: "https://www.zhuxinkang.com/review",
 		tokenKey: "WECHAT_TRADE", // 登录标识
 		testOpenId: "oEjRxwy7jL9PgG0kWeb4VcDTZEas", // 小程序测试openId
 		forcedLogin: false, // touristMode游客模式下APP是否强制用户登录 场景：当用户进入登录页面后无法后退。
@@ -14,6 +14,7 @@ const CONFIG = {
 		whitePath: [
 			"/pages/index/index",
 			"/pages/user/index",
+			"/pages/user/privacyProto",
 			"/pages/userform/userform",
 		],
 		apiWhitePath: [
@@ -21,8 +22,8 @@ const CONFIG = {
 			"getUserInfoByOpenid.do",
 			"getReviewClass.do"
 		],
-		aliYunEndpoint: 'https://review-images.oss-cn-beijing.aliyuncs.com/',
-		defaultBanner: 'https://review-images.oss-cn-beijing.aliyuncs.com/review_banner.png'
+		aliYunEndpoint: 'https://review-img.oss-cn-beijing.aliyuncs.com/',
+		defaultBanner: 'https://review-img.oss-cn-beijing.aliyuncs.com/review_banner.png',
 	},
 
 	//生产环境配置
@@ -39,15 +40,16 @@ const CONFIG = {
 		whitePath: [
 			"/pages/index/index",
 			"/pages/user/index",
+			"/pages/user/privacyProto",
 			"/pages/userform/userform",
 		],
-		aliYunEndpoint: 'https://review-images.oss-cn-beijing.aliyuncs.com/',
+		aliYunEndpoint: 'https://review-img.oss-cn-beijing.aliyuncs.com/',
 		apiWhitePath: [
 			"register.do",
 			"getUserInfoByOpenid.do",
 			"getReviewClass.do"
 		],
-		defaultBanner: 'https://review-images.oss-cn-beijing.aliyuncs.com/review_banner.png'
+		defaultBanner: 'https://review-img.oss-cn-beijing.aliyuncs.com/review_banner.png'
 	}
 
 }

@@ -3,13 +3,13 @@
 		<view class="article">
 			<view class="banner">
 				<!-- 文章开头，缩略图 -->
-				<image class="banner-img" :src="reviewClass.bannerImg || defaultCover" @error="imageError()" mode="scaleToFill"></image>
+				<image class="banner-img" :src="reviewClass.bannerImg || defaultCover" @error="imageError()" mode="aspectFit"></image>
 				<!-- 文章摘要 -->
 				<view class="banner-title">
 					<view class="uni-ellipsis">{{reviewClass.title}}</view>
 					<view style="display: flex; font-size: 13px;" v-if="charge">
 						<span class="iconfont" style="color: #dc7a54;font-size: 13px;">活动价:&#xe606;{{reviewClass.realPrice}}</span>
-						<span class="iconfont" style="margin-left: 20px; color: #dc7a54;font-size: 13px;">原价:&#xe606;{{reviewClass.orgPrice}}</span>
+						<span class="iconfont" style="margin-left: 20px; color: #857f77; font-size: 13px; text-decoration:line-through;">原价:&#xe606;{{reviewClass.orgPrice}}</span>
 					</view>
 				</view>
 			</view>
@@ -115,6 +115,9 @@
 								title: that.title
 							})
 						}
+						if(that.reviewClass.buy) {
+							that.buyBtnText = "已购买"
+						}
 					} else {
 						uni.showToast({
 							title: res.msg
@@ -147,40 +150,57 @@
 					if(res.code == 200) {
 						let preOrder = res.data
 						if(preOrder && preOrder.prePayID) {
-							uni.requestPayment({
-							    timeStamp: preOrder.timeStamp,
-							    nonceStr: preOrder.nonceStr,
-							    package: preOrder.packageStr,
-							    signType: 'MD5',
-							    paySign: preOrder.paySign,
-							    success: (res) => {
-									if(res && res.errMsg == "requestPayment:ok") {
-										that.buyBtnText = "已购买"
-										that.reviewClass = true
-										//更新订单状态
-										that.$apis.postUpdOrderStatus({"payId": preOrder.prePayID, "status": 2, "orderAmount": that.reviewClass.realPrice}).then(res => {
-											console.log(JSON.stringify(res))
-										})
-										uni.showToast({
-										    title: "支付成功",
-											icon: "success"
-										})
-									} else {
-										uni.showToast({
-										    title: "支付发起失败"
-										})
-									}
-							    },
-							    fail: (res) => {
-							        uni.showModal({
-							            content: "支付失败,原因为: " + res.errMsg,
-							            showCancel: false,
-							        })
-							    },
-							    complete: () => {
-									that.cancel()
-							        that.loading = false;
-							    }
+							if(preOrder.prePayID == "000") {
+								that.buyBtnText = "已购买"
+								that.reviewClass.buy = true
+								uni.showToast({
+								    title: "购买成功",
+									icon: "success"
+								})
+								that.cancel()
+								that.loading = false;
+							} else {
+								uni.requestPayment({
+								    timeStamp: preOrder.timeStamp,
+								    nonceStr: preOrder.nonceStr,
+								    package: preOrder.packageStr,
+								    signType: 'MD5',
+								    paySign: preOrder.paySign,
+								    success: (res) => {
+										if(res && res.errMsg == "requestPayment:ok") {
+											that.buyBtnText = "已购买"
+											that.reviewClass.buy = true
+											//更新订单状态
+											that.$apis.postUpdOrderStatus({"payId": preOrder.prePayID, "status": 2, "orderAmount": that.reviewClass.realPrice}).then(res => {
+												console.log(JSON.stringify(res))
+											})
+											uni.showToast({
+											    title: "支付成功",
+												icon: "success"
+											})
+										} else {
+											uni.showToast({
+											    title: "支付发起失败"
+											})
+										}
+								    },
+								    fail: (res) => {
+								        uni.showModal({
+								            content: "支付失败,原因为: " + res.errMsg,
+								            showCancel: false,
+								        })
+								    },
+								    complete: () => {
+										that.cancel()
+								        that.loading = false;
+								    }
+								})
+							}
+						} else {
+							that.loading = false;
+							that.cancel()
+							uni.showToast({
+								title: res.msg
 							})
 						}
 					} else {
@@ -347,17 +367,17 @@
 	
 	/* 提示窗口 */
 	.uni-tip {
-		/* #ifndef APP-NVUE */
 		display: flex;
 		flex-direction: column;
-		/* #endif */
 		/* align-items: center; */
 		justify-content: center;
 		padding: 15px;
-		width: 300px;
+		width: 110%;
 		background-color: #e6e3e3;
 		border-radius: 10px;
 		buttom: 100px;
+		left: 50%;
+		top: 50%;
 	}
 	
 	.popup-content {

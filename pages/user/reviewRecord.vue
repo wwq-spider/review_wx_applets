@@ -52,8 +52,9 @@
 			uni.showLoading({
 				title: "数据加载中"
 			})
+			let pid = uni.getStorageSync("projectId")
 			//查询测评记录
-			this.$apis.postReviewRecords({"userId": userData.userId}).then(res => {
+			this.$apis.postReviewRecords({"userId": userData.userId, "projectId": pid}).then(res => {
 				uni.hideLoading()
 				if (res.code == 200) {
 					res.rows.forEach((row) => {
@@ -107,7 +108,8 @@
 			this.tipShow = true
 			let userData = uni.getStorageSync("userData")
 			let that = this
-			this.$apis.postReviewRecords({"userId": userData.userId}).then(res => {
+			let pid = uni.getStorageSync("projectId")
+			this.$apis.postReviewRecords({"userId": userData.userId, "projectId": pid}).then(res => {
 				this.tipShow  = false
 				if (res.code == 200) {
 					that.recordList = []

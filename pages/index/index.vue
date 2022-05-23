@@ -5,12 +5,27 @@
 		<page-meta :root-font-size="footSize"></page-meta>
 		<view class="uni-margin-wrap">
 			<swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-				<swiper-item v-for="item in banner"  :autoplay="autoplay" :interval="interval" :duration="duration">
+				<swiper-item v-if="bannerList.length > 0" v-for="item in bannerList"  :autoplay="autoplay" :interval="interval" :duration="duration">
+					<image :src="item.imgUrl" mode="scaleToFill" :style="{width: `${windowWidth}px`, height: `${windowWidth/2}px`}" />
+				</swiper-item>
+			
+				<swiper-item v-if="bannerList.length == 0 || projectId > 0"  :autoplay="autoplay" :interval="interval" :duration="duration">
 					<image :src="defaultBanner" mode="scaleToFill" :style="{width: `${windowWidth}px`, height: `${windowWidth/2}px`}" />
 				</swiper-item>
 			</swiper>
 		</view>
-		<uni-notice-bar single="true" text="暂无通告" showIcon="true" style="width: 100%; margin-bottom: -10px;" background-color="blank" color="#b9b9b8"></uni-notice-bar>
+		<view class="notice" v-if="noticeList.length > 0">
+			<uni-icons type="sound-filled" size="18" color="#d6b477" style="margin-left: 3px;"></uni-icons>
+			<swiper class="swiper-nav" :circular="true" vertical="true" :autoplay="true" :interval="5000" :duration="1000">
+				<swiper-item style="display: table;"  v-for="(item,index) in noticeList" :key="index">
+					<view class="right" @click="noticeDetail(item.id)">{{item.noticeName}}</view>					
+				</swiper-item>
+			</swiper>
+		</view>
+		<uni-notice-bar v-if="noticeList.length == 0" single="true" text="暂无公告" showIcon="true" style="width: 100%; margin-bottom: -10px;" background-color="blank" color="#b9b9b8"></uni-notice-bar>
+		<view class="_scroll-list" v-if="false">
+			<view class="savebutton" @click="beginRecord">开始录制</view>
+		</view>
 		<view v-for="(subject, index1) in subjectList" style="width: 100%;">
 			<view class="_scroll-list" v-if="subject.classList.length > 0">
 				<view class="_scroll-head" v-if="subject.classList.length > 0">
@@ -23,19 +38,20 @@
 				<view class="hot" v-for="(review, index2) in subject.classList">
 					<view class="hotr" @click='beginTest(review.classId, review.title)'>
 						<view class="hotl">
-							<image class="hotlimg" :src="review.bannerImg || defaultCover" @error="imageError(index1, index2, 1)"></image>
+							<image class="hotlimg" mode="scaleToFill" :src="review.bannerImg || defaultCover" @error="imageError(index1, index2, 1)"></image>
 							<view class="title">{{review.title}}</view>
 							<!-- <view class="subtitle">{{review.classDesc}}</view> -->
 							<view v-if="review.charge==1">
-								<span class="iconfont" style="color: #df7a58;font-size: 13px;">&#xe606;{{review.realPrice}}</span>
-								<span style="padding-left: 20px; color: #857f77; font-size: 13px;">{{review.buyCount}}人付款</span>
+								<span class="iconfont" style="color: #df7a58;font-size: 9px;">&#xe606;{{review.realPrice}}</span>
+								<span class="iconfont" style="padding-left: 5px; color: #857f77;font-size: 9px;text-decoration:line-through;" v-if="review.dicounPrice != '0' && review.dicounPrice != '0.00'">&#xe606;{{review.orgPrice}}</span>
+								<span style="padding-left: 10px; color: #857f77; font-size: 9px;">{{review.buyCount}}人付款</span>
 							</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		
+	
 		<view class="_scroll-list" >
 			<uni-notice-bar v-if="pCount > 0" style="width: 100%;" background-color="blank" :text="`本次测评共由 ${pCount} 个量表组成，单个量表完成可自动进入下一个量表测评，若中途退出将重新开始测评。`"></uni-notice-bar>
 			<view v-if="pCount > 0" class="savebutton" @click="startTest">开始测试</view>
@@ -51,15 +67,16 @@
 		<view class="question" v-for="(reviewClass, index) in reviewClassList">
 			<view class="questionr" @click='beginTest(reviewClass.classId, reviewClass.title)' :key="index">
 				<view class="questionl">
-					<image class="questionlimg" :src="reviewClass.bannerImg || defaultCover" @error="imageError(0, index, 2)"></image>
+					<image class="questionlimg" mode="scaleToFill" :src="reviewClass.bannerImg || defaultCover" @error="imageError(0, index, 2)"></image>
 				</view>
-				<view style="width: 70%;">
+				<view style="width: 60%;">
 					<!-- <uni-icons custom-prefix="iconfont" type="icon-qian" size="30"></uni-icons> -->
 					<view class="title">{{reviewClass.title}}</view>
 					<view class="subtitle">{{reviewClass.classDesc}}</view>
 					<view v-if="reviewClass.charge==1">
-						<span class="iconfont" style="color: #df7a58;font-size: 13px;">&#xe606;{{reviewClass.realPrice}}</span>
-						<span style="float: right; color: #857f77; font-size: 13px;">{{reviewClass.buyCount}}人付款</span>
+						<span class="iconfont" style="color: #df7a58;font-size: 9px;">&#xe606;{{reviewClass.realPrice}}</span>
+						<span class="iconfont" style="padding-left: 5px; color: #857f77;font-size: 9px;text-decoration:line-through;" v-if="reviewClass.dicounPrice != '0' && reviewClass.dicounPrice != '0.00'">&#xe606;{{reviewClass.orgPrice}}</span>
+						<span style="padding-left: 10px; color: #857f77; font-size: 9px;">{{reviewClass.buyCount}}人付款</span>
 					</view>
 				</view>
 			</view>
@@ -85,8 +102,12 @@
 				projectId: 0,
 				tipShow: false ,// 是否显示顶部提示框,
 				projectClassIdsObj: {},
-				subjectList: [] //测评专题列表
+				subjectList: [], //测评专题列表
+				noticeList: [],
+				bannerList: []
 			}
+		},
+		computed: {
 		},
 		onReady() {
 			//获取窗口大小适配图片
@@ -106,7 +127,6 @@
 			}
 		},
 		onShareAppMessage(res) {
-			console.log("=====onShareAppMessage=======" + JSON.stringify(res))
 		    return {
 		      title: '筑心康5G+心理健康管理平台',
 		      path: 'pages/index/index?source=1'
@@ -178,6 +198,16 @@
 			this.loadData()
 		},
 		methods: {
+			beginRecord() {
+				uni.navigateTo({
+					url: '/pages/review/video?classId=123&title=456'
+				})
+			},
+			noticeDetail(id){
+				uni.navigateTo({
+					url: '/pages/index/notice_detail?id=' + id
+				})
+			},
 			//开始测试
 			startTest() {
 				//如果未登录且是扫二维码进来的 则跳转到第一个量表
@@ -206,7 +236,37 @@
 					title: '数据加载中'
 				})
 				let that = this
+				//查询通知公告
+				this.$apis.postNoticeList({"page": 1, rows: 20}).then(res => {
+					if (res.code == 200) {
+						that.noticeList = res.rows
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				})
+				
 				let pid = uni.getStorageSync("projectId")
+				if(!pid || pid == 0) {
+					//查询banner
+					this.$apis.postBannerList({"page": 1, rows: 20}).then(res => {
+						if (res.code == 200) {
+							that.bannerList = []
+							res.rows.forEach((row) => {
+								if (row.imgUrl) {
+									row.imgUrl = that.$config.aliYunEndpoint + row.imgUrl
+								}
+								that.bannerList.push(row)
+							})
+						} else {
+							uni.showToast({
+								title: res.msg
+							})
+						}
+					})
+				}
+				
 				//查询分类
 				this.$apis.postReviewClass({"projectId": pid}).then(res => {
 					this.tipShow  = false
@@ -228,6 +288,7 @@
 								that.reviewClassList.push(row)
 							}
 							if(pid && pid > 0) {
+								row.charge = 0
 								projectClass.push({"classId": row.classId, "title": row.title})
 							}
 						})
@@ -246,28 +307,30 @@
 					console.log(err)
 				})
 				
-				//查询分类
-				this.$apis.postReviewSubjectClass({"dataGrid": {"page": 1, "rows": 4}}).then(res => {
-					that.subjectList = []
-					that.hotList = []
-					if (res.code == 200) {
-						let projectClass = []
-						res.rows.forEach((row) => {
-							if (row.classList && row.classList.length > 0) {
-								row.classList.forEach((classInfo) => {
-									if (classInfo.bannerImg) {
-										classInfo.bannerImg = that.$config.aliYunEndpoint + classInfo.bannerImg
-									}
-								})
-							}
-						})
-						that.subjectList = res.rows
-					}
-				}).catch(err => {
-					uni.hideLoading()
-					that.tipShow  = false
-					console.log(err)
-				})
+				if(!pid || pid == 0) {
+					//查询专题
+					this.$apis.postReviewSubjectClass({"dataGrid": {"page": 1, "rows": 4}}).then(res => {
+						that.subjectList = []
+						that.hotList = []
+						if (res.code == 200) {
+							let projectClass = []
+							res.rows.forEach((row) => {
+								if (row.classList && row.classList.length > 0) {
+									row.classList.forEach((classInfo) => {
+										if (classInfo.bannerImg) {
+											classInfo.bannerImg = that.$config.aliYunEndpoint + classInfo.bannerImg
+										}
+									})
+								}
+							})
+							that.subjectList = res.rows
+						}
+					}).catch(err => {
+						uni.hideLoading()
+						that.tipShow  = false
+						console.log(err)
+					})
+				}
 			},
 			/**
 			 * 下拉刷新回调函数
@@ -372,7 +435,28 @@
 </script>
 
 <style>
-	
+	.notice{
+		display: flex;
+		/* justify-content: space-around; */
+		flex-flow: wrap row;
+		width: 100%;
+	}
+	.swiper-nav{
+		width: 90%;
+		height: 30px;
+		margin-left: 8px;
+	}
+	.right{
+		text-overflow: -o-ellipsis-lastline;
+		 overflow: hidden;
+		 text-overflow: ellipsis;
+		 display: -webkit-box;
+		 -webkit-line-clamp: 1; //可设置显示的行数
+		 line-clamp: 1;
+		 -webkit-box-orient: vertical;
+		 color: #928e8e;
+		 font-size: 14px;
+	}
 	.tips {
 		color: #67c23a;
 		font-size: 14px;
@@ -472,11 +556,12 @@
 
 	.hotr {
 		padding-left: 24rpx;
+		width: 100%;
 	}
 
 	.hotr .title {
 		color: #594e3f;
-		font-size: 30rpx;
+		font-size: 23rpx;
 		font-weight: 700;
 		text-overflow: -o-ellipsis-lastline;
 		 overflow: hidden;
@@ -488,7 +573,7 @@
 	}
 
 	.hotr .subtitle {
-		font-size: 23rpx;
+		font-size: 20rpx;
 		color: #857f77;
 		margin: 20rpx 0 20rpx 0;
 		line-height: 1.6;
@@ -542,16 +627,16 @@
 	}
 	
 	.questionl {
-		width: 20%;
+		 width: 30%;
 		padding-right: 27px;
 	}
 	.questionl .questionlimg {
-		width: 180rpx;
+		width: 233rpx;
 		height: 233rpx;
 	}
 	
 	.questionr {
-		padding-left: 15rpx;
+		padding-left: 10rpx;
 		display: flex;
 		justify-content: space-around; 
 		flex-flow: wrap row;
@@ -560,7 +645,7 @@
 	
 	.questionr .title {
 		color: #594e3f;
-		font-size: 30rpx;
+		font-size: 23rpx;
 		font-weight: 700;
 		text-overflow: -o-ellipsis-lastline;
 		 overflow: hidden;
@@ -572,7 +657,7 @@
 	}
 	
 	.questionr .subtitle {
-		font-size: 23rpx;
+		font-size: 20rpx;
 		color: #857f77;
 		margin: 20rpx 0 20rpx 0;
 		line-height: 1.6;

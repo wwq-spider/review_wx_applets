@@ -8,7 +8,7 @@
 				<view class="title">报告时间: {{item.createTime}}</view>
 				<view class="title" style="display: flex;">
 					<text>报告内容: </text>
-					<view class="testbutton"  @click='detail(item.resultId, item.classTitle)'>查看详情</view>
+					<view class="testbutton"  @click='detail(item.resultId, item.classId, item.classTitle)'>查看详情</view>
 				</view>
 			</view>
 		</view>	
@@ -48,9 +48,9 @@
 			this.loadData()
 		},
 		methods: {
-			detail(resultid, title) {
+			detail(resultid, classId, title) {
 				uni.navigateTo({
-					url: '/pages/report/report?source=1&resultId=' + resultid + "&title=" + title
+					url: '/pages/report/report?source=1&resultId=' + resultid + "&classId=" + classId + "&title=" + title
 				})
 			},
 			imageError(index) {
