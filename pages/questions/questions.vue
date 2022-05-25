@@ -21,7 +21,7 @@
 		<view class="questest combg">
 			<view class="title">
 			<text v-if="questionList.length > 0">{{questionIndex+1}}、{{questionList[questionIndex].content}}</text>
-			<text v-else>题目加载中</text>
+			<text v-else>题目加载中1</text>
 			</view>
 			<!--单选题-->
 			<view v-if="questionList[questionIndex].questionType=='1'">
