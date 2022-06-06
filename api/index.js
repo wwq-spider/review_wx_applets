@@ -52,3 +52,19 @@ export const postBannerList = (data) => http.post(`${config.baseUrl}/reviewFront
 
 //查询量表对应的报告模板
 export const postReportTemplateList = (data) => http.post(`${config.baseUrl}/reviewFront/report/list.do`, data)
+//查询专家列表
+export const postCalendarList = (data) => http.post(`${config.baseUrl}/reviewFront/expert/list.do`,data)
+//查询专家详情
+export const postCalendarDetail = (data) => http.post(`${config.baseUrl}/reviewFront/expert/detail.do`,data)
+//查询专家日历
+export const postListCalendarInfo = (data) => http.post(`${config.baseUrl}/reviewFront/expert/listCalendar.do`,data)
+//预约专家
+export const postOrderExpert = (data) => http.post(`${config.baseUrl}/reviewFront/expert/orderExpert.do`,data)
+//保存预约人信息
+export const postSaveOoderInfo = (data) => http.post(`${config.baseUrl}/reviewFront/expert/saveOoderInfo.do`,data)
+//查询预约列表
+export const postListConsultation = (data) => http.post(`${config.baseUrl}/reviewFront/expert/queryMyConsultation.do`,data)
+//查询预约列表
+export const postListConsultationDetai = (data) => http.post(`${config.baseUrl}/reviewFront/expert/queryMyConsultationDetail.do`,data)
+//取消预约
+export const postCancelReser = (data) => http.post(`${config.baseUrl}/reviewFront/expert/cancelReservation.do`,data)
