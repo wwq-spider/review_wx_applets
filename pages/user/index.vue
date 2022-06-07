@@ -28,6 +28,10 @@
 				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
 				<text style="padding-left: 10px;">我的订购</text>
 			</view>
+			<view @click="toPage('/pages/expert/myConsultation')" class="user-item">
+				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
+				<text style="padding-left: 10px;">我的问诊</text>
+			</view>
 			<view @click="toPage('/pages/user/myInfo')" class="user-item">
 				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
 				<text style="padding-left: 10px;">个人信息</text>
