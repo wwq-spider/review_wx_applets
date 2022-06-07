@@ -129,6 +129,41 @@
                 "navigationBarTitleText": "测评量表详情"
             }
             
+        },
+		{
+			"path" : "pages/expert/expert",
+			"style" : {
+			    "navigationBarTitleText": "专家列表",
+			    "enablePullDownRefresh": false
+			}
+		},
+        {
+        	"path" : "pages/expert/expertInfo",
+        	"style" : {
+        	    "enablePullDownRefresh": true,
+        	    "navigationBarTitleText": "专家详情"
+        	}
+        }
+        ,{
+            "path" : "pages/expert/myConsultation",
+            "style" :                                                                                    
+            {
+                /* "navigationBarTitleText": true,
+                "navigationBarTitleText": "我的问诊", */
+				
+				"navigationBarTitleText": "我的问诊",
+				"enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/expert/consultationDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
 	"tabBar": {
@@ -141,11 +176,16 @@
 		  "iconPath": "static/home.png",
 		  "selectedIconPath": "static/home-active.png"
 	    }, {
-	      "pagePath": "pages/user/index",
-	      "text": "我的",
+	      "pagePath": "pages/expert/expert",
+	      "text": "专家",
 		  "iconPath": "static/user.png",
 		  "selectedIconPath": "static/user-active.png"
-	    }]
+	    },{
+			"pagePath": "pages/user/index",
+			"text": "我的",
+			"iconPath": "static/user.png",
+			"selectedIconPath": "static/user-active.png"
+		}]
 	  },
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
