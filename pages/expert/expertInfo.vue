@@ -36,6 +36,8 @@
 </template>
 
 <script>
+	import userCheck from '@/utils/userAction.js';
+	import config from '@/config/index.config.js';
 	export default {
 		data() {
 			return {
@@ -281,5 +283,16 @@
 		background-color: #B0E0E6;
 		margin-left:10rpx;
 		vertical-align: middle;
+	}
+	.tips {
+		color: #67c23a;
+		font-size: 14px;
+		line-height: 40px;
+		text-align: center;
+		background-color: #f0f9eb;
+		height: 0;
+		opacity: 0;
+		transform: translateY(-100%);
+		transition: all 0.3s;
 	}
 </style>
