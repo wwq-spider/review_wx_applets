@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="expert" :class="{active: bodyShow}">
 		<view class="tips" :class="{ 'tips-ani': tipShow }">上拉刷新...</view>
 		<view class="calendar-headicon" v-for="(calendarInfo, index) in calendarList">
 			<view class="calendar-headicon" @click='viewCalendarDetail(calendarInfo.id, calendarInfo.title)' :key="index">
@@ -104,6 +104,12 @@
 </style>
 <style lang="scss">
 	@import '@/common/uni-ui.scss';
+	.expert {
+		display: none;
+		&.active {
+			display: block;
+		}
+	}
 	.tips {
 		color: #67c23a;
 		font-size: 14px;
