@@ -134,13 +134,13 @@
 			"path" : "pages/expert/expert",
 			"style" : {
 			    "navigationBarTitleText": "专家列表",
-			    "enablePullDownRefresh": false
+			    "enablePullDownRefresh": true
 			}
 		},
         {
         	"path" : "pages/expert/expertInfo",
         	"style" : {
-        	    "enablePullDownRefresh": true,
+        	    "enablePullDownRefresh": false,
         	    "navigationBarTitleText": "专家详情"
         	}
         }
@@ -152,7 +152,7 @@
                 "navigationBarTitleText": "我的问诊", */
 				
 				"navigationBarTitleText": "我的问诊",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
             }
             
         }
