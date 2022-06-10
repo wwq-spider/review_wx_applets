@@ -27,9 +27,24 @@
 		<view class="consultationD-headicon" v-if="consultationDetail.status == '1'">
 			<view  class="canclebutton" style="margin-left: 315rpx;"  @click='cancelReservation()'>取消预约</view>
 		</view>
+		<view class="consultationD-headicon">
+			<button class="paybutton" style="margin-left: 120px;" @click="buy" :disabled="consultationDetail.buy" v-if="consultationDetail.charge==1">{{buyBtnText}}</button>
+
+		</view>
+		<uni-popup ref="showPayConfirm" @change="change">
+			<view class="uni-tip">
+				<text class="uni-tip-title">确认支付</text>
+				<text class="uni-tip-content iconfont" style="color: #dc7a54;">预约价格：&#xe606;{{consultationDetail.realPrice}}</text>
+				<view class="uni-tip-group-button">
+					<button class="uni-tip-button" style="margin-right: 30px; background-color: #b7b5b2;" @click="cancel()">取消</button>
+					<button class="uni-tip-button" @click="confirmBuy()" :loading="loading">确定</button>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 <script>
+	import htmlParser from '@/common/html-parser'
 	export default {
 		data() {
 			return {
@@ -38,7 +53,8 @@
 				parentOpenid: '',
 				openid: '',
 				localtionPlatform: '',
-				defaultCover: '../../static/man.png'
+				defaultCover: '../../static/man.png',
+				buyBtnText: "立即支付"
 			}
 		},
 		onLoad(event) {
@@ -54,7 +70,6 @@
 				uni.showLoading({
 					title: "数据加载中"
 				})
-			
 				this.$apis.postListConsultationDetai({'id': this.id}).then(res => {
 					uni.hideLoading()
 					if (res.code == 200) {
@@ -62,6 +77,7 @@
 						console.log(res.result);
 						res.result.forEach((row) => {
 							that.consultationDetail = row
+							that.buyBtnText = "立即支付"
 						})
 					} else {
 						uni.showToast({
@@ -110,6 +126,97 @@
 				}).catch(err => {
 					console.log(err)
 				})
+			},
+			buy() {
+				this.$nextTick(() => {
+					this.$refs.showPayConfirm.open("center")
+				})
+			},
+			confirmBuy() {
+				uni.showLoading({
+					title: "数据加载中"
+				})
+				let that = this
+				this.loading = true
+				this.$apis.postCreateConsulPrePayOrder({"classId": this.consultationDetail.id,"expertId":this.consultationDetail.expertId}).then(res => {
+					uni.hideLoading()
+					if(res.code == 200) {
+						let preOrder = res.data
+						if(preOrder && preOrder.prePayID) {
+							if(preOrder.prePayID == "000") {
+								that.buyBtnText = "已购买"
+								that.consultationDetail.buy = true
+								uni.showToast({
+								    title: "购买成功",
+									icon: "success"
+								})
+								that.cancel()
+								that.loading = false;
+							} else {
+								uni.requestPayment({
+								    timeStamp: preOrder.timeStamp,
+								    nonceStr: preOrder.nonceStr,
+								    package: preOrder.packageStr,
+								    signType: 'MD5',
+								    paySign: preOrder.paySign,
+								    success: (res) => {
+										if(res && res.errMsg == "requestPayment:ok") {
+											that.buyBtnText = "已购买"
+											that.consultationDetail.buy = true
+											console.log(preOrder.orderNO)
+											console.log(preOrder.prePayID)
+											//更新订单状态
+											that.$apis.postUpdOrderStatus({"payId": preOrder.prePayID, "status": 2, "orderAmount": "100"}).then(res => {
+												console.log(JSON.stringify(res))
+											})
+											uni.showToast({
+											    title: "支付成功",
+												icon: "success"
+											})
+										} else {
+											uni.showToast({
+											    title: "支付发起失败"
+											})
+										}
+								    },
+								    fail: (res) => {
+								        uni.showModal({
+								            content: "支付失败,原因为: " + res.errMsg,
+								            showCancel: false,
+								        })
+								    },
+								    complete: () => {
+										that.cancel()
+								        that.loading = false;
+								    }
+								})
+							}
+						} else {
+							that.loading = false;
+							that.cancel()
+							uni.showToast({
+								title: res.msg
+							})
+						}
+					} else {
+						that.loading = false;
+						that.cancel()
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				}).catch(err => {
+					that.loading = false;
+					that.cancel()
+					uni.hideLoading()
+					console.log(JSON.stringify(err))
+				})
+			},
+			cancel() {
+				this.$refs.showPayConfirm.close()
+			},
+			change(e) {
+				console.log('是否打开:' + e.show)
 			}
 		}
 	}
@@ -192,5 +299,70 @@
 		text-align: center;
 		font-size: 26rpx;
 		color: #000000;
+	}
+	.paybutton {
+		width: 25%;
+		line-height: 80rpx;
+		color: #fff;
+		font-size: 32rpx;
+		font-weight: 700;
+		text-align: center;
+		background-color: #d0b074;
+		border-radius: 6px !important;
+		position: fixed;
+		bottom:0; 
+	}
+	/* 提示窗口 */
+	.uni-tip {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 15px;
+		width: 170%;
+		background-color: #e6e3e3;
+		border-radius: 10px;
+		buttom: 100px;
+		left: 50%;
+		top: 50%;
+	}
+	.popup-content {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		padding: 15px;
+		width: 300px;
+		background-color: #fff;
+	}
+	
+	.uni-tip-title {
+		margin-bottom: 10px;
+		text-align: center;
+		font-weight: bold;
+		font-size: 16px;
+		color: #333;
+	}
+	
+	.uni-tip-content {
+		font-size: 14px;
+		color: #353434;
+	}
+	
+	.uni-tip-group-button {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		margin-top: 20px;
+	}
+	
+	.uni-tip-button {
+		flex: 1;
+		text-align: center;
+		font-size: 14px;
+		color: #fff;
+		background-color: #e6a23c;;
 	}
 </style>
