@@ -49,7 +49,6 @@ export const postNoticeList = (data) => http.post(`${config.baseUrl}/reviewFront
 export const postNoticeDetail = (data) => http.post(`${config.baseUrl}/reviewFront/notice/detail.do`, data)
 //查询banner列表
 export const postBannerList = (data) => http.post(`${config.baseUrl}/reviewFront/banner/list.do`, data)
-
 //查询量表对应的报告模板
 export const postReportTemplateList = (data) => http.post(`${config.baseUrl}/reviewFront/report/list.do`, data)
 //查询专家列表
@@ -68,3 +67,5 @@ export const postListConsultation = (data) => http.post(`${config.baseUrl}/revie
 export const postListConsultationDetai = (data) => http.post(`${config.baseUrl}/reviewFront/expert/queryMyConsultationDetail.do`,data)
 //取消预约
 export const postCancelReser = (data) => http.post(`${config.baseUrl}/reviewFront/expert/cancelReservation.do`,data)
+//创建问诊预支付订单
+export const postCreateConsulPrePayOrder = (data) => http.post(`${config.baseUrl}/reviewFront/consultationOrder/createPrePayConsultationOrder.do`, data)
