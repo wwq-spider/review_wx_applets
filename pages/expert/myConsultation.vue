@@ -1,26 +1,25 @@
 <template>
-	<view>
-		<!-- 刷新页面后的顶部提示框 -->
+	<view class="expert" :class="{active: bodyShow}">
 		<view class="tips" :class="{ 'tips-ani': tipShow }">上拉刷新...</view>
 		<view class="consultation" v-for="(consultationInfo, index) in consultationList"  :key="index">
 			<view class="consultationr" >
 				<view class="title">
 					<text>预约专家: {{consultationInfo.expertName}}</text>
-					<text style="position: absolute;right: 10rpx;margin-right: 90rpx;">{{consultationInfo.statusName}}</text>
+					<text style="position: absolute;right: 10rpx;margin-right: 90rpx;">{{consultationInfo.statusName}}  {{consultationInfo.payStatusName}}</text>
 				</view>
-				<view class="title">预约时间: {{consultationInfo.weekDayName}}  {{consultationInfo.beginTime}}-{{consultationInfo.beginTime}}</view>
+				<view class="title">预约时间: {{consultationInfo.weekDayName}}  {{consultationInfo.beginTime}}-{{consultationInfo.endTime}}</view>
 				<view class="title" style="display: flex;">
 					<text>问诊内容: </text>
 					<view class="testbutton" @click='viewConsultationDetail(consultationInfo.id)'>查看详情</view>
 				</view>
 			</view>
-		</view>	
-		<!-- 通过 loadMore 组件实现上拉加载效果，如需自定义显示内容，可参考：https://ext.dcloud.net.cn/plugin?id=29 -->
-		<uni-load-more v-if="loading || options.status === 'noMore' " :status="options.status" />
+		</view>
 	</view>
 </template>
 
 <script>
+	import userCheck from '@/utils/userAction.js';
+	import config from '@/config/index.config.js';
 	export default {
 		data() {
 			return {
@@ -62,6 +61,14 @@
 				uni.navigateTo({
 					url: '/pages/expert/consultationDetail?id=' + id
 				})
+			},
+			/**
+			 * 下拉刷新回调函数
+			 */
+			onPullDownRefresh() {
+				this.tipShow = true
+				//初始化数据
+				this.loadData(true)
 			}
 		}
 	}
@@ -79,6 +86,13 @@
 		height: auto;
 	}
 	
+	.expert {
+		display: none;
+		&.active {
+			display: block;
+		}
+	}
+	
 	.tips {
 		color: #67c23a;
 		font-size: 14px;
@@ -89,6 +103,11 @@
 		opacity: 0;
 		transform: translateY(-100%);
 		transition: all 0.3s;
+	}
+	.tips-ani {
+		transform: translateY(0);
+		height: 40px;
+		opacity: 1;
 	}
 	
 	.consultation {
