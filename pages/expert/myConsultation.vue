@@ -7,7 +7,7 @@
 					<text>预约专家: {{consultationInfo.expertName}}</text>
 					<text style="position: absolute;right: 10rpx;margin-right: 90rpx;">{{consultationInfo.statusName}}  {{consultationInfo.payStatusName}}</text>
 				</view>
-				<view class="title">预约时间: {{consultationInfo.weekDayName}}  {{consultationInfo.beginTime}}-{{consultationInfo.endTime}}</view>
+				<view class="title">预约时间: {{consultationInfo.visitDate}}({{consultationInfo.weekDayName}})  {{consultationInfo.beginTime}}-{{consultationInfo.endTime}}</view>
 				<view class="title" style="display: flex;">
 					<text>问诊内容: </text>
 					<view class="testbutton" @click='viewConsultationDetail(consultationInfo.id)'>查看详情</view>
