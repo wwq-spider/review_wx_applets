@@ -21,14 +21,23 @@
 				<text class="subtitle">姓名: {{consultationDetail.patientName}}</text>
 				<text class="subtitle">证件号: {{consultationDetail.userIdCard}}</text>
 				<text class="subtitle">手机号: {{consultationDetail.userPhone}}</text>
-				<text class="subtitle">预约时段: {{consultationDetail.weekDayName}}  {{consultationDetail.beginTime}} - {{consultationDetail.endTime}}</text>
+				<text class="subtitle">预约时段: {{consultationDetail.visitDate}}({{consultationDetail.weekDayName}})  {{consultationDetail.beginTime}} - {{consultationDetail.endTime}}</text>
 			</view>
 		</view>
-		<view class="consultationD-headicon" v-if="consultationDetail.status == '1'">
-			<view  class="canclebutton" style="margin-left: 315rpx;"  @click='cancelReservation()'>取消预约</view>
+		<view class="consultationD-headicon" v-if="consultationDetail.status == '1' && consultationDetail.buy!=true">
+			<view  class="canclebutton" style="margin-left: 310rpx;"  @click='cancelReservation()'>取消预约</view>
 		</view>
+		
+			<!-- <button class="testbutton" @click="videoTest()" :disabled="consultationDetail.buy">发起视频咨询</button> -->
+		<view v-if="consultationDetail.buy==true && videoConsult == 'Y'">
+			<button class="testbutton" @click="videoTest()">发起视频咨询</button>
+		</view>
+		<view v-else>
+			<button class="testbutton" @click="videoTest()" disabled="true">发起视频咨询</button>
+		</view>
+		
 		<view class="consultationD-headicon">
-			<button class="paybutton" style="margin-left: 120px;" @click="buy" :disabled="consultationDetail.buy" v-if="consultationDetail.charge==1">{{buyBtnText}}</button>
+			<button class="paybutton" style="margin-left: 280rpx;"  @click="buy" :disabled="consultationDetail.buy" v-if="consultationDetail.charge==1">{{buyBtnText}}</button>
 
 		</view>
 		<uni-popup ref="showPayConfirm" @change="change">
@@ -54,7 +63,8 @@
 				openid: '',
 				localtionPlatform: '',
 				defaultCover: '../../static/man.png',
-				buyBtnText: "立即支付"
+				buyBtnText: "立即支付",
+				videoConsult:''
 			}
 		},
 		onLoad(event) {
@@ -75,9 +85,14 @@
 					if (res.code == 200) {
 						console.log("获取我的问诊详情成功");
 						console.log(res.result);
+						console.log(res.videoConsult);//是否可发起视频咨询
+						that.videoConsult = res.videoConsult;
 						res.result.forEach((row) => {
 							that.consultationDetail = row
 							that.buyBtnText = "立即支付"
+							/* if(res.videoConsult == 'Y'){
+								consultationDetail.buy = true;
+							} */
 						})
 					} else {
 						uni.showToast({
@@ -91,7 +106,6 @@
 			},
 			cancelReservation(){
 				let that = this
-				//let userData = uni.getStorageSync('userData')
 				var obj = {
 					"id" : this.consultationDetail.id,
 					"calendarId" : this.consultationDetail.calendarId,
@@ -173,6 +187,7 @@
 											    title: "支付成功",
 												icon: "success"
 											})
+											/* that.appointTXMeeting(this.consultationDetail.expertName,this.consultationDetail.visitDate,this.consultationDetail.beginTime,this.consultationDetail.endTime) */
 										} else {
 											uni.showToast({
 											    title: "支付发起失败"
@@ -217,9 +232,25 @@
 			},
 			change(e) {
 				console.log('是否打开:' + e.show)
+			},
+			/* appointTXMeeting(expertName,visitDate,startTime,endTime){
+				console.log('预约腾讯会议:'+startTime)
+				
+				this.$apis.postCreateTXMeeting({"startTime":startTime,"endTime":endTime,"expertName":expertName,"visitDate":visitDate}).then(res => {
+					console.log('预约腾讯会议成功')
+				}).catch(err => {
+					console.log('预约腾讯会议失败')
+				})
+				
+			}, */
+			videoTest() {
+				uni.navigateTo({
+					/* url: '/pages/room/room?userID=oE_EL5jr7oiD2sbr90bvxXd5e2zo&template=1v1&roomID=123&debugMode=false&cloudenv=PRO' */
+					url: '/pages/room/room?userID=oE_EL5h8HblfVYnWntOocxdT3G-s&template=grid&roomID=123&debugMode=false&cloudenv=PRO'
+				})
 			}
 		}
-	}
+	};
 </script>
 
 <style scoped>
@@ -309,8 +340,9 @@
 		text-align: center;
 		background-color: #d0b074;
 		border-radius: 6px !important;
-		position: fixed;
-		bottom:0; 
+		//position: fixed;
+		bottom:0;
+		margin-top: 20%;
 	}
 	/* 提示窗口 */
 	.uni-tip {
@@ -364,5 +396,18 @@
 		font-size: 14px;
 		color: #fff;
 		background-color: #e6a23c;;
+	}
+	._scroll-list {
+		border-bottom: 20rpx solid #eee;
+		width: 100%;
+	}
+	.testbutton {
+		width: 230rpx;
+		line-height: 60rpx;
+		background: #EFE4C8;
+		text-align: center;
+		font-size: 26rpx;
+		color: black;
+		margin-top: 10%;
 	}
 </style>
