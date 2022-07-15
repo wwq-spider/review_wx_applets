@@ -10,10 +10,11 @@
 					<text class="title">{{calendarInfo.expertName}}</text>
 					<text class="subtitle">{{calendarInfo.jobTitle}}|{{calendarInfo.label}}</text>
 				</view>
+				<view>
+					<view class="savebutton" @click='orderExpert(calendarInfo.id)'>预约</view>
+				</view>
 			</view>
-			<view>
-				<view style="margin-top: 45rpx;" class="savebutton" @click='orderExpert(calendarInfo.id)'>预约</view>
-			</view>
+			
 		</view>
 		<uni-load-more v-if="loading || options.status === 'noMore' " :status="options.status" />
 	</view>
@@ -171,7 +172,7 @@
 		-webkit-box-orient: vertical;
 	}
 	.savebutton {
-		width: 100rpx;
+		/* width: 100rpx;
 		line-height: 50rpx;
 		color: #594e3f;
 		font-size: 32rpx;
@@ -181,6 +182,14 @@
 		//background-color: #B0E0E6;
 		background-color: #febd00;
 		margin-left:10rpx;
-		vertical-align: middle;
+		vertical-align: middle; */
+		
+		width: 120rpx;
+		line-height: 60rpx;
+		background: #EFE4C8;
+		text-align: center;
+		font-size: 26rpx;
+		color: black;
+		margin-top: 25%;
 	}
 </style>
