@@ -133,7 +133,7 @@
 		{
 			"path" : "pages/expert/expert",
 			"style" : {
-			    "navigationBarTitleText": "专家列表",
+			    "navigationBarTitleText": "咨询师列表",
 			    "enablePullDownRefresh": true
 			}
 		},
@@ -141,17 +141,14 @@
         	"path" : "pages/expert/expertInfo",
         	"style" : {
         	    "enablePullDownRefresh": false,
-        	    "navigationBarTitleText": "专家详情"
+        	    "navigationBarTitleText": "咨询师详情"
         	}
         }
         ,{
             "path" : "pages/expert/myConsultation",
             "style" :                                                                                    
             {
-                /* "navigationBarTitleText": true,
-                "navigationBarTitleText": "我的问诊", */
-				
-				"navigationBarTitleText": "我的问诊",
+				"navigationBarTitleText": "我的咨询",
 				"enablePullDownRefresh": true
             }
             
@@ -164,7 +161,21 @@
                 "enablePullDownRefresh": false
             }
             
-        }
+        },
+		{
+		    "path" : "pages/room/room",
+		    "style" : {
+		        "enablePullDownRefresh": false,
+		        "navigationBarTitleText": "视频问诊"
+		    }
+		},
+		{
+		    "path" : "pages/videocall/videocall",
+		    "style" : {
+		        "enablePullDownRefresh": false,
+		        "navigationBarTitleText": "进入房间"
+		    }
+		}
     ],
 	"tabBar": {
 		"color": "#333",
@@ -177,7 +188,7 @@
 		  "selectedIconPath": "static/home-active.png"
 	    }, {
 	      "pagePath": "pages/expert/expert",
-	      "text": "专家",
+	      "text": "咨询",
 		  "iconPath": "static/user.png",
 		  "selectedIconPath": "static/user-active.png"
 	    },{
