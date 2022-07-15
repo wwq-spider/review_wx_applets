@@ -30,11 +30,16 @@
 			</view>
 			<view @click="toPage('/pages/expert/myConsultation')" class="user-item">
 				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
-				<text style="padding-left: 10px;">我的问诊</text>
+				<text style="padding-left: 10px;">我的咨询</text>
 			</view>
 			<view @click="toPage('/pages/user/myInfo')" class="user-item">
 				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
 				<text style="padding-left: 10px;">个人信息</text>
+			</view>
+			
+			<view v-if="isExpert==true" @click="toPage('/pages/videocall/videocall')" class="user-item">
+				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
+				<text style="padding-left: 10px;">进入房间</text>
 			</view>
 			<!-- <navigator url="/pages/user/attention" class="user-item">
 				<uni-icons type="gear-filled" size="20" color="#d6b477"></uni-icons>
@@ -64,7 +69,7 @@
 				modelInitPwd: '', // 初始化密码
 				modelNewPwd: '',  // 新密码
 				userStatus: 0, // 用户表单类型 1 绑定手机 2 修改密码
-				
+				isExpert:true//是否为专家
 			}
 		},
 		onShow() {
@@ -80,9 +85,19 @@
 					that.userInfo = userData
 				});
 			}
+			//判断是否为专家
+			/* this.$apis.postIsExpert({'mobilePhone': userData.mobilePhone}).then(res => {
+				console.log('专家手机号：'+userData.mobilePhone);
+				if(res.code == 200 && res.isExpert == true){
+					isExpert = true
+				}
+			}).catch(err => {
+				uni.hideLoading()
+				console.log(err)
+			}) */
 		},
 		onLoad() {
-			
+			//this.loadData();
 		},
 		methods: {
 			toPage(path) {
