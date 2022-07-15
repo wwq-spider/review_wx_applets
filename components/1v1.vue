@@ -9,7 +9,7 @@
         <view class="loading-img">
           <image src="/static/components/trtc-room/template/1v1/static/loading.png" class="rotate-img"></image>
         </view>
-        <view class="loading-text">等待接听中..</view>
+        <view class="loading-text">等待接听中...</view>
       </view>
     </view>
     <view class="handle-btns">
