@@ -27,9 +27,10 @@
 		</view>
 		<view class="expert-headicon1" style="margin-left: 45rpx;">
 			<view class="expert-headicon2" v-for="(calendarList, index) in calendarListInfo" :key="index">
-				<text style="margin-top: 15rpx;" class="title1">{{calendarList.weekDayName}}  {{calendarList.beginTime}}-{{calendarList.endTime}}
+				<text style="margin-top: 15rpx;" class="title1">{{calendarList.visitDate}}({{calendarList.weekDayName}})  {{calendarList.beginTime}}-{{calendarList.endTime}}
 				</text>
-				<button style="margin-left: 280rpx;" type="primary" size="mini" @click='orderExpert(calendarList.id)'>预约</button>
+				<!-- <button style="margin-left: 520rpx;position: fixed;" type="primary" size="mini" @click='orderExpert(calendarList.id)'>预约</button>testbutton -->
+				<button class="testbutton" @click='orderExpert(calendarList.id)'>预约</button>
 			</view>
 		</view>
 	</view>
@@ -77,7 +78,7 @@
 						console.log("获取专家详情成功");
 						console.log(res.result);
 						that.calendarInfo = res.result
-						that.calendarInfo.avatar = that.$config.aliYunEndpoint + res.result.avatar
+						that.calendarInfo.avatar = that.$config.aliYunEndpoint + res.result.avatar				  
 						console.log(that.calendarInfo.avatar)
 					} else {
 						uni.showToast({
@@ -294,5 +295,14 @@
 		opacity: 0;
 		transform: translateY(-100%);
 		transition: all 0.3s;
+	}
+	.testbutton {
+		width: 120rpx;
+		line-height: 50rpx;
+		background: #EFE4C8;
+		text-align: center;
+		font-size: 26rpx;
+		color: black;
+		
 	}
 </style>
