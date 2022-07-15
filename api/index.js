@@ -69,3 +69,8 @@ export const postListConsultationDetai = (data) => http.post(`${config.baseUrl}/
 export const postCancelReser = (data) => http.post(`${config.baseUrl}/reviewFront/expert/cancelReservation.do`,data)
 //创建问诊预支付订单
 export const postCreateConsulPrePayOrder = (data) => http.post(`${config.baseUrl}/reviewFront/consultationOrder/createPrePayConsultationOrder.do`, data)
+//用户是否为专家
+export const postIsExpert = (data) => http.post(`${config.baseUrl}/reviewFront/expert/isExpert.do`, data)
+
+/* //创建预约腾讯会议
+export const postCreateTXMeeting = (data) => http.post(`${config.baseUrl}/reviewFront/meeting/creatMeeting.do`, data) */
