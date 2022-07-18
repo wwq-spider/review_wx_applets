@@ -20,7 +20,7 @@ export default {
       rtcConfig: {
         sdkAppID: '1400584863',
         // 必要参数 开通实时音视频服务创建应用后分配的 sdkAppID
-        userID: 'oE_EL5jr7oiD2sbr90bvxXd5e2zo',
+        userID: '',
         // 必要参数 用户 ID 可以由您的帐号系统指定
         userSig: '',
         // 必要参数 身份签名，相当于登录密码的作用
@@ -43,6 +43,8 @@ export default {
    */
   onLoad: function (options) {
     console.log('room onload', options);
+	let openid = uni.getStorageSync("openid")
+	this.rtcConfig.userID = openid
     uni.setKeepScreenOn({
       keepScreenOn: true
     }); // 获取 rtcroom 实例
@@ -159,7 +161,13 @@ export default {
       params.sdkAppID = Signature.sdkAppID;
       params.userSig = Signature.userSig;
       this.template = params.template;
-
+	  uni.showModal({
+	  	title: '提示',
+	  	content: "enterRoom userID====" + params.userID,
+	  	success: function(res) {
+	  		
+	  	}
+	  })
       if (params.template === 'grid') {
         this.rtcConfig = {
           sdkAppID: params.sdkAppID,

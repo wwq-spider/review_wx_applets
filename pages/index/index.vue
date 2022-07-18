@@ -169,8 +169,17 @@
 			// // 必要参数 身份签名，相当于登录密码的作用
 			// template: '1v1'
 			videoTest() {
+				let openid = uni.getStorageSync("openid")
+				uni.showModal({
+					title: '提示',
+					content: "videoTest userID====" + openid,
+					success: function(res) {
+						
+					}
+				})
+				
 				uni.navigateTo({
-					url: '/pages/room/room?userID=oE_EL5jr7oiD2sbr90bvxXd5e2zo&template=1v1&roomID=123&debugMode=false&cloudenv=PRO'
+					url: '/pages/room/room?userID=' + openid + '&template=grid&roomID=123&debugMode=false&cloudenv=PRO'
 				})
 			},
 			//开始测试
