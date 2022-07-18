@@ -132,6 +132,7 @@
 						this.$apis.postSaveOoderInfo(resultList).then(res => {
 							if (res.code == 200) {
 								console.log("保存预约人信息成功");
+								this.toConsultationDetail(res.id);
 							} else {
 								uni.showToast({
 									title: res.msg
@@ -154,6 +155,13 @@
 					title : '预约成功',
 					icon : 'success',
 					duration : 1000
+				});
+			},
+			toConsultationDetail(id){
+				//跳转到预约详情页面
+				console.log('跳转测试：'+id)
+				uni.navigateTo({
+					url: '/pages/expert/consultationDetail?id='+ id
 				})
 			}
 			/* ,bindDateChange: function(e) {
