@@ -54,7 +54,6 @@
 							uni.stopPullDownRefresh()
 						}
 						console.log("获取专家列表成功");
-						console.log(res.rows);
 						let queryParamList = []
 						res.rows.forEach((row) => {
 							that.calendarList.push(row)
