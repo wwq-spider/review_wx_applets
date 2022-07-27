@@ -42,6 +42,49 @@ export default {
    * @param {*} options 配置项
    */
   onLoad: function (options) {
+	  console.log('进入房间打印options:'+options.consulId)
+	  if(options.consulId != "" && options.consulId != undefined){
+		  this.$apis.postListConsultationDetai({'id': options.consulId}).then(res => {
+		  	uni.hideLoading()
+		  	if (res.code == 200) {
+		  		res.result.forEach((row) => {
+		  			if(res.videoConsult != 'Y'){
+		  				uni.showModal({
+		  					title:'提示',
+							content:'未到预约时间或预约订单未支付',
+							success:function(res){
+								if(res.confirm){
+									uni.reLaunch({
+										url: '/pages/expert/consultationDetail?id='+ options.consulId
+									})
+								}
+							}
+		  				})
+		  			}else{
+						//给专家发送房间号
+						this.$apis.postSendRoomId({'roomId': options.roomID,'expertPhone':options.mobilePhone}).then(res => {
+							if (res.code == 200) {
+								console.log('给专家发送房间号成功')
+							} else {
+								uni.showToast({
+									title: res.msg
+								})
+							}
+						}).catch(err => {
+							console.log(err)
+						})
+					}
+		  		})
+		  	} else {
+		  		uni.showToast({
+		  			title: res.msg
+		  		})
+		  	}
+		  }).catch(err => {
+		  	uni.hideLoading()
+		  	console.log(err)
+		  })
+	  }
     console.log('room onload', options);
     uni.setKeepScreenOn({
       keepScreenOn: true
@@ -153,6 +196,7 @@ export default {
     enterRoom: function (params) {
       params.template = params.template || '1v1';
       params.roomID = params.roomID || this.randomRoomID();
+	  console.log('打印随机房间号：'+params.roomID);
       params.userID = params.userID || this.randomUserID();
       console.log('* room enterRoom', params);
       const Signature = genTestUserSig(params.userID);
