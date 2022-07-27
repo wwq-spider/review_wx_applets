@@ -17,7 +17,7 @@
 </view>
 
 <view class="bottom-btn">
-  <button class="btn" @tap="enterRoom" hover-class="none">进入房间</button>
+  <button class="btn" @tap="enterRoom" hover-class="none">进入房间1</button>
 </view>
 <cover-image class="close" :style="'top:' + ((headerHeight + statusBarHeight) - 34) + 'rpx'" src="../../static/images/back.png" @tap="onBack"></cover-image>
 </view>
@@ -116,7 +116,9 @@ export default {
       }
 
       /* const url = `../room/room?roomID=${roomID}&template=${this.template}&debugMode=${this.debugMode}&cloudenv=${this.cloudenv}`; */
-	  const url = `../room/room?userID=oE_EL5pq-KVdghoXSx836eOuG2u0&template=grid&roomID=123&debugMode=false&cloudenv=PRO`;
+	  /* const url = `../room/room?userID=oE_EL5pq-KVdghoXSx836eOuG2u0&template=grid&roomID=123&debugMode=false&cloudenv=PRO`; */
+	  const url = `../room/room?userID=oE_EL5pq-KVdghoXSx836eOuG2u0&template=grid&roomID=${roomID}&debugMode=false&cloudenv=PRO`;
+	  console.log(url);
       this.tapTime = nowTime;
       this.checkDeviceAuthorize().then(result => {
         console.log('授权成功', result);
