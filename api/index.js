@@ -63,7 +63,7 @@ export const postOrderExpert = (data) => http.post(`${config.baseUrl}/reviewFron
 export const postSaveOoderInfo = (data) => http.post(`${config.baseUrl}/reviewFront/expert/saveOoderInfo.do`,data)
 //查询预约列表
 export const postListConsultation = (data) => http.post(`${config.baseUrl}/reviewFront/expert/queryMyConsultation.do`,data)
-//查询预约列表
+//查询预约详情
 export const postListConsultationDetai = (data) => http.post(`${config.baseUrl}/reviewFront/expert/queryMyConsultationDetail.do`,data)
 //取消预约
 export const postCancelReser = (data) => http.post(`${config.baseUrl}/reviewFront/expert/cancelReservation.do`,data)
@@ -71,6 +71,10 @@ export const postCancelReser = (data) => http.post(`${config.baseUrl}/reviewFron
 export const postCreateConsulPrePayOrder = (data) => http.post(`${config.baseUrl}/reviewFront/consultationOrder/createPrePayConsultationOrder.do`, data)
 //用户是否为专家
 export const postIsExpert = (data) => http.post(`${config.baseUrl}/reviewFront/expert/isExpert.do`, data)
+//模板消息推送
+export const postsendMessage = (data) => http.post(`${config.baseUrl}/reviewFront/subscribeMessage/sendSubscribeMessage.do`, data)
+//给专家发送房间号
+export const postSendRoomId = (data) => http.post(`${config.baseUrl}/reviewFront/expert/sendRoomId.do`, data)
 
 /* //创建预约腾讯会议
 export const postCreateTXMeeting = (data) => http.post(`${config.baseUrl}/reviewFront/meeting/creatMeeting.do`, data) */
