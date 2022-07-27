@@ -28,7 +28,6 @@
 			<view  class="canclebutton" style="margin-left: 310rpx;"  @click='cancelReservation()'>取消预约</view>
 		</view>
 		
-			<!-- <button class="testbutton" @click="videoTest()" :disabled="consultationDetail.buy">发起视频咨询</button> -->
 		<view v-if="consultationDetail.buy==true && videoConsult == 'Y'">
 			<button class="testbutton" @click="videoTest()">发起视频咨询</button>
 		</view>
@@ -90,9 +89,9 @@
 						res.result.forEach((row) => {
 							that.consultationDetail = row
 							that.buyBtnText = "立即支付"
-							/* if(res.videoConsult == 'Y'){
+							if(res.videoConsult == 'Y'){
 								consultationDetail.buy = true;
-							} */
+							}
 						})
 					} else {
 						uni.showToast({
@@ -244,9 +243,23 @@
 				
 			}, */
 			videoTest() {
+				let roomID = parseInt(Math.random() * 9999);
+				console.log('预约时生成的随机房间号：'+roomID);
+				let that = this
+				//给专家发送房间号
+				this.$apis.postSendRoomId({'roomId': roomID,'expertPhone':this.consultationDetail.expertPhone}).then(res => {
+					if (res.code == 200) {
+						console.log('给专家发送房间号成功')
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				}).catch(err => {
+					console.log(err)
+				})
 				uni.navigateTo({
-					/* url: '/pages/room/room?userID=oE_EL5jr7oiD2sbr90bvxXd5e2zo&template=1v1&roomID=123&debugMode=false&cloudenv=PRO' */
-					url: '/pages/room/room?userID=oE_EL5h8HblfVYnWntOocxdT3G-s&template=grid&roomID=123&debugMode=false&cloudenv=PRO'
+					url: '/pages/room/room?userID=oE_EL5h8HblfVYnWntOocxdT3G-s&template=grid&roomID='+roomID+'&debugMode=false&cloudenv=PRO'
 				})
 			}
 		}
@@ -332,7 +345,7 @@
 		color: #000000;
 	}
 	.paybutton {
-		width: 25%;
+		width: 35%;
 		line-height: 80rpx;
 		color: #fff;
 		font-size: 32rpx;
@@ -340,9 +353,9 @@
 		text-align: center;
 		background-color: #d0b074;
 		border-radius: 6px !important;
-		//position: fixed;
+		position: fixed;
 		bottom:0;
-		margin-top: 20%;
+		//margin-top: 20%;
 	}
 	/* 提示窗口 */
 	.uni-tip {
@@ -355,7 +368,7 @@
 		border-radius: 10px;
 		buttom: 100px;
 		left: 50%;
-		top: 50%;
+		top: 80%;
 	}
 	.popup-content {
 		/* #ifndef APP-NVUE */
