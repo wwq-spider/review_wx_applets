@@ -29,8 +29,7 @@
 			<view class="expert-headicon2" v-for="(calendarList, index) in calendarListInfo" :key="index">
 				<text style="margin-top: 15rpx;" class="title1">{{calendarList.visitDate}}({{calendarList.weekDayName}})  {{calendarList.beginTime}}-{{calendarList.endTime}}
 				</text>
-				<!-- <button style="margin-left: 520rpx;position: fixed;" type="primary" size="mini" @click='orderExpert(calendarList.id)'>预约</button>testbutton -->
-				<button class="testbutton" @click='orderExpert(calendarList.id)'>预约</button>
+				<button class="testbutton" @click='orderExpert(calendarList.id,calendarList.visitDate,calendarList.beginTime,calendarList.endTime,calendarInfo.expertName,calendarInfo.mobilePhone)'>预约</button>
 			</view>
 		</view>
 	</view>
@@ -76,10 +75,8 @@
 					uni.hideLoading()
 					if (res.code == 200) {
 						console.log("获取专家详情成功");
-						console.log(res.result);
 						that.calendarInfo = res.result
 						that.calendarInfo.avatar = that.$config.aliYunEndpoint + res.result.avatar				  
-						console.log(that.calendarInfo.avatar)
 					} else {
 						uni.showToast({
 							title: res.msg
@@ -94,7 +91,6 @@
 					uni.hideLoading()
 					if (res.code == 200) {
 						console.log("获取专家日历成功");
-						console.log(res.rows);
 						that.calendarListInfo = res.rows
 					} else {
 						uni.showToast({
@@ -110,7 +106,7 @@
 				this.calendarInfo.avatar = this.defaultCover 
 			},
 			//预约专家
-			orderExpert(calendarId){
+			orderExpert(calendarId,visitDate,beginTime,endTime,expertName,mobilePhone){
 				let that = this
 				console.log(calendarId)
 				let userData = uni.getStorageSync('userData')
@@ -130,14 +126,17 @@
 						}
 						resultList.push(obj)
 						this.$apis.postSaveOoderInfo(resultList).then(res => {
+							
 							if (res.code == 200) {
 								console.log("保存预约人信息成功");
+								this.requestSubscribeMessage(visitDate,beginTime,endTime,expertName,res.id,mobilePhone);
 								this.toConsultationDetail(res.id);
 							} else {
 								uni.showToast({
 									title: res.msg
 								})
 							}
+							
 						}).catch(err => {
 							console.log(err)
 						})
@@ -159,9 +158,51 @@
 			},
 			toConsultationDetail(id){
 				//跳转到预约详情页面
-				console.log('跳转测试：'+id)
 				uni.navigateTo({
 					url: '/pages/expert/consultationDetail?id='+ id
+				})
+			},
+			//消息推送
+			requestSubscribeMessage(visitDate,beginTime,endTime,expertName,consulId,mobilePhone){
+				//获取用户授权允许接收服务通知
+				uni.requestSubscribeMessage({
+					tmplIds:["tz0qAaZq2v0s3dZbfPnOYwkFy7QOF82XVFNvpLZGTNQ"],
+					success:res=>{
+						console.log('调起成功');
+						if(res[tempId[0]] === 'accept'){
+							console.log('允许')
+						}
+						if(res[tempId[0]] === 'reject'){
+							console.log('拒绝')
+						}
+					},
+					fail:err=>{
+						if(err.errCode == 20004){
+							console.log('关闭小程序主开关')
+						}else{
+							console.log('订阅失败')
+						}
+					}
+				})
+				//调用后端接口推送服务通知
+				let userData = uni.getStorageSync('userData')
+				var obj = {
+					"touser" : userData.openid,
+					"visitDate" : visitDate,
+					"beginTime" : beginTime,
+					"endTime" : endTime,
+					"expertName" : expertName,
+					"consulId" : consulId,
+					"mobilePhone" : mobilePhone
+				}
+				this.$apis.postsendMessage(obj).then(res => {
+					if (res.errcode == 0) {
+						console.log('模板消息推送成功')
+					} else {
+						console.log('模板消息推送失败')
+					}
+				}).catch(err => {
+					console.log(err)
 				})
 			}
 			/* ,bindDateChange: function(e) {
