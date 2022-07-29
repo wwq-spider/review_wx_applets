@@ -24,8 +24,9 @@ export default {
         // 必要参数 用户 ID 可以由您的帐号系统指定
         userSig: '',
         // 必要参数 身份签名，相当于登录密码的作用
-        template: '1v1' // 必要参数 组件模版，支持的值 1v1 grid custom ，注意：不支持动态修改, iOS 不支持 pusher 动态渲染
-
+        template: '1v1', // 必要参数 组件模版，支持的值 1v1 grid custom ，注意：不支持动态修改, iOS 不支持 pusher 动态渲染
+		enableCamera: true,
+		enableMic: true
       },
       showTipToast: false,
       subscribeList: {}
@@ -240,7 +241,8 @@ export default {
           userDefineRecordID: params.userDefineRecordID,
           privateMapKey: params.privateMapKey,
           pureAudioMode: params.pureAudioMode,
-          recvMode: params.recvMode
+          recvMode: params.recvMode,
+		  enableCamera: true,		  enableMic: true
         };
       } else {
         this.rtcConfig = {
