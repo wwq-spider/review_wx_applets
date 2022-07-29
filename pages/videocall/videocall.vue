@@ -8,16 +8,16 @@
   <view class="input-box">
     <input type="number" :value="roomID" maxlength="10" @input="enterRoomID" placeholder="请输入房间号" placeholder-style="color:#ffffff;opacity: 0.55;"></input>
   </view>
-  <view class="choice-content">
+  <!-- <view class="choice-content">
     <label class="label" for="switchDebugMode">
       <text>调试模式</text>
       <switch id="switchDebugMode" color="#006eff" :checked="debugMode" @change="switchDebugMode"></switch>
     </label>
-  </view>
+  </view> -->
 </view>
 
 <view class="bottom-btn">
-  <button class="btn" @tap="enterRoom" hover-class="none">进入房间1</button>
+  <button class="btn" @tap="enterRoom" hover-class="none">进入房间</button>
 </view>
 <cover-image class="close" :style="'top:' + ((headerHeight + statusBarHeight) - 34) + 'rpx'" src="../../static/images/back.png" @tap="onBack"></cover-image>
 </view>
