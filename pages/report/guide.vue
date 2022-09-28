@@ -37,10 +37,39 @@
 				
 				})
 			}
+			if(option.userId){
+				that.userId = option.userId
+			}
+			if(option.name){
+				that.name = decodeURIComponent(decodeURIComponent(option.name))
+			}
+			if(option.sex){
+				that.sex = option.sex
+			}
+			if(option.age){
+				that.age = option.age
+			}
+			if(option.evalCode){
+				that.evalCode = decodeURIComponent(decodeURIComponent(option.evalCode))
+			}
+			if(option.select){
+				that.select = decodeURIComponent(decodeURIComponent(option.select))
+			}
+			if(option.school){
+				that.school = decodeURIComponent(decodeURIComponent(option.school))
+			}
+			
 		},
 		data() {
 			return {
 				reviewClass: {},
+				evalCode:'',
+				select:'',
+				school:'',
+				userId:'',
+				name:'',
+				sex:'',
+				age:''
 			}
 		},
 		methods: {
@@ -70,8 +99,9 @@
 					});
 				} else {
 					uni.redirectTo({
+						
 						url: '/pages/questions/questions?classId=' + this.reviewClass.classId + "&title=" + 
-							this.reviewClass.title + "&source=1&videoAnalysis=" + this.reviewClass.videoAnalysis,
+							this.reviewClass.title + "&source=1&videoAnalysis=" + this.reviewClass.videoAnalysis + "&evalCode=" + this.evalCode + "&select=" + this.select + "&school=" + this.school + "&userId=" + this.userId + "&name=" + this.name + "&sex=" + this.sex + "&age=" + this.age,
 						success(res) {
 							console.log(res)
 						},
