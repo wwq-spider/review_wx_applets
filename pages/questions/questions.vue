@@ -65,6 +65,7 @@
 </template>
 
 <script>
+	import userCheck from '@/utils/userAction.js';
 	export default {
 		data() {
 			return {
@@ -83,6 +84,13 @@
 				healthAnalysisResult: {},
 				showCamera: false,
 				cameraContext: {},
+				evalCode:'',
+				select:'',
+				school:'',
+				userId:'',
+				name:'',
+				sex:'',
+				age:''
 			}
 		},
 		onUnload() {
@@ -114,6 +122,27 @@
 			}
 			if (e.title){
 				this.title = decodeURIComponent(e.title)
+			}
+			if(e.userId){
+				this.userId = e.userId
+			}
+			if(e.name){
+				this.name = decodeURIComponent(decodeURIComponent(e.name))
+			}
+			if(e.sex){
+				this.sex = e.sex
+			}
+			if(e.age){
+				this.age = e.age
+			}
+			if(e.evalCode){
+				this.evalCode = decodeURIComponent(decodeURIComponent(e.evalCode))
+			}
+			if(e.select){
+				this.select = decodeURIComponent(decodeURIComponent(e.select))
+			}
+			if(e.school){
+				this.school = decodeURIComponent(decodeURIComponent(e.school))
 			}
 			this.loadData(e.classId)
 			this.videoAnalysis = e.videoAnalysis && e.videoAnalysis == 1
@@ -381,6 +410,7 @@
 				}
 				let that = this
 				setTimeout(() => {
+					
 					if (this.questionIndex < this.questionList.length - 1) {
 						this.questionIndex++
 						that.lock = false
@@ -393,48 +423,104 @@
 						if(!projectId) {
 							projectId = 0
 						}
-						for (var i = 0; i < this.questionList.length; i++) {
-							var q = this.questionList[i]
-							var obj = {
-								'selectGrade': q.selectGrade, 
-								'content': q.content, 
-								'questionId': q.questionId, 
-								'questionNum': q.questionNum, 
-								'selCode': q.selCode, 
-								'variateId': q.variateId, 
-								'variateName': q.variateName, 
-								'classId': q.classId,
-								'projectId': projectId
+						let dongliangClassId = '402880f082eecb960182eee3b1ef0001';
+						
+						if(this.classId == dongliangClassId){//栋梁测评
+							for (var i = 0; i < this.questionList.length; i++) {
+								var q = this.questionList[i]
+								var obj = {
+									'quesNo': q.questionNum,
+									'answer': q.selCode,
+									'scoreA': q.selectGrade,
+									'scoreB':"0"
+								}
+								resultList.push(obj)
 							}
-							if(q.rightAnswer) {
-								obj["rightAnswer"] = q.rightAnswer
+							let userData = uni.getStorageSync('userData')
+							let name = userData.name
+							var objUser = {
+								"serialNum": '130304202206261503435',
+								"name": this.name,
+								"sex": this.sex,
+								"age": this.age,
+								"userId":this.userId,
+								"select":this.select,
+								"school":this.school
 							}
-							resultList.push(obj)
+						
+							var paramList = []
+							var objnew = {
+								'testCode':this.evalCode,
+								'userInfo':objUser,
+								'testRecord':resultList
+							}
+							paramList.push(objnew)
+							//let pdfUrl = 'https://www.zhuxinkang.com/review/upload2/PDF/create/2022/09/20/cp-20220920204836310.pdf'
+							//提交测评数据
+							this.$apis.postCommitTest(paramList).then(res => {
+								that.lock = false
+								uni.hideLoading()
+								if (res.code == 200) {
+									//跳转报告查看页面
+									uni.navigateTo({
+										url: '/pages/report/pdfreport?pdfUrl=' + encodeURIComponent(res.pdfUrl)
+									})
+								} else {
+									uni.showToast({
+										title: '提交失败',
+										icon: 'wrong'
+									});
+								}
+							}).catch(err => {
+								console.log('进入异常')
+								uni.hideLoading()
+								that.lock = false
+							})
+							
+						}else{
+							for (var i = 0; i < this.questionList.length; i++) {
+								var q = this.questionList[i]
+								var obj = {
+									'selectGrade': q.selectGrade, 
+									'content': q.content, 
+									'questionId': q.questionId, 
+									'questionNum': q.questionNum, 
+									'selCode': q.selCode, 
+									'variateId': q.variateId, 
+									'variateName': q.variateName, 
+									'classId': q.classId,
+									'projectId': projectId
+								}
+								if(q.rightAnswer) {
+									obj["rightAnswer"] = q.rightAnswer
+								}
+								resultList.push(obj)
+							}
+							//提交测评数据 
+							this.$apis.postCompleteReview(resultList).then(res => {
+								that.lock = false
+								uni.hideLoading()
+								if (res.code == 200) {
+									uni.showToast({
+										title: '测评完成，报告已生成',
+										icon: 'right'
+									});
+									that.finished(res.result.classId, res.result.resultId, that.title)
+									// uni.navigateTo({
+									// 	url: '/pages/report/report?resultId=' + res.result.resultId + "&title=" + that.title
+									// });
+								} else {
+									uni.showToast({
+										title: '测评报告生成失败',
+										icon: 'wrong'
+									});
+								}
+							}).catch(err => {
+								uni.hideLoading()
+								that.lock = false
+								console.log(err)
+							})
 						}
-						//提交测评数据 
-						this.$apis.postCompleteReview(resultList).then(res => {
-							that.lock = false
-							uni.hideLoading()
-							if (res.code == 200) {
-								uni.showToast({
-									title: '测评完成，报告已生成',
-									icon: 'right'
-								});
-								that.finished(res.result.classId, res.result.resultId, that.title)
-								// uni.navigateTo({
-								// 	url: '/pages/report/report?resultId=' + res.result.resultId + "&title=" + that.title
-								// });
-							} else {
-								uni.showToast({
-									title: '测评报告生成失败',
-									icon: 'wrong'
-								});
-							}
-						}).catch(err => {
-							uni.hideLoading()
-							that.lock = false
-							console.log(err)
-						})
 					}
 				}, 300)
 			},
