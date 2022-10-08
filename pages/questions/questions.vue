@@ -83,6 +83,7 @@
 				healthAnalysisResult: {},
 				showCamera: false,
 				cameraContext: {},
+				reviewRecordKey: ''
 			}
 		},
 		onUnload() {
@@ -105,6 +106,7 @@
 		},
 		onLoad(e) {
 			this.classId = e.classId
+			this.reviewRecordKey = this.classId + "_record"
 			this.firstfloorindex = this.getNextIndex(e.classId, true)
 			this.questionIndex = 0
 			this.cursor = 0
@@ -251,7 +253,27 @@
 				this.$apis.postQuestions({'classId': classId}).then(res => {
 					uni.hideLoading()
 					that.questionList = res.rows
+					that.setReviewProgress()
 				})
+			},
+			setReviewProgress() {
+				let classReviewRecord = uni.getStorageSync(this.classId + "_record")
+				if (classReviewRecord && classReviewRecord != {}) {
+					let totalRecord = 0
+					for (let i=0; i < this.questionList.length; i++) {
+						let question = this.questionList[i]
+						if(classReviewRecord[question.questionId]) {
+							if(question.questionType == "2") { //问答题
+								question["rightAnswer"] = classReviewRecord[question.questionId].rightAnswer
+							} else {
+								question["selCode"] = classReviewRecord[question.questionId].selCode
+								question["selectGrade"] = classReviewRecord[question.questionId].selectGrade
+							}
+							totalRecord++
+						}
+					}
+					this.questionIndex = totalRecord
+				}
 			},
 			//下一题
 			nextQuestion() {
@@ -280,7 +302,35 @@
 						return
 					}
 				}
+				//保存测评记录
+				this.saveReviewProgress()
 				this.questionIndex++;
+			},
+			//保存测评进度：针对项目 测评到哪一量表 哪一题
+			saveReviewProgress() {
+				let projectId = uni.getStorageSync("projectId")
+				if(!projectId) {
+					projectId = 0
+				}
+				//如果是项目测评 就保存当前测评进度
+				if (projectId > 0) {
+					//存储当前量表
+					uni.setStorageSync("currentClassId", this.classId)
+					let classReviewRecord = uni.getStorageSync(this.reviewRecordKey)
+					if(!classReviewRecord) {
+						classReviewRecord = {}
+					}
+					let classQuestionAnswer = {}
+					let curQuestion = this.questionList[this.questionIndex]
+					classQuestionAnswer["questionId"] = curQuestion.questionId
+					classQuestionAnswer["selCode"] = curQuestion.selCode
+					classQuestionAnswer["selectGrade"] = curQuestion.selectGrade
+					if (curQuestion.questionType == 2) {
+						classQuestionAnswer["rightAnswer"] = curQuestion.rightAnswer
+					}
+					classReviewRecord[curQuestion.questionId] = classQuestionAnswer
+					uni.setStorageSync(this.reviewRecordKey, classReviewRecord)
+				}
 			},
 			closeCamera() {
 				this.cameraContext.stopRecord({})
@@ -381,6 +431,8 @@
 				}
 				let that = this
 				setTimeout(() => {
+					//保存测评记录
+					this.saveReviewProgress()
 					if (this.questionIndex < this.questionList.length - 1) {
 						this.questionIndex++
 						that.lock = false
@@ -470,12 +522,19 @@
 					let nextInfo = projectClass[a]
 					this.questionList = []
 					this.questionIndex = 0
+					//设置当前下一个量表测评ID
+					uni.setStorageSync("currentClassId", nextInfo.classId)
+					//移除上一个量表缓存
+					uni.removeStorageSync(this.reviewRecordKey)
 					//跳到完成页面
 					uni.redirectTo({
 						url: '/pages/report/guide?classId=' + nextInfo.classId
 					})
 					//this.loadData(reviewClass.classId, reviewClass.title)
 				} else {
+					//移除上一个量表缓存
+					uni.removeStorageSync("currentClassId")
+					uni.removeStorageSync(this.reviewRecordKey)
 					//跳到完成页面
 					uni.redirectTo({
 						url: '/pages/report/finished?classId=' + classId + "&resultId=" + resultId + "&title=" + title
