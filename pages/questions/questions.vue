@@ -84,7 +84,7 @@
 				healthAnalysisResult: {},
 				showCamera: false,
 				cameraContext: {},
-				reviewRecordKey: ''
+				reviewRecordKey: '',
 				evalCode:'',
 				select:'',
 				school:'',
