@@ -8,7 +8,7 @@
 				<view class="title">报告时间: {{item.createTime}}</view>
 				<view class="title" style="display: flex;">
 					<text>报告内容: </text>
-					<view class="testbutton"  @click='detail(item.resultId, item.classId, item.classTitle)'>查看详情</view>
+					<view class="testbutton"  @click='detail(item.resultId, item.classId, item.classTitle,item.reportResult)'>查看详情</view>
 				</view>
 			</view>
 		</view>	
@@ -48,10 +48,19 @@
 			this.loadData()
 		},
 		methods: {
-			detail(resultid, classId, title) {
-				uni.navigateTo({
-					url: '/pages/report/report?source=1&resultId=' + resultid + "&classId=" + classId + "&title=" + title
-				})
+			detail(resultid, classId, title,reportResult) {
+				let dongliangClassId = '402880f082eecb960182eee3b1ef0001'
+				//let pdfUrl = 'https://www.zhuxinkang.com/review/upload2/PDF/create/2022/09/20/cp-20220920204836310.pdf'
+				if(classId == dongliangClassId){
+					//跳转报告查看页面
+					uni.navigateTo({
+						url: '/pages/report/pdfreport?pdfUrl=' + encodeURIComponent(reportResult)
+					})
+				}else{
+					uni.navigateTo({
+						url: '/pages/report/report?source=1&resultId=' + resultid + "&classId=" + classId + "&title=" + title
+					})
+				}
 			},
 			imageError(index) {
 				this.reportList[index]["classCover"] = this.defaultCover
