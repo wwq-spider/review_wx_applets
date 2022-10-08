@@ -55,6 +55,14 @@
 		        "navigationBarTitleText": "测评完成",
 		        "enablePullDownRefresh": false
 		    }
+		},
+		{
+		    "path" : "pages/report/pdfreport",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "分析报告",
+		        "enablePullDownRefresh": false
+		    }
 		}
 		,{
 		  "path": "pages/user/index",
@@ -105,8 +113,26 @@
 		        "enablePullDownRefresh": false,
 		        "navigationBarTitleText": "录制视频"
 		    }
-		}
-        ,{
+		},{
+			"path" : "pages/review/personalInfoConfirm",
+			"style" : {
+			    "enablePullDownRefresh": false,
+			    "navigationBarTitleText": "个人信息确认"
+			}
+		},{
+			"path" : "pages/review/testCode",
+			"style" : {
+			    "enablePullDownRefresh": false,
+			    "navigationBarTitleText": "测评码验证"
+			}
+		},
+		{
+			"path" : "pages/pdf/filePreview",
+			"style" : {
+			    "navigationBarTitleText": "报告生成"
+			}
+		},
+		{
             "path" : "pages/review/detail",
             "style" : {
                 "app-plus": {
@@ -206,5 +232,15 @@
 	},
 	"easycom": {
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
 	}
 }

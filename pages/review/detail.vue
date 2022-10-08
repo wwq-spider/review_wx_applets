@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="article">
+		<view class="article-content">
 			<view class="banner">
 				<!-- 文章开头，缩略图 -->
 				<image class="banner-img" :src="reviewClass.bannerImg || defaultCover" @error="imageError()" mode="aspectFit"></image>
@@ -13,8 +13,8 @@
 					</view>
 				</view>
 			</view>
-			<view class="article-content">
-				<rich-text :nodes="reviewClass.guide" style="font-size: 14px;line-height: 1.8;color:#333"></rich-text>
+			<view class="article-content" style="white-space:pre-wrap">
+				<rich-text :nodes="reviewClass.guide" style="font-size: 12px;line-height: 1.8;color:#333"></rich-text>
 			</view>
 		</view>
 		<view class="organization">
@@ -66,7 +66,7 @@
 				return this.reviewClass.charge == 1
 			}
 		},
-		onLoad(event) {
+		onLoad(event) {			
 			//获取真实id，通常 id 来自上一个页面
 			if(event.classId){
 				this.id = event.classId
@@ -228,10 +228,19 @@
 				}
 				//量表是否收费
 				if(this.reviewClass.charge == 0 || (this.reviewClass.charge == 1 && this.reviewClass.buy)) {
-					//跳转到当前量表
-					uni.navigateTo({
-						url: '/pages/report/guide?classId=' + this.reviewClass.classId
-					})
+					//如果是栋梁测试，先跳转测评码输入页面
+					let dongliangClassId = '402880f082eecb960182eee3b1ef0001';
+					if(this.reviewClass.classId == dongliangClassId){
+						//跳转到测评码输入页面
+						uni.navigateTo({
+							url: '/pages/review/testCode?classId=' + this.reviewClass.classId
+						})
+					}else{
+						//跳转到当前量表
+						uni.navigateTo({
+							url: '/pages/report/guide?classId=' + this.reviewClass.classId
+						})
+					}
 				} else {
 					uni.showToast({
 					    title: "用户未购买"

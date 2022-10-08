@@ -75,6 +75,11 @@ export const postIsExpert = (data) => http.post(`${config.baseUrl}/reviewFront/e
 export const postsendMessage = (data) => http.post(`${config.baseUrl}/reviewFront/subscribeMessage/sendSubscribeMessage.do`, data)
 //给专家发送房间号
 export const postSendRoomId = (data) => http.post(`${config.baseUrl}/reviewFront/expert/sendRoomId.do`, data)
-
+//栋梁测试-验证测评码
+export const postVerifyEvalCode = (data) => http.post(`${config.baseUrl}/reviewFront/dongLiang/verifyEvalCode.do`, data)
+//栋梁测试-提交测评
+export const postCommitTest = (data) => http.post(`${config.baseUrl}/reviewFront/dongLiang/commitTest.do`, data)
+//获取pdf文件流供前端预览
+export const getPDFStream = (data) => http.get(`${config.baseUrl}/reviewFront/dongLiang/getPDFStream.do`, data)
 /* //创建预约腾讯会议
 export const postCreateTXMeeting = (data) => http.post(`${config.baseUrl}/reviewFront/meeting/creatMeeting.do`, data) */
