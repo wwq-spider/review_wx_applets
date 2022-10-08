@@ -226,6 +226,8 @@
 		&.active {
 			display: block;
 		}
+		height: 100%;
+		overflow-y: hidden;
 	}
 	.title {
 		color: #594e3f;
