@@ -452,7 +452,9 @@
 							var objnew = {
 								'testCode':this.evalCode,
 								'userInfo':objUser,
-								'testRecord':resultList
+								'testRecord':resultList,
+								'classId':dongliangClassId,
+								'projectId':projectId
 							}
 							paramList.push(objnew)
 							//let pdfUrl = 'https://www.zhuxinkang.com/review/upload2/PDF/create/2022/09/20/cp-20220920204836310.pdf'
