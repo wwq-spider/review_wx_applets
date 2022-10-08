@@ -2,7 +2,7 @@
 	<view>
 		<view class="report combg">
 			<view><uni-icons type="checkbox" size="100" style="margin-left: 30%;" color="#EFE4C8"></uni-icons></view>
-			<view style="text-align: center;"><text>您已完成所有测试，下一步将为您生成分析报告，点击确定开始生成</text></view>
+			<view style="text-align: center;"><text>该测试已完成，点击确定开始加载报告</text></view>
 			<view style="display: flex;">
 				<button class="savebutton" @click="viewReport">确定</button>
 				<button class="savebutton" @click="toIndex">返回首页</button>
@@ -47,7 +47,7 @@
 			viewReport(){
 				console.log('pdfUrl',this.pdfUrl)
 				uni.showLoading({
-					title: '报告生成中...',
+					title: '报告加载中...',
 				})
 				wx.downloadFile({	
 					url:this.pdfUrl,
