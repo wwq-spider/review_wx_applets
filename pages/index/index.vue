@@ -163,7 +163,7 @@
 					setTimeout(() => {
 						let userData = uni.getStorageSync("userData")
 						let projectId = that.projectId
-						if(userData ) {
+						if(userData) {
 							that.$apis.postJoinUserGroup({"userId": userData.userId, "projectId": projectId}).then(res => {
 								console.log("joinUserGroup===" + JSON.stringify(res))
 							})
@@ -213,10 +213,13 @@
 				//如果未登录且是扫二维码进来的 则跳转到第一个量表
 				let projectClass = uni.getStorageSync("projectClass")
 				if(projectClass && projectClass.length > 0) {
-					let classInfo = projectClass[0]
+					let currentClassId = uni.getStorageSync("currentClassId")
+					if (!currentClassId || currentClassId == '') {
+						currentClassId = projectClass[0].classId
+					}
 					uni.redirectTo({
 						//url: '/pages/questions/questions?classId=' + projectClass[0].classId + "&title=" + projectClass[0].title
-						url: '/pages/report/guide?classId=' + classInfo.classId
+						url: '/pages/report/guide?classId=' + currentClassId
 					})
 				} else {
 					uni.showToast({
