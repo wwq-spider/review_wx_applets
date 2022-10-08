@@ -34,6 +34,9 @@
 		<view v-else>
 			<button class="testbutton" @click="videoTest()" disabled="true">发起视频咨询</button>
 		</view>
+		<!-- <view>
+			<button class="testbutton" @click="videoTest()">发起视频咨询</button>
+		</view> -->
 		
 		<view class="consultationD-headicon">
 			<button class="paybutton" style="margin-left: 280rpx;"  @click="buy" :disabled="consultationDetail.buy" v-if="consultationDetail.charge==1">{{buyBtnText}}</button>
@@ -277,6 +280,8 @@
 		&.active {
 			display: block;
 		}
+		height: 100%;
+		overflow-y: hidden;
 	}
 	.consultationD-headicon {
 		width: 110%;
