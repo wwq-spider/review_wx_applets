@@ -49,12 +49,28 @@ export default {
 		  	uni.hideLoading()
 		  	if (res.code == 200) {
 		  		res.result.forEach((row) => {
+					//给专家发送房间号
+					/* this.$apis.postSendRoomId({'roomId': options.roomID,'expertPhone':options.mobilePhone}).then(res => {
+						if (res.code == 200) {
+							console.log('给专家发送房间号成功')
+						} else {
+							uni.showToast({
+								title: res.msg
+							})
+						}
+					}).catch(err => {
+						console.log(err)
+					}) */
 		  			if(res.videoConsult != 'Y'){
 		  				uni.showModal({
 		  					title:'提示',
 							content:'未到预约时间或预约订单未支付',
 							success:function(res){
 								if(res.confirm){
+									uni.reLaunch({
+										url: '/pages/expert/consultationDetail?id='+ options.consulId
+									})
+								}else{
 									uni.reLaunch({
 										url: '/pages/expert/consultationDetail?id='+ options.consulId
 									})
