@@ -11,7 +11,12 @@
 					<view class="title">{{item.className}}</view>
 					<view class="subtitle">订单号: {{item.orderNo}}</view>
 					<view class="subtitle">订购时间: {{item.operateTime}}</view>
-					<view class="testbutton" @click='beginTest(item.classId)' >开始测评</view>
+					<!-- <view v-if="item.isExistClass == 0" class="subtitle">序号: {{item.classId}}</view> -->
+					<view v-if="item.isExistClass == 0" class="subtitle">
+						<text>序号: {{item.classId}}</text>
+						<view class="testbutton" @click='copyClick(item.classId)'>复制序号</view>
+					</view>
+					<view v-if="item.isExistClass > 0"  class="testbutton" @click='beginTest(item.classId)' >开始测评</view>
 				</view>
 			</view>
 		</view>	
@@ -91,6 +96,21 @@
 					that.tipShow  = false
 					console.log(err)
 				})
+			},
+			copyClick(classid){
+				uni.setClipboardData({
+				    data:classid,
+				    success: function (res) {
+				        uni.getClipboardData({
+				        success: function (res) {
+				            uni.showToast({
+				                title: "复制成功",
+				                icon: 'none',
+				            });
+				        },
+				        });
+				    },
+				});
 			}
 		},
 		/**

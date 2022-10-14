@@ -342,7 +342,7 @@
 					projectId = 0
 				}
 				//如果是项目测评 就保存当前测评进度
-				if (projectId > 0) {
+				if (projectId > 0 || this.classId == '402880f082eecb960182eee3b1ef0001') {
 					//存储当前量表
 					uni.setStorageSync("currentClassId", this.classId)
 					let classReviewRecord = uni.getStorageSync(this.reviewRecordKey)

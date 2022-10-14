@@ -1,4 +1,4 @@
-import http from '@/config/requestConfig'
+import http from '@/config/requestConfig';
 import config from "@/config/index.config.js";
 
 //分析视频路径
@@ -81,5 +81,13 @@ export const postVerifyEvalCode = (data) => http.post(`${config.baseUrl}/reviewF
 export const postCommitTest = (data) => http.post(`${config.baseUrl}/reviewFront/dongLiang/commitTest.do`, data)
 //获取pdf文件流供前端预览
 export const getPDFStream = (data) => http.get(`${config.baseUrl}/reviewFront/dongLiang/getPDFStream.do`, data)
+//获取测评码
+export const postGetEvalCode = (data) => http.post(`${config.baseUrl}/reviewFront/dongLiang/getEvalCode.do`, data)
+//创建预支付订单--栋梁测评码购买
+export const postEvalCodePrePayOrder = (data) => http.post(`${config.baseUrl}/reviewFront/order/createEvalCodePrePayOrder.do`, data)
+//测评码订单未支付时，恢复测评码状态
+export const postUpdateEvalCodeStock = (data) => http.post(`${config.baseUrl}/reviewFront/dongLiang/updateEvalCodeStock.do`, data)
+//获取测评码价格
+export const postEvalPrice = (data) => http.post(`${config.baseUrl}/reviewFront/dongLiang/getEvalPrice.do`, data)
 /* //创建预约腾讯会议
 export const postCreateTXMeeting = (data) => http.post(`${config.baseUrl}/reviewFront/meeting/creatMeeting.do`, data) */
