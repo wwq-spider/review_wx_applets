@@ -3,7 +3,10 @@
 		<view class="report combg">
 			<view><uni-icons type="checkbox" size="100" style="margin-left: 30%;" color="#EFE4C8"></uni-icons></view>
 			<view style="text-align: center;"><text>您已完成本次测评</text></view>
-			<view style="display: flex;">
+			<view style="display: flex;" v-if="projectId == 27">
+				<button class="savebutton" @click="toIndex">返回首页</button>
+			</view>
+			<view style="display: flex;" v-if="projectId != 27">
 				<button class="savebutton" @click="viewReport">查看报告</button>
 				<button class="savebutton" @click="toIndex">返回首页</button>
 			</view>
@@ -31,6 +34,9 @@
 			if (option.title) {
 				this.classTitle = option.title
 			}
+			if (option.projectId) {
+				this.projectId = option.projectId
+			}
 		},
 		data() {
 			return {
@@ -45,7 +51,8 @@
 					tel: ''
 				},
 				classId: '',
-				resultId: ''
+				resultId: '',
+				projectId:''
 			}
 		},
 		methods: {

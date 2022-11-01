@@ -140,7 +140,17 @@
 							// 触发器可以同时用blur和change
 							trigger: ['change', 'blur'],
 						}
-					]
+					],
+					select: [{
+						required: true,
+						message: '请选择地区',
+						trigger: ['change', 'blur']
+					}],
+					school: [{
+						required: true,
+						message: '请选择地区',
+						trigger: ['change', 'blur']
+					}]
 				},
 				countDown: 60,
 				timer: {},
@@ -165,6 +175,21 @@
 		methods: {
 			//确认个人信息后跳转到当前量表
 			submit() {
+				if(this.select == '选择省市区') {
+					uni.showToast({
+						title: "请选择地区",
+						icon:"none"
+					})
+					return 
+				}
+				if(!this.form.school) {
+					uni.showToast({
+						title: "请填写学校",
+						icon:"none"
+					})
+					return 
+				}
+				
 				let that = this
 				uni.navigateTo({
 					url: '/pages/report/guide?classId='+ that.classid + '&userId=' + that.form.userId + '&name=' + encodeURIComponent(that.form.userName) + '&sex=' + that.form.sex + '&age=' + that.form.age + '&select=' + encodeURIComponent(that.select) + '&school=' + encodeURIComponent(that.form.school) + '&evalCode=' + that.evalCode

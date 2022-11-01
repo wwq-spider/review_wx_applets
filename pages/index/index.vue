@@ -52,35 +52,37 @@
 			</view>
 		</view>
 	
-		<view class="_scroll-list" >
-			<uni-notice-bar v-if="pCount > 0" style="width: 100%;" background-color="blank" :text="`本次测评共由 ${pCount} 个量表组成，单个量表完成可自动进入下一个量表测评，若中途退出将重新开始测评。`"></uni-notice-bar>
+		<view class="_scroll-list" color="#cfd6d5">
+			<uni-notice-bar v-if="pCount > 0" style="width: 100%;" color="#8c908f" background-color="blank" :text="`项目介绍：${projectDesc}`"></uni-notice-bar>
+			<uni-notice-bar v-if="pCount > 0" color="#8c908f" style="width: 100%;" background-color="blank" :text="`本次测评共由 ${pCount} 个量表组成，单个量表完成可自动进入下一个量表测评，若中途退出将重新开始测评。`"></uni-notice-bar>
 			<view v-if="pCount > 0" class="savebutton" @click="startTest">开始测试</view>
 		</view>
-		
-		<view class="_scroll-list">
-			<view class="_scroll-head">
-				<uni-icons type="list" size="20" color="#d6b477"></uni-icons>
-				<text class="_text">列表</text>
-			</view>
-		</view>
-		
-		<view class="question" v-for="(reviewClass, index) in reviewClassList">
-			<view class="questionr" @click='beginTest(reviewClass.classId, reviewClass.title)' :key="index">
-				<view class="questionl">
-					<image class="questionlimg" mode="scaleToFill" :src="reviewClass.bannerImg || defaultCover" @error="imageError(0, index, 2)"></image>
+		<view v-if="isshow == 1">
+			<view class="_scroll-list">
+				<view class="_scroll-head">
+					<uni-icons type="list" size="20" color="#d6b477"></uni-icons>
+					<text class="_text">列表</text>
 				</view>
-				<view style="width: 60%;">
-					<!-- <uni-icons custom-prefix="iconfont" type="icon-qian" size="30"></uni-icons> -->
-					<view class="title">{{reviewClass.title}}</view>
-					<view class="subtitle">{{reviewClass.classDesc}}</view>
-					<view v-if="reviewClass.charge==1">
-						<span class="iconfont" style="color: #df7a58;font-size: 9px;">&#xe606;{{reviewClass.realPrice}}</span>
-						<span class="iconfont" style="padding-left: 5px; color: #857f77;font-size: 9px;text-decoration:line-through;" v-if="reviewClass.dicounPrice != '0' && reviewClass.dicounPrice != '0.00'">&#xe606;{{reviewClass.orgPrice}}</span>
-						<span style="padding-left: 10px; color: #857f77; font-size: 9px;">{{reviewClass.buyCount}}人付款</span>
+			</view>
+		
+			<view class="question" v-for="(reviewClass, index) in reviewClassList">
+				<view class="questionr" @click='beginTest(reviewClass.classId, reviewClass.title)' :key="index">
+					<view class="questionl">
+						<image class="questionlimg" mode="scaleToFill" :src="reviewClass.bannerImg || defaultCover" @error="imageError(0, index, 2)"></image>
+					</view>
+					<view style="width: 60%;">
+					
+						<view class="title">{{reviewClass.title}}</view>
+						<view class="subtitle">{{reviewClass.classDesc}}</view>
+						<view v-if="reviewClass.charge==1">
+							<span class="iconfont" style="color: #df7a58;font-size: 9px;">&#xe606;{{reviewClass.realPrice}}</span>
+							<span class="iconfont" style="padding-left: 5px; color: #857f77;font-size: 9px;text-decoration:line-through;" v-if="reviewClass.dicounPrice != '0' && reviewClass.dicounPrice != '0.00'">&#xe606;{{reviewClass.orgPrice}}</span>
+							<span style="padding-left: 10px; color: #857f77; font-size: 9px;">{{reviewClass.buyCount}}人付款</span>
+						</view>
 					</view>
 				</view>
-			</view>
-		</view>	
+			</view>	
+		</view>
 	</view>
 </template>
 <script>
@@ -104,7 +106,9 @@
 				projectClassIdsObj: {},
 				subjectList: [], //测评专题列表
 				noticeList: [],
-				bannerList: []
+				bannerList: [],
+				isshow : 1,
+				projectDesc:''
 			}
 		},
 		computed: {
@@ -277,11 +281,15 @@
 					that.reviewClassList = []
 					that.hotList = []
 					if (res.code == 200) {
+						
+						//this.isshow = res.isshow
 						if(pullRefresh) {
 							uni.stopPullDownRefresh()
 						}
 						let projectClass = []
 						res.rows.forEach((row) => {
+							console.log('projectId:',that.projectId)
+							console.log('row.type:',row.type)
 							if (row.bannerImg) {
 								row.bannerImg = that.$config.aliYunEndpoint + row.bannerImg
 							}
@@ -289,6 +297,8 @@
 								that.hotList.push(row)
 							} else {
 								that.reviewClassList.push(row)
+								this.isshow = row.showClass
+								this.projectDesc = row.projectDesc
 							}
 							if(pid && pid > 0) {
 								row.charge = 0

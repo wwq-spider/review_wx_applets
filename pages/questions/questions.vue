@@ -474,8 +474,8 @@
 							projectId = 0
 						}
 						let dongliangClassId = '402880f082eecb960182eee3b1ef0001';
-						
-						if(this.classId == dongliangClassId){//栋梁测评
+						let dongliangClassProId = '2c9cff928408eab3018413a00d8a006a';
+						if(this.classId == dongliangClassId || this.classId == dongliangClassProId){//栋梁测评
 							for (var i = 0; i < this.questionList.length; i++) {
 								var q = this.questionList[i]
 								var obj = {
@@ -499,15 +499,23 @@
 							}
 						
 							var paramList = []
+							var version  = ''
+							if(this.classId == dongliangClassId){
+								version = 1
+							}
+							if(this.classId == dongliangClassProId){
+								version = 2
+							}
 							var objnew = {
 								'testCode':this.evalCode,
 								'userInfo':objUser,
 								'testRecord':resultList,
-								'classId':dongliangClassId,
-								'projectId':projectId
+								'classId':this.classId,
+								'projectId':projectId,
+								'version':version
 							}
 							paramList.push(objnew)
-							//let pdfUrl = 'https://www.zhuxinkang.com/review/upload2/PDF/create/2022/09/20/cp-20220920204836310.pdf'
+							//let pdfUrl = 'https://www.zhuxinkang.com/review/upload2/PDF/create/2022/09/20/cp-20220920204836310.pdf'						
 							//提交测评数据
 							this.$apis.postCommitTest(paramList).then(res => {
 								that.lock = false
@@ -550,6 +558,7 @@
 							}
 							//提交测评数据 
 							this.$apis.postCompleteReview(resultList).then(res => {
+								let projectId = uni.getStorageSync("projectId")
 								that.lock = false
 								uni.hideLoading()
 								if (res.code == 200) {
@@ -557,7 +566,7 @@
 										title: '测评完成，报告已生成',
 										icon: 'right'
 									});
-									that.finished(res.result.classId, res.result.resultId, that.title)
+									that.finished(res.result.classId, res.result.resultId, that.title,projectId)
 									// uni.navigateTo({
 									// 	url: '/pages/report/report?resultId=' + res.result.resultId + "&title=" + that.title
 									// });
@@ -595,7 +604,7 @@
 				}
 				return a
 			},
-			finished: function(classId, resultId, title) { //完成测评处理
+			finished: function(classId, resultId, title,projectId) { //完成测评处理
 				let projectClass = uni.getStorageSync("projectClass")
 				let a = this.getNextIndex(classId, false)
 				//跳到下一个量表测试
@@ -623,7 +632,7 @@
 					uni.removeStorageSync(this.reviewRecordKey)
 					//跳到完成页面
 					uni.redirectTo({
-						url: '/pages/report/finished?classId=' + classId + "&resultId=" + resultId + "&title=" + title
+						url: '/pages/report/finished?classId=' + classId + "&resultId=" + resultId + "&title=" + title + "&projectId=" + projectId
 					})
 				}
 			},

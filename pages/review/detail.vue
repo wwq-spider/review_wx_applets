@@ -14,7 +14,7 @@
 				</view>
 			</view>
 			<view class="article-content" style="white-space:pre-wrap">
-				<rich-text :nodes="reviewClass.guide" style="font-size: 12px;line-height: 1.8;color:#333"></rich-text>
+				<rich-text :nodes="reviewClass.classDesc" style="font-size: 12px;line-height: 1.8;color:#333"></rich-text>
 			</view>
 		</view>
 		<view class="organization">
@@ -230,7 +230,8 @@
 				if(this.reviewClass.charge == 0 || (this.reviewClass.charge == 1 && this.reviewClass.buy)) {
 					//如果是栋梁测试，先跳转测评码输入页面
 					let dongliangClassId = '402880f082eecb960182eee3b1ef0001';
-					if(this.reviewClass.classId == dongliangClassId){
+					let dongliangClassProId = '2c9cff928408eab3018413a00d8a006a';
+					if(this.reviewClass.classId == dongliangClassId || this.reviewClass.classId == dongliangClassProId){
 						//跳转到测评码输入页面
 						uni.navigateTo({
 							url: '/pages/review/testCode?classId=' + this.reviewClass.classId

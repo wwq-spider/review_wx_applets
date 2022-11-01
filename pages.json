@@ -212,12 +212,14 @@
 	      "text": "首页",
 		  "iconPath": "static/home.png",
 		  "selectedIconPath": "static/home-active.png"
-	    }, {
+	    },
+		/* {
 	      "pagePath": "pages/expert/expert",
-	      "text": "咨询",
+	      "text": "访谈",
 		  "iconPath": "static/user.png",
 		  "selectedIconPath": "static/user-active.png"
-	    },{
+	    }, */
+		{
 			"pagePath": "pages/user/index",
 			"text": "我的",
 			"iconPath": "static/user.png",
