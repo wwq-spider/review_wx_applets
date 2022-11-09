@@ -371,7 +371,7 @@
 		/* margin: 100rpx auto; */
 		text-align: center;
 		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
-		background-color: #d0b074;
+		background-color: #55aaff;
 		border-radius: 6px !important;
 	}
 	

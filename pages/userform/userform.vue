@@ -8,7 +8,7 @@
 					</u-form-item>
 					<u-form-item label="性别" prop="sex" required label-width="140" border-bottom>
 						<u-radio-group v-model="form.sex">
-							<u-radio active-color="#EFE4C8" v-for="(item, index) in sexList" :key="item.code"
+							<u-radio active-color="#55aaff" v-for="(item, index) in sexList" :key="item.code"
 								:name="item.code" :disabled="item.disabled">
 								{{ item.name }}
 							</u-radio>
@@ -30,7 +30,7 @@
 					<view style="margin-bottom: 30px;"  v-if="showExtra" >
 						<text style="font-size: 12px; color: #565654;">自入学至今，你有生病或受伤吗？</text>
 						<u-radio-group v-model="form.extraObj.isSick">
-							<u-radio active-color="#EFE4C8" v-for="(item, index) in yesOrNo" :key="item.code"
+							<u-radio active-color="#55aaff" v-for="(item, index) in yesOrNo" :key="item.code"
 								:name="item.code" :disabled="item.disabled" @change="sickChange" :checked="item.checked">
 								{{ item.name }}
 							</u-radio>
@@ -359,11 +359,12 @@
 	.roundcenter {
 		width: 686rpx;
 		margin: 60rpx auto 0 auto;
-		background: #f8f7f1;
+		background: #ffffff;
 		 /* background: url(../../static/background.png); */
 		/* box-shadow: 0 40rpx 0 -22rpx rgb(221 138 0 / 23%), 0 -9px 0 0 rgb(105 100 87 / 14%) inset; */
 		/* box-shadow: 0 0 30rpx 0 #e4d3b0; */
-		border: 2px solid #EFE4C8;
+		/* border: 2px solid #afe3ff; */
+		/* box-shadow: 0 40rpx 0 -22rpx #b3b3b3; */
 		border-radius: 50rpx;
 	}
 
@@ -416,7 +417,8 @@
 		margin: 40rpx auto;
 		text-align: center;
 		/* background: url(../../static/background.png) no-repeat 50%/100%; */
-		background-color: #EFE4C8;
+		background-color: #97cdff;
+		/* box-shadow: 0 30rpx 0 -10rpx #b3b3b3; */
 	}
 	.msgbutton {
 		width: 160rpx;
@@ -426,7 +428,7 @@
 		font-weight: 700;
 		/* margin: 10rpx auto; */
 		text-align: center;
-		background-color: #EFE4C8;
+		background-color: #97cdff;
 		/* margin-bottom: 10px;*/
 		float: right;
 	}

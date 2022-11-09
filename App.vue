@@ -71,7 +71,8 @@
 		padding: 30rpx;
 		margin: 30rpx auto;
 		background: #fff;
-		box-shadow: 0 40rpx 0 -22rpx rgb(221 138 0 / 23%), 0 -9rpx 0 0 rgb(105 100 87 / 14%) inset;
+		/* box-shadow: 0 40rpx 0 -22rpx rgb(221 138 0 / 23%), 0 -9rpx 0 0 rgb(105 100 87 / 14%) inset; */
+		box-shadow: 0 32rpx 0 -22rpx #c2e3ff, 0 -9rpx 0 0 #aacfff inset;
 		border-radius: 50rpx;
 	}
 	.uicon{

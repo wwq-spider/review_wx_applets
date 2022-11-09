@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="report combg">
-			<view><uni-icons type="checkbox" size="100" style="margin-left: 30%;" color="#EFE4C8"></uni-icons></view>
+			<view><uni-icons type="checkbox" size="100" style="margin-left: 30%;" color="#66f06f"></uni-icons></view>
 			<view style="text-align: center;"><text>您已完成本次测评</text></view>
 			<view style="display: flex;" v-if="projectId == 27">
 				<button class="savebutton" @click="toIndex">返回首页</button>
@@ -211,7 +211,7 @@
 		margin: 100rpx auto;
 		text-align: center;
 		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
-		background-color: #EFE4C8;
+		background-color: #77beff;
 	}
 	
 	.title {

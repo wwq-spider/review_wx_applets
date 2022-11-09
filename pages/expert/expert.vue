@@ -171,23 +171,12 @@
 		-webkit-box-orient: vertical;
 	}
 	.savebutton {
-		/* width: 100rpx;
-		line-height: 50rpx;
-		color: #594e3f;
-		font-size: 32rpx;
-		font-weight: 700;
-		margin: 40rpx auto;
-		text-align: center;
-		//background-color: #B0E0E6;
-		background-color: #febd00;
-		margin-left:10rpx;
-		vertical-align: middle; */
-		
 		width: 120rpx;
 		line-height: 60rpx;
-		background: #EFE4C8;
+		background: #77beff;
 		text-align: center;
 		font-size: 26rpx;
+		font-weight: 700;
 		color: black;
 		margin-top: 25%;
 	}

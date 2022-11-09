@@ -205,7 +205,7 @@
     ],
 	"tabBar": {
 		"color": "#333",
-		"selectedColor": "#d6b477",
+		"selectedColor": "#55aaff",
 		"backgroundColor": "#ffffff",
 	    "list": [{
 	      "pagePath": "pages/index/index",
@@ -228,9 +228,9 @@
 	  },
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "筑心康5G+心理健康管理平台",
+		"navigationBarTitleText": "心宅同行心理健康服务平台",
 		"navigationBarBackgroundColor": "#FFFFFF",
-		"backgroundColor": "#EFE4C8"
+		"backgroundColor": "#f4fff5"
 	},
 	"easycom": {
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"

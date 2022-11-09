@@ -351,7 +351,7 @@
 	.testbutton {
 		width: 120rpx;
 		line-height: 50rpx;
-		background: #EFE4C8;
+		background: #77beff;
 		text-align: center;
 		font-size: 26rpx;
 		color: black;

@@ -29,7 +29,7 @@
 		<view v-for="(subject, index1) in subjectList" style="width: 100%;">
 			<view class="_scroll-list" v-if="subject.classList.length > 0">
 				<view class="_scroll-head" v-if="subject.classList.length > 0">
-					<uni-icons type="list" size="20" color="#55aaff"></uni-icons>
+					<uni-icons type="list" size="16" color="#55aaff"></uni-icons>
 					<!-- <image src="@/static/ic-label.png" mode="widthFix"  style="width: 25rpx; height: 25rpx;" class="_img"></image> -->
 					<text class="_text">{{subject.subjectName}}</text>
 				</view>
@@ -131,19 +131,19 @@
 		},
 		onShareAppMessage(res) {
 		    return {
-		      title: '筑心康5G+心理健康管理平台',
+		      title: '心宅同行心理健康服务平台',
 		      path: 'pages/index/index?source=1'
 		    }
 		},
 		onShareTimeline() {
 			return {
-			  title: '筑心康5G+心理健康管理平台',
+			  title: '心宅同行心理健康服务平台',
 			  path: 'pages/index/index?source=1'
 			}
 		},
 		onLoad(option) {
 			uni.showShareMenu({
-				title: '筑心康5G+心理健康管理平台',
+				title: '心宅同行心理健康服务平台',
 				path: 'pages/index/index?source=1'
 			})
 			if(option && option.scene) {
@@ -526,9 +526,9 @@
 		margin-right: 10rpx;
 	}
 	._scroll-head ._text {
-		font-size: 32rpx;
-		font-weight: bold;
-		color: #74bcff;
+		font-size: 30rpx;
+		/* font-weight: bold; */
+		color: #737373;
 		padding-left: 8px;
 	}
 	.scroll-list {
@@ -719,6 +719,6 @@
 		margin: 40rpx auto;
 		text-align: center;
 		/* background: url(../../static/savebtn.png) no-repeat 50%/100%; */
-		background-color: #EFE4C8;
+		background-color: #80ccff;
 	}
 </style>

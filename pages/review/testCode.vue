@@ -7,7 +7,7 @@
  						<u-input v-model="form.evalCode" placeholder="无测评码？请点击立即购买"/>
  					</u-form-item>
 					<view class="paybutton" @click="evalCodeBuy">立即购买</view>
-					<view style="font-size: 28rpx; margin-top: 20rpx; color: #D0B074;"><text>可在我的订购中查看已购买的测评码</text></view>
+					<view style="font-size: 28rpx; margin-top: 20rpx; color: #757575;"><text>可在我的订购中查看已购买的测评码</text></view>
  				</u-form>
 				<view class="savebutton" @click="submit">下一步</view>
  			</view>
@@ -221,8 +221,8 @@
  	.roundcenter {
  		width: 686rpx;
  		margin: 60rpx auto 0 auto;
- 		background: #f8f7f1;
- 		border: 2px solid #EFE4C8;
+ 		background: #ffffff;
+ 		border: 1px solid #55aaff;
  		border-radius: 50rpx;
  	}
  	.formcontent {
@@ -241,7 +241,7 @@
  		font-weight: 700;
  		margin: 40rpx auto;
  		text-align: center;
- 		background-color: #EFE4C8;
+ 		background-color: #70bdff;
  	}
 	.notefont {
 		text-align: center;
@@ -272,7 +272,7 @@
 		/* margin: 100rpx auto; */
 		text-align: center;
 		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
-		background-color: #d0b074;
+		background-color: #55aaff;
 		border-radius: 6px !important;
 	}
 	

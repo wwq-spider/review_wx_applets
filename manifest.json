@@ -77,7 +77,7 @@
         "devServer" : {
             "https" : false
         },
-        "title" : "筑心康心理服务",
+        "title" : "心宅同行心理服务",
         "router" : {
             "mode" : "history",
             "base" : "./"

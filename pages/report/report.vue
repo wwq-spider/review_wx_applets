@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="report_combg">
+		<view class="report combg">
 			<!-- <view class="listtitle">
 				<image class="titlea" src="@/static/titlec.png"></image><text>测评报告</text>
 			</view>
@@ -183,7 +183,7 @@
 
 	.subtitle {
 		font-size: 30rpx;
-		color: #c1952e;
+		color: #1a89ff;
 		margin: 20rpx auto;
 	}
 
@@ -267,7 +267,8 @@
 		margin: 40rpx auto;
 		text-align: center;
 		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
-		background-color: #EFE4C8;
+		background-color: #6cc4ff;
+		margin-bottom: 10rpx;
 	}
 	
 	.title {
@@ -305,13 +306,13 @@
 		width: 100%; 
 		margin: 20rpx auto;
 	}
-	.report_combg {
+	/* .report_combg {
 		width: 93%;
 		padding: 10rpx;
 		margin: 10rpx auto;
 		background: #fff;
-		box-shadow: 0 40rpx 0 -22rpx rgb(221 138 0 / 23%), 0 -9rpx 0 0 rgb(105 100 87 / 14%) inset;
+		box-shadow: 0 40rpx 0 -22rpx rgb(105 100 87 / 14%), 0 -9rpx 0 0 rgb(105 100 87 / 14%) inset;
 		border-radius: 50rpx;
 		
-	}
+	} */
 </style>

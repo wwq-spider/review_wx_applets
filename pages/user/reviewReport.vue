@@ -266,11 +266,12 @@
 	.reportr .testbutton {
 		width: 140rpx;
 		line-height: 54rpx;
-		background: #febd00;
+		background: #55aaff;
 		//border-radius: 27rpx;
 		text-align: center;
 		font-size: 26rpx;
 		color: #fff;
-		margin-left: 10px;
+		margin-left: 6px;
+		margin-bottom: 10rpx;
 	}
 </style>

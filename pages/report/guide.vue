@@ -5,7 +5,6 @@
 			<view class="_subtitle">{{reviewClass.guide}}</view>
 			<view class="savebutton" @click="startTest">进入测试</view>
 		</view>
-		</view>
 	</view>
 </template>
 <script>
@@ -117,7 +116,7 @@
 
 <style>
 	.page {
-		background-color: #EFE4C8;
+		background-color: #55aaff;
 	}
 
 	.userimg {
@@ -153,23 +152,24 @@
 		margin: 100rpx auto;
 		text-align: center;
 		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
-		background-color: #EFE4C8;
+		background-color: #77beff;
+		margin-bottom: 10rpx;
 	}
 	
-	.title {
+	.title {	
 		color: #594e3f;
 		font-size: 40rpx;
 		font-weight: 700;
 		text-overflow: -o-ellipsis-lastline;
-		 overflow: hidden;
-		 text-overflow: ellipsis;
-		 display: -webkit-box;
-		 -webkit-line-clamp: 1; //可设置显示的行数
-		 line-clamp: 1;
-		 -webkit-box-orient: vertical;
-		 width: 100%;
-		 text-align: center;
-		 margin-bottom: 20px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1; //可设置显示的行数
+		line-clamp: 1;
+		-webkit-box-orient: vertical;
+		width: 100%;
+		text-align: center;
+		margin-bottom: 20px;
 	}
 	
 	._subtitle {

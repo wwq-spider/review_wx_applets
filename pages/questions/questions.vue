@@ -2,15 +2,15 @@
 	<view>
 		<camera device-position="front" @error="error" style="width: 0px; height: 0px" v-if="showCamera"></camera>
 		<view class="questionprogress combg">
-			<view v-if="classCount > 0" style="text-align: center; color: #d89c4f; margin-bottom: 10px;">量表: {{firstfloorindex}}/{{classCount}}</view>
+			<view v-if="classCount > 0" style="text-align: center; color: #2fba2f; margin-bottom: 10px;">量表: {{firstfloorindex}}/{{classCount}}</view>
 			<view class="conttop">
 				<view class="conttopl">
-					<u-icon name="clock" color="#EFE4C8" size="20" class="uicon"></u-icon>
+					<u-icon name="clock" color="#35d33f" size="40" class="uicon"></u-icon>
 					<text>题目进度: ({{questionIndex+1}}/{{questionList.length}})</text>
 				</view>
 			</view>
 			<view class="progress-box">
-				<u-line-progress active-color="#EFE4C8" :percent="secondfloorper"></u-line-progress>
+				<u-line-progress active-color="#35d33f" :percent="secondfloorper"></u-line-progress>
 			</view>
 			<!-- <view class="btitle">{{capitalindex[firstfloorindex]}}、{{qdata[firstfloorindex].title}}</view>
 			<view class="progress-box">
@@ -34,16 +34,16 @@
 			</view>
 			<!--问答题-->
 			<view v-if="questionList[questionIndex].questionType=='2'">
-				<textarea placeholder-style="color:#969592" style="border: 1rpx solid #EFE4C8; width: 100%; border-radius: 10px;" 
+				<textarea placeholder-style="color:#969592" style="border: 1rpx solid #92d6ff; width: 100%; border-radius: 10px;" 
 				placeholder="请输入答案" v-model="questionList[questionIndex].rightAnswer"/>
 			</view>
 			<!--多选题-->
 			<checkbox-group @change="mulSelChange"  v-if="questionList[questionIndex].questionType=='3'">
 				<label class="uni-list-cell uni-list-cell-pd" v-for="item in items" :key="item.selCode">
 					<view>
-						<checkbox :value="item.selCode" :checked="item.answerchecked" color="#D0B074"/>
+						<checkbox :value="item.selCode" :checked="item.answerchecked" color="#55aaff"/>
 					</view>
-					<view style="font-size: 15px; color: #D0B074;">{{item.selCode}}.{{item.selectContent}}</view>
+					<view style="font-size: 15px; color: #74a9ff;">{{item.selCode}}.{{item.selectContent}}</view>
 				</label>
 			</checkbox-group>
 			
@@ -51,11 +51,11 @@
 		</view>
 		<view style="display: flex; width: 60%; margin-left: 25%;">
 			<view class="back" v-on:click="back" v-show="questionIndex">
-				<u-icon name="play-left-fill" color="#ffe18a" size="28" class="uicon"></u-icon><text>返回上一题</text>
+				<u-icon name="play-left-fill" color="#77beff" size="28" class="uicon"></u-icon><text>返回上一题</text>
 			</view>
 			<view class="back" style="margin-left: 20px;" v-on:click="nextQuestion" 
 				v-show="(questionList[questionIndex].questionType=='2' || questionList[questionIndex].questionType=='3') && questionIndex < questionList.length - 1">
-				<text>下一题</text><u-icon name="play-right-fill" color="#ffe18a" size="28" class="uicon"></u-icon>
+				<text>下一题</text><u-icon name="play-right-fill" color="#55aaff" size="28" class="uicon"></u-icon>
 			</view>
 			<view class="back" style="margin-left: 10px;" v-show="questionIndex == questionList.length - 1">
 				<button class="savebutton" @click="submit" :disabled="lock">提交</button>
@@ -705,7 +705,7 @@
 	}
 
 	.questest .listitem.active {
-		background: #EFE4C8;
+		background: #93d6ff;
 	}
 
 
@@ -730,7 +730,8 @@
 		/* margin: 40rpx auto; */
 		text-align: center;
 		/* background: url(../../static/background.png) no-repeat 50%/100%; */
-		background-color: #ffe18a;
+		background-color: #77beff;
+		margin-top: -5rpx;
 	}
 	
 	.uni-list-cell {

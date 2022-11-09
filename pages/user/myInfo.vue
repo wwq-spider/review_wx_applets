@@ -8,7 +8,7 @@
 					</u-form-item>
 					<u-form-item label="性别" prop="sex" required label-width="140" border-bottom>
 						<u-radio-group v-model="form.sex">
-							<u-radio active-color="#EFE4C8" v-for="(item, index) in sexList" :key="item.code"
+							<u-radio active-color="#55aaff" v-for="(item, index) in sexList" :key="item.code"
 								:name="item.code" :disabled="item.disabled">
 								{{ item.name }}
 							</u-radio>
@@ -20,7 +20,7 @@
 					<u-form-item label="手机号" prop="mobilePhone" len="11" required label-width="140" border-bottom>
 						<view style="display: flex; justify-content: space-around; flex-flow: wrap row; width: 100%;">
 							<u-input v-model="form.mobilePhone" placeholder="请输入手机号" style="width: 60%;"/>
-							<button  :disabled="isLock" class="msgbutton" @click="sendMsg()" style="width: 40%;">{{msgVerCode}}</button>
+							<button  :disabled="isLock" class="msgbutton" @click="sendMsg()" style="width: 35%;">{{msgVerCode}}</button>
 						</view>
 					</u-form-item>
 					<u-form-item label="验证码" prop="msgCode" label-width="140" border-bottom>
@@ -278,12 +278,12 @@
 
 	.roundcenter {
 		width: 686rpx;
-		margin: 60rpx auto 0 auto;
-		background: #f8f7f1;
+		margin: 20rpx auto 0 auto;
+		background: #ffffff;
 		 /* background: url(../../static/background.png); */
 		/* box-shadow: 0 40rpx 0 -22rpx rgb(221 138 0 / 23%), 0 -9px 0 0 rgb(105 100 87 / 14%) inset; */
 		/* box-shadow: 0 0 30rpx 0 #e4d3b0; */
-		border: 2px solid #EFE4C8;
+		/* border: 2px solid #9cd1ff; */
 		border-radius: 50rpx;
 	}
 
@@ -336,17 +336,17 @@
 		margin: 40rpx auto;
 		text-align: center;
 		/* background: url(../../static/background.png) no-repeat 50%/100%; */
-		background-color: #EFE4C8;
+		background-color: #97cdff;
 	}
 	.msgbutton {
-		width: 160rpx;
+		width: 200rpx;
 		line-height: 70rpx;
-		color: #594e3f;
+		color: #474747;
 		font-size: 21rpx;
 		font-weight: 700;
 		/* margin: 10rpx auto; */
 		text-align: center;
-		background-color: #EFE4C8;
+		background-color: #97cdff;
 		/* margin-bottom: 10px;*/
 		float: right;
 	}

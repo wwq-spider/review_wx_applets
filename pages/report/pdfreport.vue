@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="report combg">
-			<view><uni-icons type="checkbox" size="100" style="margin-left: 30%;" color="#EFE4C8"></uni-icons></view>
+			<view><uni-icons type="checkbox" size="100" style="margin-left: 30%;" color="#66f06f"></uni-icons></view>
 			<view style="text-align: center;"><text>该测试已完成，点击确定开始加载报告</text></view>
 			<view style="display: flex;">
 				<button class="savebutton" @click="viewReport">确定</button>
@@ -216,7 +216,7 @@
 		margin: 100rpx auto;
 		text-align: center;
 		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
-		background-color: #EFE4C8;
+		background-color: #77beff;
 	}
 	
 	.title {

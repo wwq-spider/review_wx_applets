@@ -6,7 +6,6 @@
 			<button  type="primary" @click="startRecord()" v-if="startShow" :disabled="!submitEnable">{{beginText}}</button>
 			<view class="progress-box" v-if="showProgress">
 				<progress :percent="secondfloorper" activeColor="#41a863" active stroke-width="20" active-mode="forwards"/>
-				<!-- <u-line-progress active-color="#EFE4C8" :percent="secondfloorper"></u-line-progress> -->
 			</view>
 		</view>
 	</view>

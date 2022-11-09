@@ -289,14 +289,14 @@
 	}
 	
 	.recordr .testbutton {
-		width: 140rpx;
+		width: 150rpx;
 		line-height: 54rpx;
-		background: #EFE4C8;
+		background: #8bbeff;
 		//border-radius: 27rpx;
 		text-align: center;
 		font-size: 26rpx;
 		color: black;
 		//margin-left: 10px;
-		margin-top: 10%;
+		margin-top: 18%;
 	}
 </style>
