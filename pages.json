@@ -3,7 +3,7 @@
 		{
 			"path": "pages/index/index",
 			"style":{
-				"navigationBarTitleText": "筑心康5G+心理健康管理平台",
+				"navigationBarTitleText": "心理健康服务平台",
 				"app-plus":{
 					"titleNView":false
 				},
@@ -213,12 +213,12 @@
 		  "iconPath": "static/home.png",
 		  "selectedIconPath": "static/home-active.png"
 	    },
-		{
+		/* {
 	      "pagePath": "pages/expert/expert",
 	      "text": "访谈",
 		  "iconPath": "static/user.png",
 		  "selectedIconPath": "static/user-active.png"
-	    },
+	    }, */
 		{
 			"pagePath": "pages/user/index",
 			"text": "我的",

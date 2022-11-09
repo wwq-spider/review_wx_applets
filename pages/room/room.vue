@@ -43,24 +43,11 @@ export default {
    * @param {*} options 配置项
    */
   onLoad: function (options) {
-	  console.log('进入房间打印options:'+options.consulId)
 	  if(options.consulId != "" && options.consulId != undefined){
 		  this.$apis.postListConsultationDetai({'id': options.consulId}).then(res => {
 		  	uni.hideLoading()
 		  	if (res.code == 200) {
 		  		res.result.forEach((row) => {
-					//给专家发送房间号
-					/* this.$apis.postSendRoomId({'roomId': options.roomID,'expertPhone':options.mobilePhone}).then(res => {
-						if (res.code == 200) {
-							console.log('给专家发送房间号成功')
-						} else {
-							uni.showToast({
-								title: res.msg
-							})
-						}
-					}).catch(err => {
-						console.log(err)
-					}) */
 		  			if(res.videoConsult != 'Y'){
 		  				uni.showModal({
 		  					title:'提示',

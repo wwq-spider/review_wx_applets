@@ -374,7 +374,7 @@
 					clearTimeout(this.monitorTimer)
 				}
 				let curQuestion = this.questionList[this.questionIndex]
-				if(curQuestion.questionType == '1') {
+				if(curQuestion.questionType == '1' || curQuestion.questionType == '3') {
 					var havechecked = false
 					let curItem = {}
 					for (let i=0; i<curQuestion.selectList.length; i++) {

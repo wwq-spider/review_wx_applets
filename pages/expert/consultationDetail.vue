@@ -261,8 +261,10 @@
 				}).catch(err => {
 					console.log(err)
 				})
+				let userData = uni.getStorageSync('userData')
 				uni.navigateTo({
-					url: '/pages/room/room?userID=oE_EL5h8HblfVYnWntOocxdT3G-s&template=grid&roomID='+roomID+'&debugMode=false&cloudenv=PRO'
+					/* url: '/pages/room/room?userID=oGvzT5cBpAiP48NzKwX7HeqlbI2Q&template=grid&roomID='+roomID+'&debugMode=false&cloudenv=PRO' */
+					url: '/pages/room/room?userID=' + userData.userId + '&template=grid&roomID=' + roomID + '&debugMode=false&cloudenv=PRO'
 				})
 			}
 		}

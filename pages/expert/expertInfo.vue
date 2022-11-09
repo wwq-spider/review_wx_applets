@@ -193,7 +193,8 @@
 					"endTime" : endTime,
 					"expertName" : expertName,
 					"consulId" : consulId,
-					"mobilePhone" : mobilePhone
+					"mobilePhone" : mobilePhone,
+					"userId" : userData.userId
 				}
 				this.$apis.postsendMessage(obj).then(res => {
 					if (res.errcode == 0) {

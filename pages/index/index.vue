@@ -15,7 +15,7 @@
 			</swiper>
 		</view>
 		<view class="notice" v-if="noticeList.length > 0">
-			<uni-icons type="sound-filled" size="18" color="#d6b477" style="margin-left: 3px;"></uni-icons>
+			<uni-icons type="sound-filled" size="18" color="#55aaff" style="margin-left: 3px;"></uni-icons>
 			<swiper class="swiper-nav" :circular="true" vertical="true" :autoplay="true" :interval="5000" :duration="1000">
 				<swiper-item style="display: table;"  v-for="(item,index) in noticeList" :key="index">
 					<view class="right" @click="noticeDetail(item.id)">{{item.noticeName}}</view>					
@@ -29,7 +29,7 @@
 		<view v-for="(subject, index1) in subjectList" style="width: 100%;">
 			<view class="_scroll-list" v-if="subject.classList.length > 0">
 				<view class="_scroll-head" v-if="subject.classList.length > 0">
-					<uni-icons type="list" size="20" color="#d6b477"></uni-icons>
+					<uni-icons type="list" size="20" color="#55aaff"></uni-icons>
 					<!-- <image src="@/static/ic-label.png" mode="widthFix"  style="width: 25rpx; height: 25rpx;" class="_img"></image> -->
 					<text class="_text">{{subject.subjectName}}</text>
 				</view>
@@ -40,7 +40,6 @@
 						<view class="hotl">
 							<image class="hotlimg" mode="scaleToFill" :src="review.bannerImg || defaultCover" @error="imageError(index1, index2, 1)"></image>
 							<view class="title">{{review.title}}</view>
-							<!-- <view class="subtitle">{{review.classDesc}}</view> -->
 							<view v-if="review.charge==1">
 								<span class="iconfont" style="color: #df7a58;font-size: 9px;">&#xe606;{{review.realPrice}}</span>
 								<span class="iconfont" style="padding-left: 5px; color: #857f77;font-size: 9px;text-decoration:line-through;" v-if="review.dicounPrice != '0' && review.dicounPrice != '0.00'">&#xe606;{{review.orgPrice}}</span>
@@ -53,14 +52,14 @@
 		</view>
 	
 		<view class="_scroll-list" color="#cfd6d5">
-			<uni-notice-bar v-if="pCount > 0" style="width: 100%;" color="#8c908f" background-color="blank" :text="`项目介绍：${projectDesc}`"></uni-notice-bar>
-			<uni-notice-bar v-if="pCount > 0" color="#8c908f" style="width: 100%;" background-color="blank" :text="`本次测评共由 ${pCount} 个量表组成，单个量表完成可自动进入下一个量表测评，若中途退出将重新开始测评。`"></uni-notice-bar>
+			<uni-notice-bar v-if="pCount > 0" style="width: 100%;" color="#4a4c4b" background-color="blank" :text="`项目介绍：${projectDesc}`"></uni-notice-bar>
+			<uni-notice-bar v-if="pCount > 0" color="#4a4c4b" style="width: 100%;" background-color="blank" :text="`本次测评共由 ${pCount} 个量表组成，单个量表完成可自动进入下一个量表测评，若中途退出将重新开始测评。`"></uni-notice-bar>
 			<view v-if="pCount > 0" class="savebutton" @click="startTest">开始测试</view>
 		</view>
 		<view v-if="isshow == 1">
 			<view class="_scroll-list">
 				<view class="_scroll-head">
-					<uni-icons type="list" size="20" color="#d6b477"></uni-icons>
+					<uni-icons type="list" size="20" color="#55aaff"></uni-icons>
 					<text class="_text">列表</text>
 				</view>
 			</view>
@@ -467,11 +466,11 @@
 		 -webkit-line-clamp: 1; //可设置显示的行数
 		 line-clamp: 1;
 		 -webkit-box-orient: vertical;
-		 color: #928e8e;
+		 color: #504e4e;
 		 font-size: 14px;
 	}
 	.tips {
-		color: #67c23a;
+		color: #00aaff;
 		font-size: 14px;
 		line-height: 40px;
 		text-align: center;
@@ -529,7 +528,7 @@
 	._scroll-head ._text {
 		font-size: 32rpx;
 		font-weight: bold;
-		color: #d6b477;
+		color: #74bcff;
 		padding-left: 8px;
 	}
 	.scroll-list {

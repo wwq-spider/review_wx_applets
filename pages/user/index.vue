@@ -17,28 +17,28 @@
 		</view>
 		<view class="user-list">
 			<view @click="toPage('/pages/user/reviewRecord')" class="user-item">
-				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
+				<uni-icons type="paperplane-filled" size="20" color="#8ad2ff"></uni-icons>
 				<text style="padding-left: 10px;">我的测评</text>
 			</view>
 			<view @click="toPage('/pages/user/reviewReport')" class="user-item">
-				<uni-icons type="map-filled" size="20" color="#d6b477"></uni-icons>
+				<uni-icons type="map-filled" size="20" color="#8ad2ff"></uni-icons>
 				<text style="padding-left: 10px;">我的报告</text>
 			</view>
 			<view @click="toPage('/pages/user/myOrder')" class="user-item">
-				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
+				<uni-icons type="shop" size="20" color="#8ad2ff"></uni-icons>
 				<text style="padding-left: 10px;">我的订购</text>
 			</view>
 			<view @click="toPage('/pages/expert/myConsultation')" class="user-item">
-				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
+				<uni-icons type="chat-filled" size="20" color="#8ad2ff"></uni-icons>
 				<text style="padding-left: 10px;">我的咨询</text>
 			</view>
 			<view @click="toPage('/pages/user/myInfo')" class="user-item">
-				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
+				<uni-icons type="person-filled" size="20" color="#8ad2ff"></uni-icons>
 				<text style="padding-left: 10px;">个人信息</text>
 			</view>
 			
 			<view v-if="isExpert==true" @click="toPage('/pages/videocall/videocall')" class="user-item">
-				<uni-icons type="paperplane-filled" size="20" color="#d6b477"></uni-icons>
+				<uni-icons type="videocam-filled" size="20" color="#8ad2ff"></uni-icons>
 				<text style="padding-left: 10px;">进入房间</text>
 			</view>
 			<!-- <navigator url="/pages/user/attention" class="user-item">
