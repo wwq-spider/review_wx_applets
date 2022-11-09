@@ -466,8 +466,8 @@
 		 -webkit-line-clamp: 1; //可设置显示的行数
 		 line-clamp: 1;
 		 -webkit-box-orient: vertical;
-		 color: #504e4e;
-		 font-size: 14px;
+		 color: #7e7b7b;
+		 font-size: 13px;
 	}
 	.tips {
 		color: #00aaff;
