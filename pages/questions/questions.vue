@@ -35,7 +35,7 @@
 			<!--问答题-->
 			<view v-if="questionList[questionIndex].questionType=='2'">
 				<textarea placeholder-style="color:#969592" style="border: 1rpx solid #92d6ff; width: 100%; border-radius: 10px;" 
-				placeholder="请输入答案" v-model="questionList[questionIndex].rightAnswer"/>
+				placeholder="请输入答案" :value="questionList[questionIndex].rightAnswer" @input="inputAnswer($event, questionIndex)"/>
 			</view>
 			<!--多选题-->
 			<checkbox-group @change="mulSelChange"  v-if="questionList[questionIndex].questionType=='3'">
@@ -170,6 +170,9 @@
 			}
 		},
 		methods: {
+			inputAnswer($e, index) {
+				this.questionList[index]["rightAnswer"] = $e.target.value
+			},
 			startRecord() {
 				let that = this
 				this.cameraContext.startRecord({

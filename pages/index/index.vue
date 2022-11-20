@@ -287,8 +287,6 @@
 						}
 						let projectClass = []
 						res.rows.forEach((row) => {
-							console.log('projectId:',that.projectId)
-							console.log('row.type:',row.type)
 							if (row.bannerImg) {
 								row.bannerImg = that.$config.aliYunEndpoint + row.bannerImg
 							}
