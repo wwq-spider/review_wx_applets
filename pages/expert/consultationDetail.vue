@@ -85,9 +85,6 @@
 				this.$apis.postListConsultationDetai({'id': this.id}).then(res => {
 					uni.hideLoading()
 					if (res.code == 200) {
-						console.log("获取我的问诊详情成功");
-						console.log(res.result);
-						console.log(res.videoConsult);//是否可发起视频咨询
 						that.videoConsult = res.videoConsult;
 						res.result.forEach((row) => {
 							that.consultationDetail = row
@@ -358,7 +355,7 @@
 		font-size: 32rpx;
 		font-weight: 700;
 		text-align: center;
-		background-color: #d0b074;
+		background-color: #77beff;
 		border-radius: 6px !important;
 		position: fixed;
 		bottom:0;

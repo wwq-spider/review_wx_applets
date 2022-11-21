@@ -144,7 +144,7 @@
 	.consultationr .testbutton {
 		width: 140rpx;
 		line-height: 54rpx;
-		background: #febd00;
+		background: #77beff;
 		text-align: center;
 		font-size: 26rpx;
 		color: #fff;
