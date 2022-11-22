@@ -10,7 +10,7 @@
 				<view style="width: 70%;">
 					<view class="title">{{item.classTitle}}</view>
 					<view class="subtitle">测评时间: {{item.createTime}}</view>
-					<view class="testbutton" @click='againTest(item.classId, item.classTitle)' >再测一次</view>
+					<!-- <view class="testbutton" @click='againTest(item.classId, item.classTitle)' >再测一次</view> -->
 				</view>
 			</view>
 		</view>	

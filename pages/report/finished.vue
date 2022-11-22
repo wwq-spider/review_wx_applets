@@ -52,7 +52,8 @@
 				},
 				classId: '',
 				resultId: '',
-				projectId:''
+				projectId: 0,
+				pCount:''
 			}
 		},
 		methods: {
@@ -69,9 +70,10 @@
 			},
 			viewReport(){
 				let that = this
+				let projectClass = uni.getStorageSync("projectClass")
 				uni.navigateTo({
 					url: '/pages/report/report?source=1&classId=' + that.classId + "&resultId=" +
-					 that.resultId + "&title=" + that.classTitle
+					 that.resultId + "&title=" + that.classTitle + "&projectId=" + that.projectId + "&pCount=" + projectClass.length
 				})
 			}
 		}

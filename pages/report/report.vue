@@ -22,12 +22,20 @@
 			
 			<view class="subtitle" style="margin-top: 20px;">您本次测评的量表呈现结果</view>
 			
+			<!-- <view v-for="result1 in resArr1">
+				<view><text class="uni-body">量表名称: {{result1.title}}</text></view>
+				<uni-card v-for="result in resArr" :title="result.varName" :is-shadow="false" is-full>
+					<view><text class="uni-body">测评结果: {{result.grade}}</text></view>
+					<view><text class="uni-body">测评分数解读: {{result.explain}}</text></view>
+				</uni-card>
+			</view> -->
 			<uni-card v-for="result in resArr" :title="result.varName" :is-shadow="false" is-full>
 				<view><text class="uni-body">测评结果: {{result.grade}}</text></view>
 				<view><text class="uni-body">测评分数解读: {{result.explain}}</text></view>
 			</uni-card>
 			
-			<view class="savebutton" @click="restart">重新评测</view>
+
+			<view v-if="projectId != 31" class="savebutton" @click="restart">重新评测</view>
 		</view>
 	</view>
 </template>
@@ -58,6 +66,12 @@
 			if(option.title) {
 				this.classTitle = decodeURIComponent(option.title)
 			}
+			if(option.projectId) {
+				this.projectId = option.projectId
+			}
+			if(option.pCount) {
+				this.pCount = option.pCount
+			}
 			let resultId = option.resultId
 			let classId = option.classId
 			let that = this
@@ -73,35 +87,81 @@
 					})
 				}
 			})
-			
-			this.$apis.postReportDetail({"resultId": resultId}).then(res => {
-				if(res.code == 200) {
-					that.resArr = []
-					that.reviewResult = res.result
-					if(res.result && res.result.reviewResult) {
-						let arr = res.result.reviewResult.split("<br>")
-						arr.forEach((item, index) => {
-							let row = {}
-							let a = item.indexOf("得分:")
-							row["varName"] = item.substring(0, a)
-							row["grade"] = item.substring(a + 3, item.indexOf(";"))
-							row["explain"] = item.substring(item.indexOf("结果:")+3)
-							that.resArr.push(row)
+			if(that.projectId != 0){
+				let userData = uni.getStorageSync('userData')
+				this.$apis.postReportDetail({"resultId": resultId,"userId": userData.userId,"projectId": that.projectId,"pCount":that.pCount}).then(res => {
+					if(res.code == 200) {
+						/* res.result.forEach((item1) =>{
+							if(item1.reviewResult){
+								let arr = item1.reviewResult.split("<br>")
+								if(arr.length > 1){
+									let row1 = {}
+									row1["title"] = item1.title
+									that.resArr1.push(row1)
+									arr.forEach((item, index) => {
+										let row = {}
+										let a = item.indexOf("得分:")
+										row["varName"] = item.substring(0, a)
+										row["grade"] = item.substring(a + 3, item.indexOf(";"))
+										row["explain"] = item.substring(item.indexOf("结果:")+3)
+										that.resArr.push(row)
+									})
+								}
+							}
+						}) */
+						res.result.forEach((item1) =>{
+							if(item1.reviewResult){
+								let arr = item1.reviewResult.split("<br>")
+								arr.forEach((item, index) => {
+									let row = {}
+									let a = item.indexOf("得分:")
+									row["varName"] = item.substring(0, a)
+									row["grade"] = item.substring(a + 3, item.indexOf(";"))
+									row["explain"] = item.substring(item.indexOf("结果:")+3)
+									that.resArr.push(row)
+								})
+							}
+						})
+					} else {
+						uni.showToast({
+							title: res.msg
 						})
 					}
-				} else {
-					uni.showToast({
-						title: res.msg
-					})
-				}
-			})
+				})
+			}else {
+				this.$apis.postReportDetail({"resultId": resultId}).then(res => {
+					if(res.code == 200) {
+						that.resArr = []
+						that.reviewResult = res.result
+						if(res.result && res.result.reviewResult) {
+							let arr = res.result.reviewResult.split("<br>")
+							arr.forEach((item, index) => {
+								let row = {}
+								let a = item.indexOf("得分:")
+								row["varName"] = item.substring(0, a)
+								row["grade"] = item.substring(a + 3, item.indexOf(";"))
+								row["explain"] = item.substring(item.indexOf("结果:")+3)
+								that.resArr.push(row)
+							})
+						}
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				})
+			}
+			
 		},
 		data() {
 			return {
 				resArr: [],
+				resArr1: [],
 				source: '',
 				reviewResult: {},
 				classTitle: '',
+				projectId: 0,
+				pCount:'',
 				user: {
 					name: '',
 					sex: '',
