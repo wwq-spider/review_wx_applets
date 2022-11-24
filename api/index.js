@@ -89,5 +89,8 @@ export const postEvalCodePrePayOrder = (data) => http.post(`${config.baseUrl}/re
 export const postUpdateEvalCodeStock = (data) => http.post(`${config.baseUrl}/reviewFront/dongLiang/updateEvalCodeStock.do`, data)
 //获取测评码价格
 export const postEvalPrice = (data) => http.post(`${config.baseUrl}/reviewFront/dongLiang/getEvalPrice.do`, data)
+//获取项目报告
+export const postProjectReviewCount = (data) => http.post(`${config.baseUrl}/reviewFront/getProjectReviewCount.do`, data)
+
 /* //创建预约腾讯会议
 export const postCreateTXMeeting = (data) => http.post(`${config.baseUrl}/reviewFront/meeting/creatMeeting.do`, data) */
