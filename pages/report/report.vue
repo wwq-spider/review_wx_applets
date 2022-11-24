@@ -72,6 +72,9 @@
 			if(option.pCount) {
 				this.pCount = option.pCount
 			}
+			if(option.limitId) {
+				this.limitId = option.limitId
+			}
 			let resultId = option.resultId
 			let classId = option.classId
 			let that = this
@@ -89,26 +92,8 @@
 			})
 			if(that.projectId != 0){
 				let userData = uni.getStorageSync('userData')
-				this.$apis.postReportDetail({"resultId": resultId,"userId": userData.userId,"projectId": that.projectId,"pCount":that.pCount}).then(res => {
+				this.$apis.postReportDetail({"resultId": resultId,"userId": userData.userId,"projectId": that.projectId,"pCount":that.pCount,"limitId":that.limitId}).then(res => {
 					if(res.code == 200) {
-						/* res.result.forEach((item1) =>{
-							if(item1.reviewResult){
-								let arr = item1.reviewResult.split("<br>")
-								if(arr.length > 1){
-									let row1 = {}
-									row1["title"] = item1.title
-									that.resArr1.push(row1)
-									arr.forEach((item, index) => {
-										let row = {}
-										let a = item.indexOf("得分:")
-										row["varName"] = item.substring(0, a)
-										row["grade"] = item.substring(a + 3, item.indexOf(";"))
-										row["explain"] = item.substring(item.indexOf("结果:")+3)
-										that.resArr.push(row)
-									})
-								}
-							}
-						}) */
 						res.result.forEach((item1) =>{
 							if(item1.reviewResult){
 								let arr = item1.reviewResult.split("<br>")
@@ -169,7 +154,8 @@
 					tel: ''
 				},
 				reportTips: '',
-				reportTemplateList: []
+				reportTemplateList: [],
+				limitId:0
 			}
 		},
 		methods: {

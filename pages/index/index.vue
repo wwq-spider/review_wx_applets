@@ -299,7 +299,7 @@
 							}
 							if(pid && pid > 0) {
 								row.charge = 0
-								projectClass.push({"classId": row.classId, "title": row.title})
+								projectClass.push({"classId": row.classId, "title": row.title,"projectName":row.projectName})
 							}
 						})
 						//保存到本地缓存中 共下次使用

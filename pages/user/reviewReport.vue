@@ -1,20 +1,38 @@
 <template>
 	<view>
-		<!-- 刷新页面后的顶部提示框 -->
-		<view class="tips" :class="{ 'tips-ani': tipShow }">上拉刷新...</view>
-		<view class="report" v-for="(item, index) in reportList"  :key="item.resultId">
-			<view class="reportr" >
-				<view class="title">测评名称: {{item.classTitle}}</view>
-				<view class="title">报告时间: {{item.createTime}}</view>
-				<view class="title" style="display: flex;">
-					<text>报告内容: </text>
-					<view class="testbutton"  @click='detail(item.resultId, item.classId, item.classTitle,item.reportResult)'>查看详情</view>
+		<view v-if="projectId == 0">
+			<!-- 刷新页面后的顶部提示框 -->
+			<view class="tips" :class="{ 'tips-ani': tipShow }">上拉刷新...</view>
+			<view class="report" v-for="(item, index) in reportList"  :key="item.resultId">
+				<view class="reportr" >
+					<view class="title">测评名称: {{item.classTitle}}</view>
+					<view class="title">报告时间: {{item.createTime}}</view>
+					<view class="title" style="display: flex;">
+						<text>报告内容: </text>
+						<view class="testbutton"  @click='detail(item.resultId, item.classId, item.classTitle,item.reportResult)'>查看详情</view>
+					</view>
 				</view>
-			</view>
-		</view>	
-		<view v-if="reportList.length == 0" style="text-align: center; margin: 10%;">用户暂无测评报告</view>
-		<!-- 通过 loadMore 组件实现上拉加载效果，如需自定义显示内容，可参考：https://ext.dcloud.net.cn/plugin?id=29 -->
-		<uni-load-more v-if="loading || options.status === 'noMore' " :status="options.status" />
+			</view>	
+			<view v-if="reportList.length == 0" style="text-align: center; margin: 10%;">用户暂无测评报告</view>
+			<!-- 通过 loadMore 组件实现上拉加载效果，如需自定义显示内容，可参考：https://ext.dcloud.net.cn/plugin?id=29 -->
+			<uni-load-more v-if="loading || options.status === 'noMore' " :status="options.status" />
+		</view>
+		<view v-if="projectId != 0">
+			<view class="tips" :class="{ 'tips-ani': tipShow }">上拉刷新...</view>
+			<view class="report" v-for="(item, index) in limitList">
+				<view class="reportr" >
+					<view class="title">项目名称: {{projectName}}</view>
+					<view class="title">报告时间: {{item.createTime}}</view>
+					<view class="title" style="display: flex;">
+						<text>报告内容: </text>
+						<view class="testbutton"  @click='detailProReview(item.limitId,item.classId)'>查看详情</view>
+					</view>
+				</view>
+			</view>	
+			<view v-if="limitList.length == 0" style="text-align: center; margin: 10%;">用户暂无测评报告</view>
+			<!-- 通过 loadMore 组件实现上拉加载效果，如需自定义显示内容，可参考：https://ext.dcloud.net.cn/plugin?id=29 -->
+			<uni-load-more v-if="loading || options.status === 'noMore' " :status="options.status" />
+		</view>
 	</view>
 </template>
 
@@ -30,7 +48,12 @@
 				formData: {
 					status: 'loading', // 加载状态
 				},
-				tipShow: false // 是否显示顶部提示框
+				tipShow: false, // 是否显示顶部提示框
+				projectId : 0,
+				projectName : '',
+				limitList : [],
+				userId : '',
+				pCount : 0
 			};
 		},
 		onUnload() {
@@ -62,6 +85,15 @@
 					})
 				}
 			},
+			detailProReview(limitId,classId){
+				let that = this
+				let projectId = that.projectId
+				let pCount = that.pCount
+				uni.navigateTo({
+					url: '/pages/report/report?source=1&projectId=' + projectId + "&limitId=" + limitId + "&pCount=" + pCount + "&classId=" + classId  + "&resultId=" + '0'
+				})
+				
+			},
 			imageError(index) {
 				this.reportList[index]["classCover"] = this.defaultCover
 			},
@@ -69,13 +101,26 @@
 				this.reportList = []
 				let userData = uni.getStorageSync("userData")
 				let that = this
+				that.userId = userData.userId
 				uni.showLoading({
 					title: "数据加载中"
 				})
 				
 				let projectId = uni.getStorageSync("projectId")
+				let projectClass = uni.getStorageSync("projectClass")
 				if (!projectId) {
 					projectId = 0
+				}else {
+					that.projectId = projectId
+					that.projectName = projectClass[0].projectName
+					that.pCount = projectClass.length
+					this.$apis.postProjectReviewCount({"userId": userData.userId, "projectId": projectId,"pCount" : projectClass.length}).then(res => {
+						if(res.code == 200) {
+							res.result.forEach((result) =>{
+								that.limitList.push(result)
+							})
+						}
+					})
 				}
 				//查询测评记录
 				this.$apis.postReviewReports({"userId": userData.userId, "projectId": projectId}).then(res => {
