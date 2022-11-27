@@ -53,7 +53,8 @@
 				projectName : '',
 				limitList : [],
 				userId : '',
-				pCount : 0
+				pCount : 0,
+				refreshCount:0
 			};
 		},
 		onUnload() {
@@ -73,8 +74,9 @@
 		methods: {
 			detail(resultid, classId, title,reportResult) {
 				let dongliangClassId = '402880f082eecb960182eee3b1ef0001'
+				let dongliangClassProId = '2c9cff928408eab3018413a00d8a006a'
 				//let pdfUrl = 'https://www.zhuxinkang.com/review/upload2/PDF/create/2022/09/20/cp-20220920204836310.pdf'
-				if(classId == dongliangClassId){
+				if(classId == dongliangClassId || classId == dongliangClassProId){
 					//跳转报告查看页面
 					uni.navigateTo({
 						url: '/pages/report/pdfreport?pdfUrl=' + encodeURIComponent(reportResult)
@@ -111,16 +113,19 @@
 				if (!projectId) {
 					projectId = 0
 				}else {
-					that.projectId = projectId
-					that.projectName = projectClass[0].projectName
-					that.pCount = projectClass.length
-					this.$apis.postProjectReviewCount({"userId": userData.userId, "projectId": projectId,"pCount" : projectClass.length}).then(res => {
-						if(res.code == 200) {
-							res.result.forEach((result) =>{
-								that.limitList.push(result)
-							})
-						}
-					})
+					if(that.refreshCount == 0){
+						that.projectId = projectId
+						that.projectName = projectClass[0].projectName
+						that.pCount = projectClass.length
+						this.$apis.postProjectReviewCount({"userId": userData.userId, "projectId": projectId,"pCount" : projectClass.length}).then(res => {
+							if(res.code == 200) {
+								that.refreshCount += 1
+								res.result.forEach((result) =>{
+									that.limitList.push(result)
+								})
+							}
+						})
+					}
 				}
 				//查询测评记录
 				this.$apis.postReviewReports({"userId": userData.userId, "projectId": projectId}).then(res => {

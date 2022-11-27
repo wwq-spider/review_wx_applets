@@ -8,7 +8,7 @@
 					</u-form-item>
 					<u-form-item label="性别" prop="sex" required label-width="140" border-bottom>
 						<u-radio-group v-model="form.sex">
-							<u-radio active-color="#EFE4C8" v-for="(item, index) in sexList" :key="item.code"
+							<u-radio active-color="#55aaff" v-for="(item, index) in sexList" :key="item.code"
 								:name="item.code" :disabled="item.disabled">
 								{{ item.name }}
 							</u-radio>
@@ -268,10 +268,15 @@
 	}
 
 	.roundcenter {
-		width: 686rpx;
+		/* width: 686rpx;
 		margin: 60rpx auto 0 auto;
 		background: #f8f7f1;
 		border: 2px solid #EFE4C8;
+		border-radius: 50rpx; */
+		
+		width: 686rpx;
+		margin: 20rpx auto 0 auto;
+		background: #ffffff;
 		border-radius: 50rpx;
 	}
 
@@ -322,16 +327,16 @@
 		font-weight: 700;
 		margin: 40rpx auto;
 		text-align: center;
-		background-color: #EFE4C8;
+		background-color: #97cdff;
 	}
 	.msgbutton {
-		width: 160rpx;
+		width: 200rpx;
 		line-height: 70rpx;
-		color: #594e3f;
+		color: #474747;
 		font-size: 21rpx;
 		font-weight: 700;
 		text-align: center;
-		background-color: #EFE4C8;
+		background-color: #97cdff;
 		float: right;
 	}
 </style>
