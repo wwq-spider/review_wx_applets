@@ -55,6 +55,9 @@
 			},
  			
  			submit() {
+				uni.showLoading({
+					title: '提交中...'
+				})
  				let that = this
 				var paramList = uni.getStorageSync("paramList")
 				paramList[0].testCode = that.form.evalCode
