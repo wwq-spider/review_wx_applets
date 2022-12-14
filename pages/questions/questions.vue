@@ -91,7 +91,8 @@
 				userId:'',
 				name:'',
 				sex:'',
-				age:''
+				age:'',
+				paramListAgain:[]
 			}
 		},
 		onUnload() {
@@ -532,12 +533,18 @@
 									uni.showToast({
 										title: '提交失败',
 										icon: 'wrong'
-									});
+									})
 								}
 							}).catch(err => {
 								console.log('进入异常')
 								uni.hideLoading()
 								that.lock = false
+								//重新输入测评码
+								uni.setStorageSync("paramList", paramList)
+								uni.navigateTo({
+									url: '/pages/review/testCodeAagin'
+								})
+								
 							})
 							
 						}else{

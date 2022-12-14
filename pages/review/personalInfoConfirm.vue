@@ -192,7 +192,7 @@
 				
 				let that = this
 				uni.navigateTo({
-					url: '/pages/report/guide?classId='+ that.classid + '&userId=' + that.form.userId + '&name=' + encodeURIComponent(that.form.userName) + '&sex=' + that.form.sex + '&age=' + that.form.age + '&select=' + encodeURIComponent(that.select) + '&school=' + encodeURIComponent(that.form.school) + '&evalCode=' + that.evalCode
+					url: '/pages/report/guide?classId='+ that.classid + '&userId=' + that.form.userId + '&name=' + encodeURIComponent(that.form.userName) + '&sex=' + that.form.sex + '&age=' + that.form.age + '&select=' + encodeURIComponent(that.select) + '&school=' + encodeURIComponent(that.form.school) + '&evalCode=' + encodeURIComponent(that.evalCode)
 				})
 			},
 			

@@ -87,22 +87,22 @@
  			
  			submit() {
  				let that = this
-				let userData = uni.getStorageSync('userData')
- 				//测评码验证
- 				this.$apis.postVerifyEvalCode({'userId': userData.userId, 'evalCode': that.form.evalCode}).then(res => {
- 					if(res.code == 200){
-						//个人信息确认
-						uni.navigateTo({
-							url: '/pages/review/personalInfoConfirm?classId=' + that.classId + '&evalCode=' + encodeURIComponent(that.form.evalCode)
-						})
- 					}else {
- 						uni.showToast({
- 							title: res.msg
- 						})
- 					}
- 				}).catch(err => {
- 					console.log(err)
- 				})
+					let userData = uni.getStorageSync('userData')
+					//测评码验证
+					this.$apis.postVerifyEvalCode({'userId': userData.userId, 'evalCode': that.form.evalCode}).then(res => {
+						if(res.code == 200){
+							//个人信息确认
+							uni.navigateTo({
+								url: '/pages/review/personalInfoConfirm?classId=' + that.classId + '&evalCode=' + encodeURIComponent(that.form.evalCode)
+							})
+						}else {
+							uni.showToast({
+								title: res.msg
+							})
+						}
+					}).catch(err => {
+						console.log(err)
+					})
  			},
 			change(e) {
 				console.log('是否打开:' + e.show)

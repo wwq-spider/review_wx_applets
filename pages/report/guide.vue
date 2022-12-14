@@ -98,9 +98,8 @@
 					});
 				} else {
 					uni.redirectTo({
-						
 						url: '/pages/questions/questions?classId=' + this.reviewClass.classId + "&title=" + 
-							this.reviewClass.title + "&source=1&videoAnalysis=" + this.reviewClass.videoAnalysis + "&evalCode=" + this.evalCode + "&select=" + this.select + "&school=" + this.school + "&userId=" + this.userId + "&name=" + this.name + "&sex=" + this.sex + "&age=" + this.age,
+							this.reviewClass.title + "&source=1&videoAnalysis=" + this.reviewClass.videoAnalysis + "&evalCode=" + encodeURIComponent(this.evalCode) + "&select=" + this.select + "&school=" + this.school + "&userId=" + this.userId + "&name=" + this.name + "&sex=" + this.sex + "&age=" + this.age,
 						success(res) {
 							console.log(res)
 						},
