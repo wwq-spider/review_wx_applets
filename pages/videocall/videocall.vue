@@ -59,9 +59,11 @@ export default {
   methods: {
     enterRoomID: function (event) {
       // console.log('index enterRoomID', event)
-      this.setData({
-        roomID: event.detail.value
-      });
+      /* this.setData({
+        roomID: event.target.value
+      }); */
+	  
+	  this.roomID = event.target.value;
     },
     selectTemplate: function (event) {
       console.log('index selectTemplate', event);

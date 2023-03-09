@@ -4,7 +4,8 @@
 		<view class="calendar-headicon" v-for="(calendarInfo, index) in calendarList">
 			<view class="calendar-headicon" @click='viewCalendarDetail(calendarInfo.id, calendarInfo.title)' :key="index">
 				<view class="calendar-headicon1" style="margin-left: 10rpx;">
-					<image class="calendar-headicon1img" mode="scaleToFill" src="@/static/man.png"></image>
+					<!-- <image class="calendar-headicon1img" mode="scaleToFill" src="@/static/man.png"></image> -->
+					<image class="calendar-headicon1img" :src="calendarInfo.avatar || defaultCover" @error="imageError()" mode="scaleToFill"></image>
 				</view>
 				<view style="width: 60%;margin-right: 220rpx;">
 					<text class="title">{{calendarInfo.expertName}}</text>
@@ -31,7 +32,8 @@
 				openid: '',
 				localtionPlatform: '',
 				modelTel: '', // 专家手机号码
-				calendarList: []//专家列表
+				calendarList: [],//专家列表
+				defaultCover: '../../static/man.png',
 			}
 		},
 		onLoad(option) {
@@ -56,6 +58,7 @@
 						console.log("获取专家列表成功");
 						let queryParamList = []
 						res.rows.forEach((row) => {
+							row.avatar = that.$config.aliYunEndpoint + row.avatar
 							that.calendarList.push(row)
 							queryParamList.push({"id": row.id, "title": row.title})
 						})
@@ -70,6 +73,9 @@
 					that.tipShow  = false
 					console.log(err)
 				})
+			},
+			imageError() {
+				this.calendarInfo.avatar = this.defaultCover 
 			},
 			viewCalendarDetail(id, title){
 				//跳转到专家详情页面
@@ -143,7 +149,8 @@
 	}
 	.calendar-headicon1 .calendar-headicon1img{
 		width: 100rpx;
-		height: 100rpx;
+		height: 140rpx;
+		margin-top: 13rpx;
 	}
 	.title {
 		color: #594e3f;
@@ -166,7 +173,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
-		-webkit-line-clamp: 3; //可设置显示的行数
+		-webkit-line-clamp: 2; //可设置显示的行数
 		line-clamp: 3;
 		-webkit-box-orient: vertical;
 	}
@@ -178,6 +185,6 @@
 		font-size: 26rpx;
 		font-weight: 700;
 		color: black;
-		margin-top: 25%;
+		margin-top: 50rpx;
 	}
 </style>

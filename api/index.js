@@ -75,6 +75,8 @@ export const postIsExpert = (data) => http.post(`${config.baseUrl}/reviewFront/e
 export const postsendMessage = (data) => http.post(`${config.baseUrl}/reviewFront/subscribeMessage/sendSubscribeMessage.do`, data)
 //给专家发送房间号
 export const postSendRoomId = (data) => http.post(`${config.baseUrl}/reviewFront/expert/sendRoomId.do`, data)
+//给专家发送咨客预约成功的短信提醒
+export const postSendAppointSuccessMsg = (data) => http.post(`${config.baseUrl}/reviewFront/expert/sendAppointSuccessMsg.do`, data)
 //栋梁测试-验证测评码
 export const postVerifyEvalCode = (data) => http.post(`${config.baseUrl}/reviewFront/dongLiang/verifyEvalCode.do`, data)
 //栋梁测试-提交测评
@@ -91,6 +93,12 @@ export const postUpdateEvalCodeStock = (data) => http.post(`${config.baseUrl}/re
 export const postEvalPrice = (data) => http.post(`${config.baseUrl}/reviewFront/dongLiang/getEvalPrice.do`, data)
 //获取项目报告
 export const postProjectReviewCount = (data) => http.post(`${config.baseUrl}/reviewFront/getProjectReviewCount.do`, data)
+//咨询师对应的预约列表
+export const postListAppoint = (data) => http.post(`${config.baseUrl}/reviewFront/expert/queryMyAppoint.do`,data)
+//咨询师确认预约
+export const postConfirmAppoint = (data) => http.post(`${config.baseUrl}/reviewFront/expert/postConfirmAppoint.do`,data)
+//咨询师提醒用户支付通知
+export const postPayRemind = (data) => http.post(`${config.baseUrl}/reviewFront/expert/postPayRemind.do`,data)
 
 /* //创建预约腾讯会议
 export const postCreateTXMeeting = (data) => http.post(`${config.baseUrl}/reviewFront/meeting/creatMeeting.do`, data) */

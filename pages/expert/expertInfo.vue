@@ -1,11 +1,11 @@
 <template>
 	<view class="expert" :class="{active: bodyShow}">
 		<view class="expert-headicon">
-			<view style="width: 100%;margin-left: 50rpx;margin-top: 20rpx;">
+			<view style="width: 550rpx;margin-left: 50rpx;margin-top: 20rpx;">
 				<text class="title">{{calendarInfo.expertName}}</text>
 				<text class="subtitle">{{calendarInfo.jobTitle}}|{{calendarInfo.label}}</text>
 			</view>
-			<view class="expert-headicon1" style="margin-top: 20rpx;margin-left: 300rpx;">
+			<view class="expert-headicon1" style="margin-top: 20rpx;">
 				<image class="expert-headicon1img" :src="calendarInfo.avatar || defaultCover" @error="imageError()" mode="aspectFit"></image>
 			</view>
 		</view>
@@ -15,17 +15,17 @@
 				<text class="subtitle">{{calendarInfo.introduction}}</text>
 			</view>
 		</view>
-		<view class="expert-headicon1">
+		<view class="expert-calendar">
 			<view class="expert-headicon2" style="width: 100%;margin-left: 50rpx;margin-top: 20rpx;">
-					<text class="title1"  style="margin-top: 10rpx;">排班信息</text>
-					<!-- <picker mode="date" @change="bindDateChange" class="dateCheck" style="margin-left: 390rpx;margin-top: 10rpx;">
-						<view>
-							日期选择框{{date}}
-						</view>
-					</picker> -->
+				<text class="title1"  style="margin-top: 10rpx;">排班信息</text>
+				<!-- <picker mode="date" @change="bindDateChange" class="dateCheck" style="margin-left: 390rpx;margin-top: 10rpx;">
+					<view>
+						日期选择框{{date}}
+					</view>
+				</picker> -->
 			</view>
 		</view>
-		<view class="expert-headicon1" style="margin-left: 45rpx;">
+		<view class="expert-calendar" style="margin-left: 45rpx;">
 			<view class="expert-headicon2" v-for="(calendarList, index) in calendarListInfo" :key="index">
 				<text style="margin-top: 15rpx;" class="title1">{{calendarList.visitDate}}({{calendarList.weekDayName}})  {{calendarList.beginTime}}-{{calendarList.endTime}}
 				</text>
@@ -136,7 +136,18 @@
 									title: res.msg
 								})
 							}
-							
+							//给专家发送短信提醒
+							this.$apis.postSendAppointSuccessMsg({'expertName':expertName,'expertPhone':mobilePhone}).then(res => {
+								if (res.code == 200) {
+									console.log('给专家发送短信提醒成功')
+								} else {
+									uni.showToast({
+										title: res.msg
+									})
+								}
+							}).catch(err => {
+								console.log(err)
+							})
 						}).catch(err => {
 							console.log(err)
 						})
@@ -166,7 +177,8 @@
 			requestSubscribeMessage(visitDate,beginTime,endTime,expertName,consulId,mobilePhone){
 				//获取用户授权允许接收服务通知
 				uni.requestSubscribeMessage({
-					tmplIds:["tz0qAaZq2v0s3dZbfPnOYwkFy7QOF82XVFNvpLZGTNQ"],
+					//tmplIds:["tz0qAaZq2v0s3dZbfPnOYwkFy7QOF82XVFNvpLZGTNQ"],
+					tmplIds:["4IVeiK2tYEmXqTcDJ7IVnXduD2CToUiV9Sz7ZHCObfs"],
 					success:res=>{
 						console.log('调起成功');
 						if(res[tempId[0]] === 'accept'){
@@ -300,14 +312,16 @@
 		display: flex;
 	}
 	.expert-headicon1 {
-		/* width: 100%;
-		padding-right: 27px; */
+		border-radius: 50%;
+		width: 140rpx;
+		height: 140rpx;
+		//padding-right: 27px;
 		
-		width: 100%;
+		/* width: 100%;
 		background: #fff;
 		padding: 3rpx;
 		box-shadow: 0 0 28rpx 0 rgba(155, 153, 146, 0.18);
-		margin: 20rpx auto;
+		margin: 20rpx auto; */
 
 	}
 	.expert-headicon2 {
@@ -322,8 +336,8 @@
 	
 	}
 	.expert-headicon1 .expert-headicon1img{
-		width: 100rpx;
-		height: 100rpx;
+		width: 110rpx;
+		height: 150rpx;
 	}
 	.savebutton {
 		width: 100rpx;
@@ -356,5 +370,12 @@
 		font-size: 26rpx;
 		color: black;
 		
+	}
+	.expert-calendar {
+		width: 100%;
+		background: #fff;
+		padding: 3rpx;
+		box-shadow: 0 0 28rpx 0 rgba(155, 153, 146, 0.18);
+		margin: 20rpx auto;
 	}
 </style>

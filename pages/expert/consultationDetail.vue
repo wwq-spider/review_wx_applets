@@ -1,12 +1,16 @@
 <template>
 	<view class="consultationD" :class="{active: bodyShow}">
 		<view class="consultationD-headicon">
-			<view style="width: 100%;margin-left: 50rpx;margin-top: 20rpx;">
+			<view style="width: 550rpx;margin-left: 50rpx;margin-top: 20rpx;">
 				<text class="title">{{consultationDetail.expertName}}</text>
 				<text class="subtitle">{{consultationDetail.expertJobTitle}}|{{consultationDetail.expertLable}}</text>
 			</view>
-			<view class="consultationD-headicon1" style="margin-top: 20rpx;margin-left: 300rpx;">
+			<!-- <view class="consultationD-headicon1" style="margin-top: 20rpx;margin-left: 300rpx;">
 				<image class="consultationD-headicon1img" :src="calendarInfo.avatar || defaultCover" @error="imageError()" mode="aspectFit"></image>
+			</view> -->
+			
+			<view class="expert-headicon1" style="margin-top: 20rpx;">
+				<image class="expert-headicon1img" :src="consultationDetail.avatar || defaultCover" @error="imageError()" mode="aspectFit"></image>
 			</view>
 		</view>
 		<view class="consultationD-headicon">
@@ -28,14 +32,11 @@
 			<view  class="canclebutton" style="margin-left: 310rpx;"  @click='cancelReservation()'>取消预约</view>
 		</view>
 		
-		<view v-if="consultationDetail.buy==true && videoConsult == 'Y'">
+		<!-- <view v-if="consultationDetail.buy==true && videoConsult == 'Y' && isConfirmByExpert == 'Y'">
 			<button class="testbutton" @click="videoTest()">发起视频咨询</button>
 		</view>
 		<view v-else>
 			<button class="testbutton" @click="videoTest()" disabled="true">发起视频咨询</button>
-		</view>
-		<!-- <view>
-			<button class="testbutton" @click="videoTest()">发起视频咨询</button>
 		</view> -->
 		
 		<view class="consultationD-headicon">
@@ -45,7 +46,11 @@
 		<uni-popup ref="showPayConfirm" @change="change">
 			<view class="uni-tip">
 				<text class="uni-tip-title">确认支付</text>
-				<text class="uni-tip-content iconfont" style="color: #dc7a54;">预约价格：&#xe606;{{consultationDetail.realPrice}}</text>
+				<view>
+					<text class="uni-tip-content iconfont" style="color: #dc7a54;">咨询费用：&#xe606;{{consultationDetail.orgPrice}}</text>
+					<text class="uni-tip-content iconfont" style="padding-left: 5px; color: #857f77;font-size: 12px;text-decoration:line-through;">优惠金额：&#xe606;{{consultationDetail.dicountPrice}}</text>
+				</view>
+				<text class="uni-tip-content iconfont" style="color: #dc7a54;">实际应付：&#xe606;{{consultationDetail.realPrice}}</text>
 				<view class="uni-tip-group-button">
 					<button class="uni-tip-button" style="margin-right: 30px; background-color: #b7b5b2;" @click="cancel()">取消</button>
 					<button class="uni-tip-button" @click="confirmBuy()" :loading="loading">确定</button>
@@ -56,6 +61,7 @@
 </template>
 <script>
 	import htmlParser from '@/common/html-parser'
+	import config from '@/config/index.config.js';
 	export default {
 		data() {
 			return {
@@ -66,7 +72,8 @@
 				localtionPlatform: '',
 				defaultCover: '../../static/man.png',
 				buyBtnText: "立即支付",
-				videoConsult:''
+				videoConsult:'',
+				isConfirmByExpert:''
 			}
 		},
 		onLoad(event) {
@@ -86,12 +93,14 @@
 					uni.hideLoading()
 					if (res.code == 200) {
 						that.videoConsult = res.videoConsult;
+						that.isConfirmByExpert = res.isConfirmByExpert;
 						res.result.forEach((row) => {
+							row.avatar = that.$config.aliYunEndpoint + row.avatar
 							that.consultationDetail = row
 							that.buyBtnText = "立即支付"
-							if(res.videoConsult == 'Y'){
+							/* if(res.videoConsult == 'Y'){
 								consultationDetail.buy = true;
-							}
+							} */
 						})
 					} else {
 						uni.showToast({
@@ -176,8 +185,6 @@
 										if(res && res.errMsg == "requestPayment:ok") {
 											that.buyBtnText = "已购买"
 											that.consultationDetail.buy = true
-											console.log(preOrder.orderNO)
-											console.log(preOrder.prePayID)
 											//更新订单状态
 											that.$apis.postUpdOrderStatus({"payId": preOrder.prePayID, "status": 2, "orderAmount": "100"}).then(res => {
 												console.log(JSON.stringify(res))
@@ -247,7 +254,7 @@
 				console.log('预约时生成的随机房间号：'+roomID);
 				let that = this
 				//给专家发送房间号
-				this.$apis.postSendRoomId({'roomId': roomID,'expertPhone':this.consultationDetail.expertPhone}).then(res => {
+				this.$apis.postSendRoomId({'roomId': roomID,'expertPhone':this.consultationDetail.expertPhone,'expertName':this.consultationDetail.expertName}).then(res => {
 					if (res.code == 200) {
 						console.log('给专家发送房间号成功')
 					} else {
@@ -263,6 +270,9 @@
 					/* url: '/pages/room/room?userID=oGvzT5cBpAiP48NzKwX7HeqlbI2Q&template=grid&roomID='+roomID+'&debugMode=false&cloudenv=PRO' */
 					url: '/pages/room/room?userID=' + userData.userId + '&template=grid&roomID=' + roomID + '&debugMode=false&cloudenv=PRO'
 				})
+			},
+			imageError() {
+				this.calendarInfo.avatar = this.defaultCover 
 			}
 		}
 	};
@@ -274,6 +284,15 @@
 	}
 </style>
 <style lang="scss" scoped>
+	.expert-headicon1 {
+		border-radius: 50%;
+		width: 140rpx;
+		height: 140rpx;
+	}
+	.expert-headicon1 .expert-headicon1img{
+		width: 110rpx;
+		height: 150rpx;
+	}
 	.consultationD {
 		display: none;
 		&.active {
@@ -367,7 +386,7 @@
 		flex-direction: column;
 		justify-content: center;
 		padding: 15px;
-		width: 170%;
+		width: 140%;
 		background-color: #e6e3e3;
 		border-radius: 10px;
 		buttom: 100px;

@@ -24,8 +24,8 @@ const CONFIG = {
 			"getUserInfoByOpenid.do",
 			"getReviewClass.do"
 		],
-		aliYunEndpoint: 'https://review-img.oss-cn-beijing.aliyuncs.com/',
-		defaultBanner: 'https://review-img.oss-cn-beijing.aliyuncs.com/review_banner.png',
+		aliYunEndpoint: 'https://xztx-review-img.oss-cn-beijing.aliyuncs.com/',
+		defaultBanner: 'https://xztx-review-img.oss-cn-beijing.aliyuncs.com/review_banner.png',
 	},
 
 	//生产环境配置
@@ -46,13 +46,13 @@ const CONFIG = {
 			"/pages/user/privacyProto",
 			"/pages/userform/userform",
 		],
-		aliYunEndpoint: 'https://review-img.oss-cn-beijing.aliyuncs.com/',
+		aliYunEndpoint: 'https://xztx-review-img.oss-cn-beijing.aliyuncs.com/',
 		apiWhitePath: [
 			"register.do",
 			"getUserInfoByOpenid.do",
 			"getReviewClass.do"
 		],
-		defaultBanner: 'https://review-img.oss-cn-beijing.aliyuncs.com/review_banner.png'
+		defaultBanner: 'https://xztx-review-img.oss-cn-beijing.aliyuncs.com/review_banner.png'
 	}
 
 }

@@ -66,7 +66,7 @@ export default {
 		  				})
 		  			}else{
 						//给专家发送房间号
-						this.$apis.postSendRoomId({'roomId': options.roomID,'expertPhone':options.mobilePhone}).then(res => {
+						/* this.$apis.postSendRoomId({'roomId': options.roomID,'expertPhone':options.mobilePhone}).then(res => {
 							if (res.code == 200) {
 								console.log('给专家发送房间号成功')
 							} else {
@@ -76,7 +76,7 @@ export default {
 							}
 						}).catch(err => {
 							console.log(err)
-						})
+						}) */
 					}
 		  		})
 		  	} else {

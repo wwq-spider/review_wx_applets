@@ -211,6 +211,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/expert/myAppoint",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的预约",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 		"color": "#333",
@@ -222,12 +231,12 @@
 		  "iconPath": "static/home.png",
 		  "selectedIconPath": "static/home-active.png"
 	    },
-		/* {
+		{
 	      "pagePath": "pages/expert/expert",
-	      "text": "访谈",
+	      "text": "咨询",
 		  "iconPath": "static/user.png",
 		  "selectedIconPath": "static/user-active.png"
-	    }, */
+	    },
 		{
 			"pagePath": "pages/user/index",
 			"text": "我的",
