@@ -525,6 +525,8 @@
 								that.lock = false
 								uni.hideLoading()
 								if (res.code == 200) {
+									uni.removeStorageSync("currentClassId")
+									uni.removeStorageSync(this.reviewRecordKey)
 									//跳转报告查看页面
 									uni.navigateTo({
 										url: '/pages/report/pdfreport?pdfUrl=' + encodeURIComponent(res.pdfUrl)
@@ -534,6 +536,8 @@
 										title: '提交失败',
 										icon: 'wrong'
 									})
+									uni.removeStorageSync("currentClassId")
+									uni.removeStorageSync(this.reviewRecordKey)
 								}
 							}).catch(err => {
 								console.log('进入异常')
