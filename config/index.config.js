@@ -7,12 +7,12 @@ const CONFIG = {
 		//baseUrl: "https://review-system-1282746-1307626513.ap-shanghai.run.tcloudbase.com/review_system",
 		//baseUrl: "http://127.0.0.1:8087",
 		//baseUrl: "https://www.zhuxinkang.com/review",
-		//baseUrl: "http://localhost:8080/review_system",
-		baseUrl: "https://www.xinzhaitongxing.com/review",
+		baseUrl: "http://localhost:8080/review",
+		//baseUrl: "https://www.xinzhaitongxing.com/review",
 		tokenKey: "WECHAT_TRADE", // 登录标识
 		testOpenId: "oEjRxwy7jL9PgG0kWeb4VcDTZEas", // 小程序测试openId
-		forcedLogin: false, // touristMode游客模式下APP是否强制用户登录 场景：当用户进入登录页面后无法后退。
-		touristMode: true, // APP是否开启游客模式， 游客模式true开启：APP打开后可以进入首页和无权限的页面，游客模式false关闭：APP打开后首先需要登录才能进入， 此时forcedLogin配置项失效。
+		forcedLogin: true, // touristMode游客模式下APP是否强制用户登录 场景：当用户进入登录页面后无法后退。
+		touristMode: false, // APP是否开启游客模式， 游客模式true开启：APP打开后可以进入首页和无权限的页面，游客模式false关闭：APP打开后首先需要登录才能进入， 此时forcedLogin配置项失效。
 		whitePath: [
 			"/pages/index/index",
 			"/pages/user/index",

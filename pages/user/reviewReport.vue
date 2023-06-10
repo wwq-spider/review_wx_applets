@@ -132,10 +132,10 @@
 					that.tipShow = false
 					uni.hideLoading()
 					if (res.code == 200) {
-						res.rows.forEach((row) => {
-							if (row.classCover) {
+						res.result.forEach((row) => {
+							/* if (row.classCover) {
 								row.classCover = that.$config.aliYunEndpoint + row.classCover
-							}
+							} */
 							that.reportList.push(row)
 						})
 					} else {

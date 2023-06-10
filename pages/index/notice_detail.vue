@@ -65,7 +65,7 @@
 				this.$apis.postNoticeDetail({'id': this.id}).then(res => {
 					uni.hideLoading()
 					if(res.code == 200) {
-						that.notice = res.data
+						that.notice = res.result
 						that.formatDate()
 					} else {
 						uni.showToast({
@@ -79,7 +79,7 @@
 				})
 			},
 			formatDate() {
-				let date = new Date(this.notice.updateTime.time)
+				let date = new Date(this.notice.updateTime)
 				let y = date.getFullYear();
 				let MM = date.getMonth() + 1;
 				MM = MM < 10 ? ('0' + MM) : MM;

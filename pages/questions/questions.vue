@@ -285,7 +285,7 @@
 				let that = this
 				this.$apis.postQuestions({'classId': classId}).then(res => {
 					uni.hideLoading()
-					that.questionList = res.rows
+					that.questionList = res.result
 					that.setReviewProgress()
 				})
 			},

@@ -15,6 +15,7 @@ PlatformType = 3;
 			
 
 function loginAction(callback,parentOpenid) {
+	console.log('验证获取openid方法')
 	console.log(callback)
 	uni.login({
 		async success(r) {
@@ -45,8 +46,9 @@ function loginAction(callback,parentOpenid) {
 function checkLogin(callback){
 	
 	let openid = uni.getStorageSync("openid")
+	console.log('ceedd:'+openid)
 	if (openid && openid != "") {
-		http.post(`${config.baseUrl}/reviewFront/getUserInfoByOpenid.do`, {"openid": openid}).then(res => {
+		http.post(`${config.baseUrl}/reviewFront/user/getUserInfoByOpenid`, {"openid": openid}).then(res => {
 			if (res.code == 200 && res.result && res.result.mobilePhone) {//如果用户信息已经完善 直接跳转到测评项目页面
 				callback && callback(res.result);
 			} else {
@@ -57,10 +59,10 @@ function checkLogin(callback){
 		uni.login({
 			provider: 'weixin',
 			success(login) {
-				http.post(`${config.baseUrl}/reviewFront/getOpenid.do`, {"code": login.code}).then(res => {
+				http.post(`${config.baseUrl}/reviewFront/user/getOpenid`, {"code": login.code}).then(res => {
 					if (res.code == 200) {
 						uni.setStorageSync("openid", res.result)
-						http.post(`${config.baseUrl}/reviewFront/getUserInfoByOpenid.do`, {"openid": res.result}).then(res => {
+						http.post(`${config.baseUrl}/reviewFront/user/getUserInfoByOpenid`, {"openid": res.result}).then(res => {
 							if (res.code == 200 && res.result && res.result.mobilePhone) {//如果用户信息已经完善 直接跳转到测评项目页面
 								callback && callback(res.result);
 							}

@@ -243,9 +243,9 @@
 				})
 				let that = this
 				//查询通知公告
-				this.$apis.postNoticeList({"page": 1, rows: 20}).then(res => {
+				this.$apis.postNoticeList({"pageNo": 1, "pageSize": 20}).then(res => {
 					if (res.code == 200) {
-						that.noticeList = res.rows
+						that.noticeList = res.result.records
 					} else {
 						uni.showToast({
 							title: res.msg
@@ -254,15 +254,16 @@
 				})
 				
 				let pid = uni.getStorageSync("projectId")
+				console.log('打印pid：',!pid)
 				if(!pid || pid == 0) {
 					//查询banner
-					this.$apis.postBannerList({"page": 1, rows: 20}).then(res => {
+					this.$apis.postBannerList({"page": 1, "rows": 20}).then(res => {
 						if (res.code == 200) {
 							that.bannerList = []
-							res.rows.forEach((row) => {
-								if (row.imgUrl) {
+							res.result.records.forEach((row) => {
+								/* if (row.imgUrl) {
 									row.imgUrl = that.$config.aliYunEndpoint + row.imgUrl
-								}
+								} */
 								that.bannerList.push(row)
 							})
 						} else {
@@ -286,10 +287,10 @@
 							uni.stopPullDownRefresh()
 						}
 						let projectClass = []
-						res.rows.forEach((row) => {
-							if (row.bannerImg) {
+						res.result.forEach((row) => {
+							/* if (row.bannerImg) {
 								row.bannerImg = that.$config.aliYunEndpoint + row.bannerImg
-							}
+							} */
 							if(that.projectId == 0 && row.type == 2) {
 								that.hotList.push(row)
 							} else {
@@ -319,21 +320,21 @@
 				
 				if(!pid || pid == 0) {
 					//查询专题
-					this.$apis.postReviewSubjectClass({"dataGrid": {"page": 1, "rows": 4}}).then(res => {
+					this.$apis.postReviewSubjectClass({"page": 1, "rows": 4}).then(res => {
 						that.subjectList = []
 						that.hotList = []
 						if (res.code == 200) {
 							let projectClass = []
-							res.rows.forEach((row) => {
+							res.result.forEach((row) => {
 								if (row.classList && row.classList.length > 0) {
 									row.classList.forEach((classInfo) => {
-										if (classInfo.bannerImg) {
+										/* if (classInfo.bannerImg) {
 											classInfo.bannerImg = that.$config.aliYunEndpoint + classInfo.bannerImg
-										}
+										} */
 									})
 								}
 							})
-							that.subjectList = res.rows
+							that.subjectList = res.result
 						}
 					}).catch(err => {
 						uni.hideLoading()

@@ -220,6 +220,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/expert/expertNew",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "咨询师列表",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 		"color": "#333",
@@ -232,8 +241,8 @@
 		  "selectedIconPath": "static/home-active.png"
 	    },
 		{
-	      "pagePath": "pages/expert/expert",
-	      "text": "咨询",
+	      "pagePath": "pages/expert/expertNew",
+	      "text": "服务",
 		  "iconPath": "static/user.png",
 		  "selectedIconPath": "static/user-active.png"
 	    },

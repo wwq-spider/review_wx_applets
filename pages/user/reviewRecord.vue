@@ -57,10 +57,10 @@
 			this.$apis.postReviewRecords({"userId": userData.userId, "projectId": pid}).then(res => {
 				uni.hideLoading()
 				if (res.code == 200) {
-					res.rows.forEach((row) => {
-						if (row.classCover) {
+					res.result.forEach((row) => {
+						/* if (row.classCover) {
 							row.classCover = that.$config.aliYunEndpoint + row.classCover
-						}
+						} */
 						that.recordList.push(row)
 					})
 				} else {
@@ -113,10 +113,10 @@
 				this.tipShow  = false
 				if (res.code == 200) {
 					that.recordList = []
-					res.rows.forEach((row) => {
-						if (row.classCover) {
+					res.result.forEach((row) => {
+						/* if (row.classCover) {
 							row.classCover = that.$config.aliYunEndpoint + row.classCover
-						}
+						} */
 						that.recordList.push(row)
 					})
 				} else {

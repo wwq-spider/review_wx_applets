@@ -14,7 +14,8 @@ let $http = new request({
 	//设置请求头（如果使用报错跨域问题，可能是content-type请求类型和后台那边设置的不一致）
 	header: {
 		'Content-Type': 'application/json;charset=UTF-8',
-		// 'project_token': config.projectToken, //项目token（可删除）
+		//'project_token': config.projectToken, //项目token（可删除）
+		'token': uni.getStorageSync("token"),
 	},
 	config: {
 		isPrompt: true,
@@ -43,7 +44,7 @@ $http.getQnToken = function(callback) {
 }
 //请求开始拦截器
 $http.requestStart = function(options) {
-	console.log("请求开始", options);
+	console.log("请求开始222", options);
 	if (options.load) {
 		//打开加载动画
 		store.commit("setLoadingShow", true);

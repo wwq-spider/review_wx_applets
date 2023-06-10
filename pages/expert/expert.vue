@@ -55,10 +55,10 @@
 						if(pullRefresh) {
 							uni.stopPullDownRefresh()
 						}
-						console.log("获取专家列表成功");
 						let queryParamList = []
-						res.rows.forEach((row) => {
-							row.avatar = that.$config.aliYunEndpoint + row.avatar
+						res.result.records.forEach((row) => {
+							//row.avatar = that.$config.aliYunEndpoint + row.avatar
+							//row.avatar = row.avatar
 							that.calendarList.push(row)
 							queryParamList.push({"id": row.id, "title": row.title})
 						})

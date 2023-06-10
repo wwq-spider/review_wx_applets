@@ -1,7 +1,7 @@
 <template>
 	<view class="expert" :class="{active: bodyShow}">
 		<view class="expert-headicon">
-			<view style="width: 550rpx;margin-left: 50rpx;margin-top: 20rpx;">
+			<view style="margin-top: 20rpx;">
 				<text class="title">{{calendarInfo.expertName}}</text>
 				<text class="subtitle">{{calendarInfo.jobTitle}}|{{calendarInfo.label}}</text>
 			</view>
@@ -15,14 +15,40 @@
 				<text class="subtitle">{{calendarInfo.introduction}}</text>
 			</view>
 		</view>
+		<!-- <view class="expert-headicon">
+			<image class="expert-headicon1img" :src="require('../../static/position.png')"></image>
+			<text class="position">{{calendarInfo.introduction}}</text>
+		</view> -->
+		<view>
+			<view style="width: 100%;margin-left: 50rpx;margin-top: 20rpx;">
+				<text class="title1">我的专业受训</text>
+				<view class="zong">
+					<view class="user_box" style="width: 80%; margin: 40rpx auto;">
+						<view class="user_for" v-for="(list,id) in longDistanceTrainList" :key="id">
+							<view class="line_box">
+								<!-- 圆球 -->
+								<view class="line_radio"></view>
+								<!-- 线 -->
+								<view class="line_for" v-for="item in 3"></view>
+							</view>
+							
+							<view class="right_box"  :style="{ 'color' : '#8e8b8d'}">
+								<view class="title">{{list.startTime}} | {{list.endTime}} </view>
+								<view class="title"><text style="margin-left: 20rpx;">{{list.trainingExperience}}</text></view>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
 		<view class="expert-calendar">
 			<view class="expert-headicon2" style="width: 100%;margin-left: 50rpx;margin-top: 20rpx;">
 				<text class="title1"  style="margin-top: 10rpx;">排班信息</text>
-				<!-- <picker mode="date" @change="bindDateChange" class="dateCheck" style="margin-left: 390rpx;margin-top: 10rpx;">
+				<picker mode="date" @change="bindDateChange" class="dateCheck" style="margin-left: 390rpx;margin-top: 10rpx;">
 					<view>
 						日期选择框{{date}}
 					</view>
-				</picker> -->
+				</picker>
 			</view>
 		</view>
 		<view class="expert-calendar" style="margin-left: 45rpx;">
@@ -48,7 +74,8 @@
 				openid: '',
 				localtionPlatform: '',
 				defaultCover: '../../static/man.png',
-				exitCalenAvatar : ''
+				exitCalenAvatar : '',
+				longDistanceTrainList: [],
 			}
 		},
 		onLoad(event) {
@@ -74,9 +101,8 @@
 				this.$apis.postCalendarDetail({'id': this.id}).then(res => {
 					uni.hideLoading()
 					if (res.code == 200) {
-						console.log("获取专家详情成功");
 						that.calendarInfo = res.result
-						that.calendarInfo.avatar = that.$config.aliYunEndpoint + res.result.avatar				  
+						//that.calendarInfo.avatar = res.result.avatar				  
 					} else {
 						uni.showToast({
 							title: res.msg
@@ -91,7 +117,7 @@
 					uni.hideLoading()
 					if (res.code == 200) {
 						console.log("获取专家日历成功");
-						that.calendarListInfo = res.rows
+						that.calendarListInfo = res.result
 					} else {
 						uni.showToast({
 							title: res.msg
@@ -101,6 +127,16 @@
 					uni.hideLoading()
 					console.log(err)
 				})
+				//获取专家长程培训
+				this.$apis.postLongDistanceTrainList({'expertId': this.id}).then(res => {
+					if (res.code == 200) {
+						that.longDistanceTrainList = res.result
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				}) 
 			},
 			imageError() {
 				this.calendarInfo.avatar = this.defaultCover 
@@ -108,11 +144,10 @@
 			//预约专家
 			orderExpert(calendarId,visitDate,beginTime,endTime,expertName,mobilePhone){
 				let that = this
-				console.log(calendarId)
+				console.log('日历id：'+calendarId)
 				let userData = uni.getStorageSync('userData')
 				this.$apis.postOrderExpert({'id': calendarId}).then(res => {
 					if (res.code == 200) {
-						console.log("预约专家成功");
 						var resultList = []
 						var obj = {
 							"expertId" : this.id,
@@ -126,7 +161,6 @@
 						}
 						resultList.push(obj)
 						this.$apis.postSaveOoderInfo(resultList).then(res => {
-							
 							if (res.code == 200) {
 								console.log("保存预约人信息成功");
 								this.requestSubscribeMessage(visitDate,beginTime,endTime,expertName,res.id,mobilePhone);
@@ -244,7 +278,7 @@
 	}
 	.title {
 		color: #594e3f;
-		font-size: 35rpx;
+		font-size: 25rpx;
 		font-weight: 800;
 		text-overflow: -o-ellipsis-lastline;
 		overflow: hidden;
@@ -256,7 +290,7 @@
 	}
 	.title1 {
 		color: #594e3f;
-		font-size: 30rpx;
+		font-size: 25rpx;
 		font-weight: 800;
 		text-overflow: -o-ellipsis-lastline;
 		overflow: hidden;
@@ -274,11 +308,22 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
-		-webkit-line-clamp: 1; //可设置显示的行数
+		-webkit-line-clamp: 5; //可设置显示的行数
 		line-clamp: 1;
 		-webkit-box-orient: vertical;
 	}
 	.subtitle {
+		font-size: 25rpx;
+		color: #857f77;
+		margin: 20rpx 0 20rpx 0;
+		line-height: 1.6;
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+	}
+	.position {
 		font-size: 25rpx;
 		color: #857f77;
 		margin: 20rpx 0 20rpx 0;
@@ -313,16 +358,8 @@
 	}
 	.expert-headicon1 {
 		border-radius: 50%;
-		width: 140rpx;
-		height: 140rpx;
-		//padding-right: 27px;
-		
-		/* width: 100%;
-		background: #fff;
-		padding: 3rpx;
-		box-shadow: 0 0 28rpx 0 rgba(155, 153, 146, 0.18);
-		margin: 20rpx auto; */
-
+		width: 250rpx;
+		height: 250rpx;
 	}
 	.expert-headicon2 {
 		width: 100%;
@@ -336,8 +373,8 @@
 	
 	}
 	.expert-headicon1 .expert-headicon1img{
-		width: 110rpx;
-		height: 150rpx;
+		width: 250rpx;
+		height: 250rpx;
 	}
 	.savebutton {
 		width: 100rpx;
@@ -377,5 +414,48 @@
 		padding: 3rpx;
 		box-shadow: 0 0 28rpx 0 rgba(155, 153, 146, 0.18);
 		margin: 20rpx auto;
+	}
+	.user_for{
+		display: flex;
+	}
+	.user_box{
+		font-size: 25rpx;
+	}
+	.item_year {
+		font-size: 34rpx;
+		height: 50rpx;
+	}
+	.line_for {
+		width: 4rpx;
+		height: 24rpx;
+		margin: 0 20rpx 10rpx;
+		background-color:#559DFF;
+	}
+	.line_radio {
+		width: 20rpx;
+		height: 20rpx;
+		border-radius: 50%;
+		position: relative;
+		left: 50%;
+		transform: translateX(-50%);
+		top: 0;
+		background-color:#559DFF;
+	}
+	.right_box {
+		padding: 0rpx 15rpx 15rpx 15rpx;
+	}
+	.desc{
+		font-size: 30rpx;
+		color: #8e8b8d;
+		display: flex;
+		margin-top: 20rpx;
+		align-items: center;
+		
+	}
+	image{
+		margin-right: 20rpx;
+		width: 34rpx;
+		height: 34rpx;
+		border-radius: 50%;
 	}
 </style>

@@ -78,10 +78,10 @@
 					uni.hideLoading()
 					this.tipShow  = false
 					if (res.code == 200) {
-						res.rows.forEach((row) => {
-							if (row.bannerImg) {
+						res.result.forEach((row) => {
+							/* if (row.bannerImg) {
 								row.bannerImg = that.$config.aliYunEndpoint + row.bannerImg
-							}
+							} */
 							that.orderList.push(row)
 						})
 					} else {

@@ -82,8 +82,8 @@
 			//查询报告模板
 			this.$apis.postReportTemplateList({"classId": classId}).then(res => {
 				if(res.code == 200) {
-					that.reportTips = res.data.reportTips
-					that.reportTemplateList = res.data.reportTemplateList
+					that.reportTips = res.result.reportTips
+					that.reportTemplateList = res.result.reportTemplateList
 				} else {
 					uni.showToast({
 						title: res.msg

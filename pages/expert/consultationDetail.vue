@@ -92,10 +92,10 @@
 				this.$apis.postListConsultationDetai({'id': this.id}).then(res => {
 					uni.hideLoading()
 					if (res.code == 200) {
-						that.videoConsult = res.videoConsult;
-						that.isConfirmByExpert = res.isConfirmByExpert;
+						that.videoConsult = res.result.videoConsult;
+						that.isConfirmByExpert = res.result.isConfirmByExpert;
 						res.result.forEach((row) => {
-							row.avatar = that.$config.aliYunEndpoint + row.avatar
+							//row.avatar = that.$config.aliYunEndpoint + row.avatar
 							that.consultationDetail = row
 							that.buyBtnText = "立即支付"
 							/* if(res.videoConsult == 'Y'){
@@ -163,7 +163,7 @@
 				this.$apis.postCreateConsulPrePayOrder({"classId": this.consultationDetail.id,"expertId":this.consultationDetail.expertId}).then(res => {
 					uni.hideLoading()
 					if(res.code == 200) {
-						let preOrder = res.data
+						let preOrder = res.result
 						if(preOrder && preOrder.prePayID) {
 							if(preOrder.prePayID == "000") {
 								that.buyBtnText = "已购买"
