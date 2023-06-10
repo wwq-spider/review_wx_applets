@@ -90,6 +90,7 @@
 					})
 				}
 			})
+			let zongfen = {}
 			if(that.projectId != 0){
 				let userData = uni.getStorageSync('userData')
 				this.$apis.postReportDetail({"resultId": resultId,"userId": userData.userId,"projectId": that.projectId,"pCount":that.pCount,"limitId":that.limitId}).then(res => {
@@ -103,8 +104,15 @@
 									row["varName"] = item.substring(0, a)
 									row["grade"] = item.substring(a + 3, item.indexOf(";"))
 									row["explain"] = item.substring(item.indexOf("结果:")+3)
-									that.resArr.push(row)
+									if(item.substring(0, a) == '总分'){
+										zongfen["varName"] = item.substring(0, a)
+										zongfen["grade"] = item.substring(a + 3, item.indexOf(";"))
+										zongfen["explain"] = item.substring(item.indexOf("结果:")+3)
+									}else{
+										that.resArr.push(row)
+									}
 								})
+								that.resArr.push(zongfen)
 							}
 						})
 					} else {
@@ -126,8 +134,17 @@
 								row["varName"] = item.substring(0, a)
 								row["grade"] = item.substring(a + 3, item.indexOf(";"))
 								row["explain"] = item.substring(item.indexOf("结果:")+3)
-								that.resArr.push(row)
+								if(item.substring(0, a) == '总分'){
+									zongfen["varName"] = item.substring(0, a)
+									zongfen["grade"] = item.substring(a + 3, item.indexOf(";"))
+									zongfen["explain"] = item.substring(item.indexOf("结果:")+3)
+								}else{
+									that.resArr.push(row)
+								}
 							})
+							if(JSON.stringify(zongfen) != '{}'){
+								that.resArr.push(zongfen)
+							}
 						}
 					} else {
 						uni.showToast({
