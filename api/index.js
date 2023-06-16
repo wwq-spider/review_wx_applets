@@ -101,6 +101,8 @@ export const postConfirmAppoint = (data) => http.post(`${config.baseUrl}/reviewF
 export const postPayRemind = (data) => http.post(`${config.baseUrl}/reviewFront/sendMsg/postPayRemind`,data)
 //获取专家长程培训经历
 export const postLongDistanceTrainList = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/postLongDistanceTrainList`,data)
+export const postPsychoMetrics = (data) => http.post(`${config.baseUrl}/reviewFront/reviewClass/getPsychoMetrics`,data)
+export const postReviewClassByLike = (data) => http.post(`${config.baseUrl}/reviewFront/reviewClass/getReviewClassByLike`,data)
 
 /* //创建预约腾讯会议
 export const postCreateTXMeeting = (data) => http.post(`${config.baseUrl}/reviewFront/meeting/creatMeeting`, data) */

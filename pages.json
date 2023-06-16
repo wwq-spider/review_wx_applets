@@ -1,9 +1,9 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
+			"path": "pages/index/indexNew",
 			"style":{
-				"navigationBarTitleText": "心理健康服务平台",
+				"navigationBarTitleText": "心宅同行5G+心理健康管理平台",
 				"app-plus":{
 					"titleNView":false
 				},
@@ -229,30 +229,66 @@
             }
             
         }
+        ,{
+            "path" : "pages/review/psychometrics",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "心理评测",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/review/PsychologicalCounsel",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "心理咨询",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/review/listPage",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+		,{
+		    "path" : "pages/review/screen",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
     ],
 	"tabBar": {
 		"color": "#333",
 		"selectedColor": "#55aaff",
 		"backgroundColor": "#ffffff",
 	    "list": [{
-	      "pagePath": "pages/index/index",
+	      "pagePath": "pages/index/indexNew",
 	      "text": "首页",
-		  "iconPath": "static/home.png",
-		  "selectedIconPath": "static/home-active.png"
+		  "iconPath": "static/shouye.png",
+		  "selectedIconPath": "static/shouye.png"
 	    },
 		{
 	      "pagePath": "pages/expert/expertNew",
 	      "text": "服务",
-		  "iconPath": "static/user.png",
-		  "selectedIconPath": "static/user-active.png"
+		  "iconPath": "static/fangtan.png",
+		  "selectedIconPath": "static/fangtan.png"
 	    },
 		{
 			"pagePath": "pages/user/index",
 			"text": "我的",
-			"iconPath": "static/user.png",
-			"selectedIconPath": "static/user-active.png"
+			"iconPath": "static/wode.png",
+			"selectedIconPath": "static/wode.png"
 		}]
-	  },
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "心宅同行心理健康服务平台",

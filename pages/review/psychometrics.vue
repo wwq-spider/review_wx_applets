@@ -1,0 +1,240 @@
+<template>
+    <view class="Index">
+		<view class="search">
+			<text class="recommend">每日推荐</text>
+			<u-search style="width: 70%;" :clearabled="true" @clear="clear()" @search="search" :show-action="false" placeholder="抑郁测评"></u-search>
+		</view>
+        <!-- 瀑布流布局列表 -->
+        <view class="pubuBox">
+            <view class="pubuItem">
+                <view class="item-masonry" v-for="(item, index) in comList" :key="index">
+                    <u-image :src="item.bannerImg" mode="widthFix"></u-image>
+                    <view class="listtitle">
+                        <view class="listtitle1">{{ item.title }}</view>
+                        <view class="listtitle2">
+                            <text class="listtitle2son">￥</text>
+                            {{ item.orgPrice }}
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+		
+		<view>
+			<view class="search">
+				<text class="recommend">精品评测</text>
+				<view class="popularity">按人气</view>
+			</view>
+			<view class="question" v-for="(reviewClass, index) in reviewClassList">
+				<view class="questionr" @click='beginTest(reviewClass.classId, reviewClass.title)' :key="index">
+					<view class="questionl">
+						<image class="questionlimg" mode="scaleToFill" :src="reviewClass.bannerImg || defaultCover" @error="imageError(0, index, 2)"></image>
+					</view>
+					<view style="width: 60%;">
+						<view class="title">{{reviewClass.title}}</view>
+						<view class="subtitle">{{reviewClass.classDesc}}</view>
+						<view v-if="reviewClass.charge==1">
+							<span class="iconfont" style="color: #df7a58;font-size: 9px;">&#xe606;{{reviewClass.realPrice}}</span>
+							<span class="iconfont" style="padding-left: 5px; color: #857f77;font-size: 9px;text-decoration:line-through;" v-if="reviewClass.dicounPrice != '0' && reviewClass.dicounPrice != '0.00'">&#xe606;{{reviewClass.orgPrice}}</span>
+							<span style="padding-left: 10px; color: #857f77; font-size: 9px;">{{reviewClass.buyCount}}人付款</span>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+    </view>
+</template>
+ 
+<script>
+	import userCheck from '@/utils/userAction.js';
+    export default {
+        data() {
+            return {
+				current: 0,
+				searchValue: "",
+				comList: [],
+				reviewClassList: [],
+            }
+        },
+        onShow() {},
+		mounted() {
+			this.loadData();
+		},
+        onLoad(option) {
+        	//初始化数据
+        	this.loadData();
+        },
+        methods: {
+			loadData(pullRefresh) {
+				let that = this
+				//查询专家列表
+				this.$apis.postPsychoMetrics().then(res => {
+					if (res.code == 200) {
+						res.result.forEach((row) => {
+							row.bannerImg = that.$config.aliYunEndpoint + row.bannerImg
+							that.comList.push(row)
+						})
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+				//查询分类
+				this.$apis.postReviewClass().then(res => {
+					if (res.code == 200) {
+						res.result.forEach((row) => {
+							that.reviewClassList.push(row)
+						})
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			search(res) {
+				this.$apis.postReviewClassByLike({"title": res}).then(res => {
+					if (res.code == 200) {
+						this.reviewClassList.splice(0,this.reviewClassList.length)
+						console.log("数据：",JSON.stringify(this.reviewClassList))
+						res.result.forEach((row) => {
+							this.reviewClassList.push(row)
+						})
+					}
+				})
+			},
+			clear() {
+				this.searchValue = "";
+			},
+			/* changeTab(index) {
+			    this.current = index;
+				console.log('打印：',this.current)
+			}, */
+		},
+    };
+</script>
+ 
+<style scoped="scoped" lang="scss">
+	.search {
+		margin-bottom: 1rpx;
+		padding: 20rpx;
+		background: #ffffff;
+		display: flex;
+	}
+	.recommend {
+		margin-right: 5%;
+		color: #383838;
+		margin-top: 1%;
+	}
+    page {
+        background-color: #eee;
+        height: 100%;
+    }
+    .pubuBox {
+        padding: 22rpx;
+    } 
+    .pubuItem {
+        column-count: 2;
+        column-gap: 20rpx;
+    }
+    .item-masonry {
+        box-sizing: border-box;
+        border-radius: 15rpx;
+        overflow: hidden;
+        background-color: #fff;
+        break-inside: avoid;
+        margin-bottom: 10rpx;
+        box-shadow: 0px 0px 15rpx 1rpx rgba(78, 101, 153, 0.14);
+    }
+    .item-masonry image {
+        width: 100%;
+    }
+    .listtitle {
+        padding-left: 22rpx;
+        font-size: 35rpx;
+        padding-bottom: 22rpx;
+		margin-left: 30rpx;
+        .listtitle1 {
+            line-height: 39rpx;
+            text-overflow: -o-ellipsis-lastline;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .listtitle2 {
+            color: #3d7a00;
+            font-size: 32rpx;
+            line-height: 32rpx;
+            font-weight: bold;
+            padding-top: 22rpx;
+            .listtitle2son {
+                font-size: 32rpx;
+            }
+        }
+    }
+    .Index {
+        width: 100%;
+        height: 100%;
+    }
+	.question {
+		width: 88%;
+		background: #fff;
+		padding: 20rpx;
+		/* box-shadow: 0 0 28rpx 0 rgb(155 153 146 / 18%); */
+		border-radius: 50rpx;
+		margin: 20rpx auto;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+	}
+	.questionr {
+		padding-left: 10rpx;
+		display: flex;
+		justify-content: space-around; 
+		flex-flow: wrap row;
+		width: 100%;
+	}
+	.questionl {
+		 width: 30%;
+		padding-right: 27px;
+	}
+	.questionl .questionlimg {
+		width: 233rpx;
+		height: 233rpx;
+	}
+	.questionr .title {
+		color: #594e3f;
+		font-size: 23rpx;
+		font-weight: 700;
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1; //可设置显示的行数
+		line-clamp: 1;
+		-webkit-box-orient: vertical;
+	}
+	.questionr .subtitle {
+		font-size: 20rpx;
+		color: #857f77;
+		margin: 20rpx 0 20rpx 0;
+		line-height: 1.6;
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 5; //可设置显示的行数
+		line-clamp: 5;
+		-webkit-box-orient: vertical;
+	}
+	.popularity {
+		margin-left: 50%;
+		color: #383838;
+		margin-top: 2%;
+		font-size: 30rpx;
+	}
+</style>

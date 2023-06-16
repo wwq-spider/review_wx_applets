@@ -7,8 +7,9 @@ const CONFIG = {
 		//baseUrl: "https://review-system-1282746-1307626513.ap-shanghai.run.tcloudbase.com/review_system",
 		//baseUrl: "http://127.0.0.1:8087",
 		//baseUrl: "https://www.zhuxinkang.com/review",
-		baseUrl: "http://localhost:8080/review",
+		//baseUrl: "http://localhost:8080/review",
 		//baseUrl: "https://www.xinzhaitongxing.com/review",
+		baseUrl: "http://39.106.33.212:8080/jeecg-boot",
 		tokenKey: "WECHAT_TRADE", // 登录标识
 		testOpenId: "oEjRxwy7jL9PgG0kWeb4VcDTZEas", // 小程序测试openId
 		forcedLogin: true, // touristMode游客模式下APP是否强制用户登录 场景：当用户进入登录页面后无法后退。
