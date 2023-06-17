@@ -256,15 +256,6 @@
             }
             
         }
-		,{
-		    "path" : "pages/review/screen",
-		    "style" :                                                                                    
-		    {
-		        "navigationBarTitleText": "",
-		        "enablePullDownRefresh": false
-		    }
-		    
-		}
     ],
 	"tabBar": {
 		"color": "#333",
