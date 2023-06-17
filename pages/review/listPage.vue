@@ -4,7 +4,8 @@
 		<psychometrics v-if="current == 0"></psychometrics>
 		<PsychologicalCounsel v-if="current == 1"></PsychologicalCounsel>
 		<view v-if="current == 2">
-			<u-empty mode="page"></u-empty>
+			<!-- <u-empty mode="page"></u-empty> -->
+			<counseling></counseling>
 		</view>
 		<view v-if="current == 3">
 			<u-empty mode="page"></u-empty>
@@ -24,7 +25,7 @@
 <script>
 	import userCheck from '@/utils/userAction.js';
 	import psychometrics from '@/pages/review/psychometrics';
-	import PsychologicalCounsel from'@/pages/review/PsychologicalCounsel';
+	import PsychologicalCounsel from '@/pages/review/PsychologicalCounsel';
     export default {
 		components:{
 			psychometrics,

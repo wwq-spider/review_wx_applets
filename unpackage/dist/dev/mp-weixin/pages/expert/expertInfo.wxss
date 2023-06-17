@@ -1,0 +1,215 @@
+
+page.data-v-3f76c554 {
+	background-color: #f1f1f1;
+}
+
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.expert.data-v-3f76c554 {
+  display: none;
+  height: 100%;
+  overflow-y: hidden;
+}
+.expert.active.data-v-3f76c554 {
+  display: block;
+}
+.title.data-v-3f76c554 {
+  color: #594e3f;
+  font-size: 25rpx;
+  font-weight: 800;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.title1.data-v-3f76c554 {
+  color: #594e3f;
+  font-size: 25rpx;
+  font-weight: 800;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.dateCheck.data-v-3f76c554 {
+  color: #FF0000;
+  font-size: 30rpx;
+  font-weight: 800;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.subtitle.data-v-3f76c554 {
+  font-size: 25rpx;
+  color: #857f77;
+  margin: 20rpx 0 20rpx 0;
+  line-height: 1.6;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.position.data-v-3f76c554 {
+  font-size: 25rpx;
+  color: #857f77;
+  margin: 20rpx 0 20rpx 0;
+  line-height: 1.6;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.expert-top.data-v-3f76c554 {
+  width: 88%;
+  background: #fff;
+  padding: 3rpx;
+  box-shadow: 0 0 28rpx 0 rgba(155, 153, 146, 0.18);
+  border-radius: 50rpx;
+  margin: 10rpx auto;
+  display: flex;
+}
+.expert-headicon.data-v-3f76c554 {
+  width: 110%;
+  background: #fff;
+  padding: 3rpx;
+  box-shadow: 0 0 28rpx 0 rgba(155, 153, 146, 0.18);
+  border-radius: 6rpx;
+  margin: 20rpx auto;
+  display: flex;
+}
+.expert-headicon1.data-v-3f76c554 {
+  border-radius: 50%;
+  width: 250rpx;
+  height: 250rpx;
+}
+.expert-headicon2.data-v-3f76c554 {
+  width: 100%;
+  background: #fff;
+  padding: 3rpx;
+  box-shadow: 0 0 28rpx 0 rgba(155, 153, 146, 0.18);
+  margin: 20rpx auto;
+  display: flex;
+}
+.expert-headicon1 .expert-headicon1img.data-v-3f76c554 {
+  width: 250rpx;
+  height: 250rpx;
+}
+.savebutton.data-v-3f76c554 {
+  width: 100rpx;
+  line-height: 50rpx;
+  color: #594e3f;
+  font-size: 32rpx;
+  font-weight: 700;
+  margin: 40rpx auto;
+  text-align: center;
+  background-color: #B0E0E6;
+  margin-left: 10rpx;
+  vertical-align: middle;
+}
+.tips.data-v-3f76c554 {
+  color: #67c23a;
+  font-size: 14px;
+  line-height: 40px;
+  text-align: center;
+  background-color: #f0f9eb;
+  height: 0;
+  opacity: 0;
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+  transition: all 0.3s;
+}
+.testbutton.data-v-3f76c554 {
+  width: 120rpx;
+  line-height: 50rpx;
+  background: #77beff;
+  text-align: center;
+  font-size: 26rpx;
+  color: black;
+}
+.expert-calendar.data-v-3f76c554 {
+  width: 100%;
+  background: #fff;
+  padding: 3rpx;
+  box-shadow: 0 0 28rpx 0 rgba(155, 153, 146, 0.18);
+  margin: 20rpx auto;
+}
+.user_for.data-v-3f76c554 {
+  display: flex;
+}
+.user_box.data-v-3f76c554 {
+  font-size: 25rpx;
+}
+.item_year.data-v-3f76c554 {
+  font-size: 34rpx;
+  height: 50rpx;
+}
+.line_for.data-v-3f76c554 {
+  width: 4rpx;
+  height: 24rpx;
+  margin: 0 20rpx 10rpx;
+  background-color: #559DFF;
+}
+.line_radio.data-v-3f76c554 {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  position: relative;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  top: 0;
+  background-color: #559DFF;
+}
+.right_box.data-v-3f76c554 {
+  padding: 0rpx 15rpx 15rpx 15rpx;
+}
+.desc.data-v-3f76c554 {
+  font-size: 30rpx;
+  color: #8e8b8d;
+  display: flex;
+  margin-top: 20rpx;
+  align-items: center;
+}
+image.data-v-3f76c554 {
+  margin-right: 20rpx;
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 50%;
+}
+

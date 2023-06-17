@@ -1,0 +1,1 @@
+<view><view class="article"><view class="article-title">用户服务协议及隐私条款</view><view class="article-content"><rich-text style="font-size:14px;line-height:1.8;color:#333;" nodes="{{privacyText}}"></rich-text></view></view></view>

@@ -1,12 +1,212 @@
 <template>
 	<view>
-		
+		<!-- 心理咨询 -->
+		<view class="search">
+			<u-search style="width: 100%;" :clearabled="true" @clear="clear()" @search="search" :show-action="false" placeholder="咨询师"></u-search>
+		</view>
+		<view class="screen-list">
+			<view @click="screenList" class="screen-list-item"><span>按人气</span><image class="img-title" src="../../static/Polygon1.png"></image></view>
+			<view @click="screenList" class="screen-list-item"><span>时间</span><image class="img-title" src="../../static/Polygon1.png"></image></view>
+			<view @click="screenList" class="screen-list-item"><span>筛选</span><image class="img-title" src="../../static/icons8-funnel-50 1.png"></image></view>
+		</view>
+		<view>
+		<view class="question">
+			<view class="questionr">
+				<view class="questionl">
+					<image class="questionlimg" mode="scaleToFill" src="../../static/default_cover.jpeg"></image>
+				</view>
+				<view class="counsel-concent">
+					<view class="counsel-title">
+						<span class="counsel-name">{{'王莹'}}</span>
+						<span class="counsel-charge">{{'$800.00/小时'}}</span>
+					</view>
+					<view class="counsel-intro">{{'国家卫健委认证心理咨询师国家卫健委认证心理咨询师国家卫健委认证心理咨询师国家卫健委认证心理咨询师'}}</view>
+					<view>
+						<view class="reservation" @click='reservationClick()'>立即预约</view>
+					</view>
+				</view>
+				<view class="counsel-footer">
+					<view class="counsel-footer-Left">
+						<span class="counsel-button" @click='relationshipClick()'>亲子关系</span>
+						<span class="counsel-button" @click='interpersonalClick()'>人际关系</span>
+						<span class="counsel-button" @click='interpretationClick()'>评测解读</span>
+					</view>
+					<view class="counsel-footer-right" style="float: right;color: #999999;font-size: 22rpx;">
+						<span>最快可约今日18:00</span>
+					</view>
+				</view>
+			</view>
+		</view>
+		</view>	
 	</view>
 </template>
- 
+
 <script>
 	export default {
+		data() {
+			return {
+				reviewClassList:[
+					{
+						classId:'111',
+						title:'3434',
+						bannerImg:'hdjshdjs',
+						jobTitle:'jjjj',
+						label:'7878'
+					}
+				] // 咨询师列表
+			}
+		},
+		onLoad(option) {
+			//初始化数据
+			this.loadData();
+		},
+		methods: {
+			loadData(pullRefresh) {
+				let that = this
+				//查询专家列表
+				this.$apis.postPsychoMetrics().then(res => {
+					if (res.code == 200) {
+						res.result.forEach((row) => {
+							row.bannerImg = that.$config.aliYunEndpoint + row.bannerImg
+							that.comList.push(row)
+						})
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+				//查询分类
+				this.$apis.postReviewClass().then(res => {
+					if (res.code == 200) {
+						res.result.forEach((row) => {
+							that.reviewClassList.push(row)
+						})
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			screenList(){},
+			// 亲子关系
+			relationshipClick(){},
+			// 人际关系
+			interpersonalClick(){},
+			// 评测解读
+			interpretationClick(){},
+			search(){},
+			clear(){},
+			// 立即预约
+			reservationClick(){}
 		}
+	}
 </script>
-<style lang="less">
+
+<style scoped="scoped" lang="scss">
+	@import '@/common/uni-ui.scss';
+	.search {
+		margin-bottom: 1rpx;
+		padding: 20rpx;
+		background: #ffffff;
+		display: flex;
+	}
+	.question {
+		width: 88%;
+		background: #fff;
+		padding: 20rpx;
+		/* box-shadow: 0 0 28rpx 0 rgb(155 153 146 / 18%); */
+		margin: 20rpx auto;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+	}
+	.questionr {
+		padding-left: 10rpx;
+		display: flex;
+		justify-content: space-around; 
+		flex-flow: wrap row;
+		width: 100%;
+	}
+	.questionl {
+		width: 30%;
+		padding-right: 27px;
+	}
+	.questionl .questionlimg {
+		width: 233rpx;
+		height: 233rpx;
+	}
+	.counsel-concent{
+		width: 60%;
+		color: #333333;
+	}
+	.reservation {
+		width: 150rpx;
+		line-height: 60rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 24rpx;
+		font-weight: 700;
+		margin-top: 30rpx;
+		border-radius: 30rpx;
+		color: #ffffff;
+		float:right
+	}
+	.counsel-charge{
+		color: #416F5D;
+		float: right;
+	}
+	.counsel-title{
+		font-size: 24rpx;
+		margin-bottom: 20rpx;
+		font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+	}
+	.counsel-intro{
+		font-size:20rpx;
+		height: 110rpx;
+		overflow: scroll;
+		line-height: 1.6;
+	}
+	.counsel-footer{
+		width: 100%;
+		margin-top: 10rpx;
+	}
+	.counsel-button{
+		width: 120rpx;
+		line-height: 40rpx;
+		background: #ffffff;
+		text-align: center;
+		font-size: 24rpx;
+		font-weight: 700;
+		margin-right: 10rpx;
+		border-radius: 10rpx;
+		color: #999999;
+		float:left;
+		border:1px solid #DDDEDF;
+	}
+	.screen-list{
+		width: 100%;
+		height: 66rpx;
+		background-color: #EDEDED;
+		opacity: 0.4;
+		font-size: 24rpx;
+		display: flex;
+		justify-content: space-between;
+		line-height: 66rpx;
+	}
+	.screen-list-item{
+		color: #2D2D2D;
+		margin: 0 40rpx 0 40rpx;
+	}
+	.img-title{
+		width:24rpx;
+		height: 18rpx;
+		margin-left: 10rpx;
+	}
+	.counsel-footer-right{
+		float: right;
+		color: #999999;
+		font-size: 22rpx;
+	}
 </style>
