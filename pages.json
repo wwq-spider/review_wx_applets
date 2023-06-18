@@ -133,7 +133,7 @@
 			}
 		},
 		{
-            "path" : "pages/review/detail",
+            "path" : "pages/review/detailNew",
             "style" : {
                 "app-plus": {
                     "titleNView": {
@@ -152,7 +152,7 @@
                         "type": "transparent"
                     }
                 },
-                "navigationBarTitleText": "测评量表详情"
+                "navigationBarTitleText": "量表详情"
             }
             
         },
@@ -268,7 +268,7 @@
 		  "selectedIconPath": "static/shouye.png"
 	    },
 		{
-	      "pagePath": "pages/expert/expertNew",
+	      "pagePath": "pages/review/listPage",
 	      "text": "服务",
 		  "iconPath": "static/fangtan.png",
 		  "selectedIconPath": "static/fangtan.png"

@@ -103,6 +103,7 @@ export const postPayRemind = (data) => http.post(`${config.baseUrl}/reviewFront/
 export const postLongDistanceTrainList = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/postLongDistanceTrainList`,data)
 export const postPsychoMetrics = (data) => http.post(`${config.baseUrl}/reviewFront/reviewClass/getPsychoMetrics`,data)
 export const postReviewClassByLike = (data) => http.post(`${config.baseUrl}/reviewFront/reviewClass/getReviewClassByLike`,data)
+export const postReviewClassNumber = (data) => http.post(`${config.baseUrl}/reviewFront/reviewClass/getReviewClassNumber`,data)
 
 /* //创建预约腾讯会议
 export const postCreateTXMeeting = (data) => http.post(`${config.baseUrl}/reviewFront/meeting/creatMeeting`, data) */

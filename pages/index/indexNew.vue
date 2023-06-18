@@ -25,13 +25,13 @@
 		<view>
 			<text class="text">服务项目</text>
 			<view class="imageStyle">
-				<image @click="toPsychometrics" mode="widthFix" src="/static/psychometrics.png"></image>
-				<image @click="toPsychologicalCounsel" mode="widthFix" src="/static/counsel.png"></image>
-				<image mode="widthFix" src="/static/CareerPlanning.png"></image>
-				<image @click="toPsychologicalCounsel" mode="widthFix" src="/static/psychologicalCourses.png"></image>
-				<image @click="toPsychologicalCounsel" mode="widthFix" src="/static/psychologicalMall.png"></image>
-				<image @click="toPsychologicalCounsel" mode="widthFix" src="/static/professionalSupport.png"></image>
-				<image @click="toPsychologicalCounsel" mode="widthFix" src="/static/sharedRoom.png"></image>
+				<image @click="toPsychometrics" mode="scaleToFill" class="psychometrics" src="/static/psychometrics.png"></image>
+				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/counsel.png"></image>
+				<image mode="scaleToFill" class="psychometrics" src="/static/CareerPlanning.png"></image>
+				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/psychologicalCourses.png"></image>
+				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/psychologicalMall.png"></image>
+				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/professionalSupport.png"></image>
+				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/sharedRoom.png"></image>
 			</view>
 		</view>
 	</view>
@@ -176,13 +176,13 @@
 			},
 			/* 跳转到心理评测页面 */
 			toPsychometrics() {
-				uni.navigateTo({
+				uni.switchTab({
 					url: '/pages/review/listPage?current=0'
 				})
 			},
 			/* 跳转到心理咨询页面 */
 			toPsychologicalCounsel() {
-				uni.navigateTo({
+				uni.switchTab({
 					url: '/pages/review/listPage?current=1'
 				})
 			}
@@ -195,6 +195,8 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		width: 100%;
+		height: 100%;
 	}
 	.tips {
 		color: #00aaff;
@@ -243,17 +245,22 @@
 	.text {
 		font-size: 35rpx;
 		color: #7f7f7f;
-		margin: 0 10px;
+		margin: 0 15px;
 		margin-top: 50%;
 		font-weight: bold;
 	}
 	.imageStyle {
-		margin: 0 5px;
 		margin-top: -5%;
 		border-radius: 8px;
-		/* box-sizing: border-box; */
-		/* display: flex; */
+		box-sizing: border-box;
+		display: flex;
 		flex-direction: column;
-		width: 80%;
+		width: 100%;
+	}
+	.psychometrics {
+		width: 710rpx;
+		height: 350rpx;
+		border-radius: 25rpx;
+		margin: 0 auto;
 	}
 </style>

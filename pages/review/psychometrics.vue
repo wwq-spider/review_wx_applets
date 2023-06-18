@@ -7,16 +7,16 @@
         <!-- 瀑布流布局列表 -->
         <view class="pubuBox">
             <view class="pubuItem">
-                <view class="item-masonry" v-for="(item, index) in comList" :key="index">
+                <view class="item-masonry" v-for="(item, index) in recommendClassList" :key="index">
 					<u-image :src="item.bannerImg" mode="widthFix"></u-image>
                     <view class="listtitle">
                         <view class="listtitle1">{{ item.title }}</view>
                         <view class="listtitle2">
                             <text class="listtitle2son">￥</text>
-                            {{ item.orgPrice }}
+                            {{ item.realPrice }}
                         </view>
                     </view>
-					<view class="evaluation" @click="toPage('/pages/review/detail')">立即测评</view>
+					<view class="evaluation" @click="beginTest(item.classId,item.title)">立即测评</view>
                 </view>
             </view>
         </view>
@@ -39,7 +39,7 @@
 							<span class="iconfont" style="padding-left: 5px; color: #857f77;font-size: 9px;text-decoration:line-through;" v-if="reviewClass.dicounPrice != '0' && reviewClass.dicounPrice != '0.00'">&#xe606;{{reviewClass.orgPrice}}</span>
 							<span style="padding-left: 10px; color: #857f77; font-size: 9px;">{{reviewClass.buyCount}}人付款</span>
 						</view>
-						<view class="question-evaluation" @click="toPage('/pages/review/detail')">立即测评</view>
+						<view class="question-evaluation"  @click='beginTest(reviewClass.classId)'>立即测评</view>
 					</view>
 				</view>
 			</view>
@@ -54,7 +54,7 @@
             return {
 				current: 0,
 				searchValue: "",
-				comList: [],
+				recommendClassList: [],
 				reviewClassList: [],
             }
         },
@@ -74,12 +74,11 @@
 			},
 			loadData(pullRefresh) {
 				let that = this
-				//查询专家列表
+				//查询每日推荐量表
 				this.$apis.postPsychoMetrics().then(res => {
 					if (res.code == 200) {
 						res.result.forEach((row) => {
-							row.bannerImg = that.$config.aliYunEndpoint + row.bannerImg
-							that.comList.push(row)
+							that.recommendClassList.push(row)
 						})
 					} else {
 						uni.showToast({
@@ -104,7 +103,6 @@
 				this.$apis.postReviewClassByLike({"title": res}).then(res => {
 					if (res.code == 200) {
 						this.reviewClassList.splice(0,this.reviewClassList.length)
-						console.log("数据：",JSON.stringify(this.reviewClassList))
 						res.result.forEach((row) => {
 							this.reviewClassList.push(row)
 						})
@@ -113,6 +111,16 @@
 			},
 			clear() {
 				this.searchValue = "";
+			},
+			beginTest(classid, title) {
+				let projectClass = uni.getStorageSync("projectClass")
+				if(projectClass && projectClass.length > 0) {
+					return
+				}
+				//跳转到当前量表
+				uni.navigateTo({
+					url: '/pages/review/detailNew?classId=' + classid
+				})
 			},
 			/* changeTab(index) {
 			    this.current = index;
@@ -189,17 +197,16 @@
 		float:right
 	}
     .listtitle {
-        padding-left: 22rpx;
-        font-size: 35rpx;
+        padding-left: 15rpx;
+        font-size: 30rpx;
         padding-bottom: 22rpx;
-		margin-left: 30rpx;
         .listtitle1 {
             line-height: 39rpx;
             text-overflow: -o-ellipsis-lastline;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 1;
             line-clamp: 2;
             -webkit-box-orient: vertical;
         }

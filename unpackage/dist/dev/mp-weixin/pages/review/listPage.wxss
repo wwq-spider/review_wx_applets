@@ -92,10 +92,9 @@ page.data-v-626e75b1 {
   float: right;
 }
 .listtitle.data-v-626e75b1 {
-  padding-left: 22rpx;
-  font-size: 35rpx;
+  padding-left: 15rpx;
+  font-size: 30rpx;
   padding-bottom: 22rpx;
-  margin-left: 30rpx;
 }
 .listtitle .listtitle1.data-v-626e75b1 {
   line-height: 39rpx;
@@ -103,7 +102,7 @@ page.data-v-626e75b1 {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   line-clamp: 2;
   -webkit-box-orient: vertical;
 }
