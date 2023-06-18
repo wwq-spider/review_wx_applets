@@ -8,7 +8,7 @@
         <view class="pubuBox">
             <view class="pubuItem">
                 <view class="item-masonry" v-for="(item, index) in comList" :key="index">
-                    <u-image :src="item.bannerImg" mode="widthFix"></u-image>
+					<u-image :src="item.bannerImg" mode="widthFix"></u-image>
                     <view class="listtitle">
                         <view class="listtitle1">{{ item.title }}</view>
                         <view class="listtitle2">
@@ -16,6 +16,7 @@
                             {{ item.orgPrice }}
                         </view>
                     </view>
+					<view class="evaluation" @click="toPage('/pages/review/detail')">立即测评</view>
                 </view>
             </view>
         </view>
@@ -23,14 +24,14 @@
 		<view>
 			<view class="search">
 				<text class="recommend">精品评测</text>
-				<view class="popularity">按人气</view>
+				<view class="popularity"><span>按人气</span><image class="img-title" src="../../static/Polygon1.png"></image></view>
 			</view>
 			<view class="question" v-for="(reviewClass, index) in reviewClassList">
 				<view class="questionr" @click='beginTest(reviewClass.classId, reviewClass.title)' :key="index">
 					<view class="questionl">
 						<image class="questionlimg" mode="scaleToFill" :src="reviewClass.bannerImg || defaultCover" @error="imageError(0, index, 2)"></image>
 					</view>
-					<view style="width: 60%;">
+					<view style="width: 60%;margin-top: 20rpx;">
 						<view class="title">{{reviewClass.title}}</view>
 						<view class="subtitle">{{reviewClass.classDesc}}</view>
 						<view v-if="reviewClass.charge==1">
@@ -38,6 +39,7 @@
 							<span class="iconfont" style="padding-left: 5px; color: #857f77;font-size: 9px;text-decoration:line-through;" v-if="reviewClass.dicounPrice != '0' && reviewClass.dicounPrice != '0.00'">&#xe606;{{reviewClass.orgPrice}}</span>
 							<span style="padding-left: 10px; color: #857f77; font-size: 9px;">{{reviewClass.buyCount}}人付款</span>
 						</view>
+						<view class="question-evaluation" @click="toPage('/pages/review/detail')">立即测评</view>
 					</view>
 				</view>
 			</view>
@@ -65,6 +67,11 @@
         	this.loadData();
         },
         methods: {
+			toPage(path) {
+				uni.navigateTo({
+					url: path 
+				})
+			},
 			loadData(pullRefresh) {
 				let that = this
 				//查询专家列表
@@ -118,9 +125,10 @@
 <style scoped="scoped" lang="scss">
 	.search {
 		margin-bottom: 1rpx;
-		padding: 20rpx;
+		padding:20rpx 40rpx 20rpx 40rpx;
 		background: #ffffff;
 		display: flex;
+		justify-content: space-between;
 	}
 	.recommend {
 		margin-right: 5%;
@@ -146,10 +154,40 @@
         break-inside: avoid;
         margin-bottom: 10rpx;
         box-shadow: 0px 0px 15rpx 1rpx rgba(78, 101, 153, 0.14);
+		
+		.evaluation{
+			width: 150rpx;
+			line-height: 60rpx;
+			background: #628D3D;
+			text-align: center;
+			font-size: 24rpx;
+			font-weight: 700;
+			margin-top: -50rpx;
+			border-radius: 30rpx;
+			color: #ffffff;
+			float:right
+		}
     }
+	.img-radio{
+		border-radius: 30rpx;
+		height:100%;
+		width:233rpx;
+	}
     .item-masonry image {
         width: 100%;
     }
+	.question-evaluation{
+		width: 150rpx;
+		line-height: 60rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 24rpx;
+		font-weight: 700;
+		margin: 50rpx 20rpx 0 0;
+		border-radius: 30rpx;
+		color: #ffffff;
+		float:right
+	}
     .listtitle {
         padding-left: 22rpx;
         font-size: 35rpx;
@@ -182,9 +220,8 @@
     }
 	.question {
 		width: 88%;
-		background: #fff;
-		padding: 20rpx;
-		/* box-shadow: 0 0 28rpx 0 rgb(155 153 146 / 18%); */
+		// padding: 20rpx;
+		background: rgba(215,233,230,0.41);
 		border-radius: 50rpx;
 		margin: 20rpx auto;
 		display: -webkit-box;
@@ -192,19 +229,21 @@
 		display: flex;
 	}
 	.questionr {
-		padding-left: 10rpx;
+		// padding-left: 10rpx;
 		display: flex;
 		justify-content: space-around; 
 		flex-flow: wrap row;
 		width: 100%;
 	}
 	.questionl {
-		 width: 30%;
+		width: 30%;
+		// height: 100%;
 		padding-right: 27px;
 	}
 	.questionl .questionlimg {
 		width: 233rpx;
 		height: 233rpx;
+		border-radius: 50rpx;
 	}
 	.questionr .title {
 		color: #594e3f;
@@ -216,7 +255,7 @@
 		display: -webkit-box;
 		-webkit-line-clamp: 1; //可设置显示的行数
 		line-clamp: 1;
-		-webkit-box-orient: vertical;
+		-webkit-box-ori5ent: vertical;
 	}
 	.questionr .subtitle {
 		font-size: 20rpx;
@@ -236,5 +275,10 @@
 		color: #383838;
 		margin-top: 2%;
 		font-size: 30rpx;
+		.img-title{
+			width:24rpx;
+			height: 18rpx;
+			margin-left: 10rpx;
+		}
 	}
 </style>

@@ -1,38 +1,21 @@
 <template>
 	<view>
-		<view v-if="projectId == 0">
-			<!-- 刷新页面后的顶部提示框 -->
-			<view class="tips" :class="{ 'tips-ani': tipShow }">上拉刷新...</view>
-			<view class="report" v-for="(item, index) in reportList"  :key="item.resultId">
-				<view class="reportr" >
-					<view class="title">测评名称: {{item.classTitle}}</view>
-					<view class="title">报告时间: {{item.createTime}}</view>
-					<view class="title" style="display: flex;">
-						<text>报告内容: </text>
-						<view class="testbutton"  @click='detail(item.resultId, item.classId, item.classTitle,item.reportResult)'>查看详情</view>
-					</view>
+		<!-- 刷新页面后的顶部提示框 -->
+		<view class="tips" :class="{ 'tips-ani': tipShow }">上拉刷新...</view>
+		<view class="img-tab">
+			<u-tabs :list="tabList" :current="current" @click="changeTab" @change="changeTab"></u-tabs>
+	    </view>
+		<view class="question">
+			<view class="questionr">
+				<view style="width: 90%;margin: 0 auto;padding: 20rpx 0;">
+					<view class="title">{{'预约专家：王莹'}}</view>
+					<view class="title">{{'预约时间：2023-03-31(周五) 10:00-11:00'}}</view>
+					<view class="title">{{'问诊内容：'}}<span class="view-button">{{'查看详情'}}</span></view>
 				</view>
-			</view>	
-			<view v-if="reportList.length == 0" style="text-align: center; margin: 10%;">用户暂无测评报告</view>
-			<!-- 通过 loadMore 组件实现上拉加载效果，如需自定义显示内容，可参考：https://ext.dcloud.net.cn/plugin?id=29 -->
-			<uni-load-more v-if="loading || options.status === 'noMore' " :status="options.status" />
+			</view>
 		</view>
-		<view v-if="projectId != 0">
-			<view class="tips" :class="{ 'tips-ani': tipShow }">上拉刷新...</view>
-			<view class="report" v-for="(item, index) in limitList">
-				<view class="reportr" >
-					<view class="title">项目名称: {{projectName}}</view>
-					<view class="title">报告时间: {{item.createTime}}</view>
-					<view class="title" style="display: flex;">
-						<text>报告内容: </text>
-						<view class="testbutton"  @click='detailProReview(item.limitId,item.classId)'>查看详情</view>
-					</view>
-				</view>
-			</view>	
-			<view v-if="limitList.length == 0" style="text-align: center; margin: 10%;">用户暂无测评报告</view>
-			<!-- 通过 loadMore 组件实现上拉加载效果，如需自定义显示内容，可参考：https://ext.dcloud.net.cn/plugin?id=29 -->
-			<uni-load-more v-if="loading || options.status === 'noMore' " :status="options.status" />
-		</view>
+		<!-- 通过 loadMore 组件实现上拉加载效果，如需自定义显示内容，可参考：https://ext.dcloud.net.cn/plugin?id=29 -->
+		<uni-load-more v-if="loading || options.status === 'noMore' " :status="options.status" />
 	</view>
 </template>
 
@@ -41,20 +24,23 @@
 		components: {},
 		data() {
 			return {
+				tabList: [{
+					name: '待付款(0)',
+				}, {
+					name: '未测评(0)',
+				}, {
+					name: '已测评(1)'
+				}, {
+					name: '全部'
+				}],
 				defaultCover: '../../static/default_cover.jpeg',
-				reportList: [],
+				reviewClassList: [],
 				// 查询字段，多个字段用 , 分割
 				field: '_id,mode,avatar,title,user_name,excerpt,last_modify_date',
 				formData: {
 					status: 'loading', // 加载状态
 				},
-				tipShow: false, // 是否显示顶部提示框
-				projectId : 0,
-				projectName : '',
-				limitList : [],
-				userId : '',
-				pCount : 0,
-				refreshCount:0
+				tipShow: false // 是否显示顶部提示框
 			};
 		},
 		onUnload() {
@@ -68,87 +54,56 @@
 				}
 			});
 		},
-		onLoad(option) {
-			this.loadData()
+		loadData(pullRefresh) {
+			let that = this
+			//查询专家列表
+			this.$apis.postPsychoMetrics().then(res => {
+				if (res.code == 200) {
+					res.result.forEach((row) => {
+						row.bannerImg = that.$config.aliYunEndpoint + row.bannerImg
+						that.comList.push(row)
+					})
+				} else {
+					uni.showToast({
+						title: res.msg
+					})
+				}
+			}).catch(err => {
+				console.log(err)
+			})
+			//查询分类
+			this.$apis.postReviewClass().then(res => {
+				if (res.code == 200) {
+					res.result.forEach((row) => {
+						that.reviewClassList.push(row)
+					})
+				}
+			}).catch(err => {
+				console.log(err)
+			})
 		},
 		methods: {
-			detail(resultid, classId, title,reportResult) {
-				let dongliangClassId = '402880f082eecb960182eee3b1ef0001'
-				let dongliangClassProId = '2c9cff928408eab3018413a00d8a006a'
-				//let pdfUrl = 'https://www.zhuxinkang.com/review/upload2/PDF/create/2022/09/20/cp-20220920204836310.pdf'
-				if(classId == dongliangClassId || classId == dongliangClassProId){
-					//跳转报告查看页面
+			againTest(classid, title) {
+				// uni.navigateTo({
+				// 	url: '/pages/questions/questions?source=1&classId='+classid + "&title=" + title
+				// })
+				//如果未登录且是扫二维码进来的 则跳转到第一个量表
+				let projectClass = uni.getStorageSync("projectClass")
+				if(projectClass && projectClass.length > 0) {
+					let classInfo = projectClass[0]
 					uni.navigateTo({
-						url: '/pages/report/pdfreport?pdfUrl=' + encodeURIComponent(reportResult)
+						//url: '/pages/questions/questions?classId=' + projectClass[0].classId + "&title=" + projectClass[0].title
+						url: '/pages/report/guide?classId=' + classInfo.classId
 					})
-				}else{
+				} else {
 					uni.navigateTo({
-						url: '/pages/report/report?source=1&resultId=' + resultid + "&classId=" + classId + "&title=" + title
+						//url: '/pages/questions/questions?classId=' + projectClass[0].classId + "&title=" + projectClass[0].title
+						url: '/pages/report/guide?classId=' + classid
 					})
 				}
-			},
-			detailProReview(limitId,classId){
-				let that = this
-				let projectId = that.projectId
-				let pCount = that.pCount
-				uni.navigateTo({
-					url: '/pages/report/report?source=1&projectId=' + projectId + "&limitId=" + limitId + "&pCount=" + pCount + "&classId=" + classId  + "&resultId=" + '0'
-				})
-				
 			},
 			imageError(index) {
-				this.reportList[index]["classCover"] = this.defaultCover
-			},
-			loadData() {
-				this.reportList = []
-				let userData = uni.getStorageSync("userData")
-				let that = this
-				that.userId = userData.userId
-				uni.showLoading({
-					title: "数据加载中"
-				})
-				
-				let projectId = uni.getStorageSync("projectId")
-				let projectClass = uni.getStorageSync("projectClass")
-				if (!projectId) {
-					projectId = 0
-				}else {
-					if(that.refreshCount == 0){
-						that.projectId = projectId
-						that.projectName = projectClass[0].projectName
-						that.pCount = projectClass.length
-						this.$apis.postProjectReviewCount({"userId": userData.userId, "projectId": projectId,"pCount" : projectClass.length}).then(res => {
-							if(res.code == 200) {
-								that.refreshCount += 1
-								res.result.forEach((result) =>{
-									that.limitList.push(result)
-								})
-							}
-						})
-					}
-				}
-				//查询测评记录
-				this.$apis.postReviewReports({"userId": userData.userId, "projectId": projectId}).then(res => {
-					that.tipShow = false
-					uni.hideLoading()
-					if (res.code == 200) {
-						res.result.forEach((row) => {
-							/* if (row.classCover) {
-								row.classCover = that.$config.aliYunEndpoint + row.classCover
-							} */
-							that.reportList.push(row)
-						})
-					} else {
-						uni.showToast({
-							title: res.msg,
-							icon: 'error'
-						})
-					}
-				}).catch(err => {
-					that.tipShow = false
-					uni.hideLoading()
-					console.log(err)
-				})
+				this.recordList[index]["classCover"] = this.defaultCover
 			},
 			load(data, ended) {
 				if (ended) {
@@ -162,7 +117,42 @@
 		onPullDownRefresh() {
 			this.formData.status = 'more'
 			this.tipShow = true
-			this.loadData()
+			let userData = uni.getStorageSync("userData")
+			let that = this
+			let pid = uni.getStorageSync("projectId")
+			this.$apis.postReviewRecords({"userId": userData.userId, "projectId": pid}).then(res => {
+				this.tipShow  = false
+				if (res.code == 200) {
+					that.recordList = []
+					res.result.forEach((row) => {
+						/* if (row.classCover) {
+							row.classCover = that.$config.aliYunEndpoint + row.classCover
+						} */
+						that.recordList.push(row)
+					})
+				} else {
+					uni.showToast({
+						title: res.msg,
+						icon: 'error'
+					})
+				}
+				uni.stopPullDownRefresh()
+			}).catch(err => {
+				uni.hideLoading()
+				that.tipShow  = false
+				console.log(err)
+			})
+			
+			// this.$refs.udb.loadData({
+			// 	clear: true
+			// }, () => {
+			// 	this.tipShow = true
+			// 	clearTimeout(this.timer)
+			// 	this.timer = setTimeout(()=>{
+			// 		this.tipShow  = false
+			// 	},1000)
+			// 	uni.stopPullDownRefresh()
+			// })
 		},
 		/**
 		 * 上拉加载回调函数
@@ -184,7 +174,12 @@
 		min-height: 100%;
 		height: auto;
 	}
-
+	.img-tab{
+		width:100%;
+		display: flex;
+		justify-content: center;
+		background: rgba(215,233,230,0.4);
+	}
 	.tips {
 		color: #67c23a;
 		font-size: 14px;
@@ -237,7 +232,7 @@
 		-webkit-box-orient: vertical;
 	}
 	
-	.report {
+	.record {
 		width: 88%;
 		background: #fff;
 		padding: 20rpx;
@@ -248,16 +243,16 @@
 		display: flex;
 	}
 	
-	.reportl {
+	.recordl {
 		width: 20%;
 		padding-right: 27px;
 	}
-	.reportl .reportlimg {
+	.recordl .recordlimg {
 		width: 180rpx;
 		height: 233rpx;
 	}
 	
-	.reportr {
+	.recordr {
 		padding-left: 15rpx;
 		display: flex;
 		justify-content: space-around; 
@@ -265,11 +260,9 @@
 		width: 100%;
 	}
 	
-	.reportr .title {
-		width: 100%;
+	.recordr .title {
 		color: #594e3f;
 		font-size: 30rpx;
-		margin: 20rpx 0 20rpx 0;
 		font-weight: 700;
 		text-overflow: -o-ellipsis-lastline;
 		 overflow: hidden;
@@ -280,8 +273,7 @@
 		 -webkit-box-orient: vertical;
 	}
 	
-	.reportr .subtitle {
-		width: 100%;
+	.recordr .subtitle {
 		font-size: 25rpx;
 		color: #857f77;
 		margin: 20rpx 0 20rpx 0;
@@ -295,7 +287,7 @@
 		 -webkit-box-orient: vertical;
 	}
 	
-	.reportr .conbottom {
+	.recordr .conbottom {
 		width: 100%;
 		display: -webkit-box;
 		display: -webkit-flex;
@@ -308,20 +300,118 @@
 		justify-content: space-between;
 	}
 	
-	.reportr .agescope {
+	.recordr .agescope {
 		font-size: 24rpx;
 		color: #ff9912;
 	}
 	
-	.reportr .testbutton {
-		width: 140rpx;
+	.recordr .testbutton {
+		width: 150rpx;
 		line-height: 54rpx;
-		background: #55aaff;
+		background: #8bbeff;
 		//border-radius: 27rpx;
 		text-align: center;
 		font-size: 26rpx;
-		color: #fff;
-		margin-left: 6px;
-		margin-bottom: 10rpx;
+		color: black;
+		//margin-left: 10px;
+		margin-top: 18%;
+	}
+	.question {
+		width: 88%;
+		// padding: 20rpx;
+		background: rgba(215,233,230,0.41);
+		border-radius: 50rpx;
+		margin: 20rpx auto;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+	}
+	.questionr {
+		// padding-left: 10rpx;
+		display: flex;
+		justify-content: space-around; 
+		flex-flow: wrap row;
+		width: 100%;
+	}
+	.questionl {
+		width: 30%;
+		padding-right: 27px;
+	}
+	.questionl .questionlimg {
+		width: 233rpx;
+		height: 233rpx;
+		border-radius: 50rpx;
+	}
+	.questionr .title {
+		color: #594e3f;
+		font-size: 28rpx;
+		font-weight: 700;
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1; //可设置显示的行数
+		line-clamp: 1;
+		-webkit-box-ori5ent: vertical;
+		line-height: 60rpx;
+	}
+	.questionr .subtitle {
+		font-size: 20rpx;
+		color: #857f77;
+		margin: 20rpx 0 20rpx 0;
+		line-height: 1.6;
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 5; //可设置显示的行数
+		line-clamp: 5;
+		-webkit-box-orient: vertical;
+	}
+	.questionr .subtitle {
+		font-size: 20rpx;
+		color: #857f77;
+		margin: 20rpx 0 20rpx 0;
+		line-height: 1.6;
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 5; //可设置显示的行数
+		line-clamp: 5;
+		-webkit-box-orient: vertical;
+	}
+	.img-radio{
+		border-radius: 30rpx;
+		height:100%;
+		width:233rpx;
+	}
+	.item-masonry image {
+	    width: 100%;
+	}
+	.question-evaluation{
+		width: 150rpx;
+		line-height: 60rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 24rpx;
+		font-weight: 700;
+		margin: 50rpx 20rpx 0 0;
+		border-radius: 30rpx;
+		color: #ffffff;
+		float:right
+	}
+	.view-button{
+		width: 150rpx;
+		line-height: 60rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 24rpx;
+		font-weight: 700;
+		color: #ffffff;
+		float:right;
+	}
+	view.data-v-3b2b1a80, scroll-view.data-v-3b2b1a80{
+		background-color: transparent !important;
 	}
 </style>

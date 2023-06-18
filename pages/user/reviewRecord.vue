@@ -2,19 +2,20 @@
 	<view>
 		<!-- 刷新页面后的顶部提示框 -->
 		<view class="tips" :class="{ 'tips-ani': tipShow }">上拉刷新...</view>
-		<view class="record" v-for="(item, index) in recordList"  :key="item.resultId">
-			<view class="recordr" >
-				<view class="recordl">
-					<image class="recordlimg" :src="item.classCover || defaultCover" @error="imageError(index)"></image>
+		<view class="img-tab">
+			<u-tabs style="background: (255,255,255,0);" :list="tabList" :current="current" @click="changeTab" @change="changeTab"></u-tabs>
+	    </view>
+		<view class="question">
+			<view class="questionr">
+				<view class="questionl">
+					<image class="questionlimg" mode="scaleToFill" src="../../static/default_cover_bak.jpeg"></image>
 				</view>
-				<view style="width: 70%;">
-					<view class="title">{{item.classTitle}}</view>
-					<view class="subtitle">测评时间: {{item.createTime}}</view>
-					<!-- <view class="testbutton" @click='againTest(item.classId, item.classTitle)' >再测一次</view> -->
+				<view style="width: 60%;margin-top: 20rpx;">
+					<view class="title">{{'抑郁症筛查量表'}}</view>
+					<view class="subtitle">{{'测评时间:2023-03-30 13:09:12'}}</view>
 				</view>
 			</view>
-		</view>	
-		<view v-if="recordList.length == 0" style="text-align: center; margin: 10%;">用户暂无测评记录</view>
+		</view>
 		<!-- 通过 loadMore 组件实现上拉加载效果，如需自定义显示内容，可参考：https://ext.dcloud.net.cn/plugin?id=29 -->
 		<uni-load-more v-if="loading || options.status === 'noMore' " :status="options.status" />
 	</view>
@@ -25,8 +26,17 @@
 		components: {},
 		data() {
 			return {
+				tabList: [{
+					name: '待付款(0)',
+				}, {
+					name: '未测评(0)',
+				}, {
+					name: '已测评(1)'
+				}, {
+					name: '全部'
+				}],
 				defaultCover: '../../static/default_cover.jpeg',
-				recordList: [],
+				reviewClassList: [],
 				// 查询字段，多个字段用 , 分割
 				field: '_id,mode,avatar,title,user_name,excerpt,last_modify_date',
 				formData: {
@@ -46,29 +56,32 @@
 				}
 			});
 		},
-		onLoad(option) {
-			let userData = uni.getStorageSync("userData")
+		loadData(pullRefresh) {
 			let that = this
-			uni.showLoading({
-				title: "数据加载中"
-			})
-			let pid = uni.getStorageSync("projectId")
-			//查询测评记录
-			this.$apis.postReviewRecords({"userId": userData.userId, "projectId": pid}).then(res => {
-				uni.hideLoading()
+			//查询专家列表
+			this.$apis.postPsychoMetrics().then(res => {
 				if (res.code == 200) {
 					res.result.forEach((row) => {
-						/* if (row.classCover) {
-							row.classCover = that.$config.aliYunEndpoint + row.classCover
-						} */
-						that.recordList.push(row)
+						row.bannerImg = that.$config.aliYunEndpoint + row.bannerImg
+						that.comList.push(row)
 					})
 				} else {
 					uni.showToast({
-						title: res.msg,
-						icon: 'error'
+						title: res.msg
 					})
 				}
+			}).catch(err => {
+				console.log(err)
+			})
+			//查询分类
+			this.$apis.postReviewClass().then(res => {
+				if (res.code == 200) {
+					res.result.forEach((row) => {
+						that.reviewClassList.push(row)
+					})
+				}
+			}).catch(err => {
+				console.log(err)
 			})
 		},
 		methods: {
@@ -162,6 +175,12 @@
 		background-color: #efeff4;
 		min-height: 100%;
 		height: auto;
+	}
+	.img-tab{
+		width:100%;
+		display: flex;
+		justify-content: center;
+		background: rgba(215,233,230,0.4);
 	}
 	.tips {
 		color: #67c23a;
@@ -298,5 +317,92 @@
 		color: black;
 		//margin-left: 10px;
 		margin-top: 18%;
+	}
+	.question {
+		width: 88%;
+		// padding: 20rpx;
+		background: rgba(215,233,230,0.41);
+		border-radius: 50rpx;
+		margin: 20rpx auto;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+	}
+	.questionr {
+		// padding-left: 10rpx;
+		display: flex;
+		justify-content: space-around; 
+		flex-flow: wrap row;
+		width: 100%;
+	}
+	.questionl {
+		width: 30%;
+		padding-right: 27px;
+	}
+	.questionl .questionlimg {
+		width: 233rpx;
+		height: 233rpx;
+		border-radius: 50rpx;
+	}
+	.questionr .title {
+		color: #594e3f;
+		font-size: 23rpx;
+		font-weight: 700;
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1; //可设置显示的行数
+		line-clamp: 1;
+		-webkit-box-ori5ent: vertical;
+	}
+	.questionr .subtitle {
+		font-size: 20rpx;
+		color: #857f77;
+		margin: 20rpx 0 20rpx 0;
+		line-height: 1.6;
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 5; //可设置显示的行数
+		line-clamp: 5;
+		-webkit-box-orient: vertical;
+	}
+	.questionr .subtitle {
+		font-size: 20rpx;
+		color: #857f77;
+		margin: 20rpx 0 20rpx 0;
+		line-height: 1.6;
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 5; //可设置显示的行数
+		line-clamp: 5;
+		-webkit-box-orient: vertical;
+	}
+	.img-radio{
+		border-radius: 30rpx;
+		height:100%;
+		width:233rpx;
+	}
+	.item-masonry image {
+	    width: 100%;
+	}
+	.question-evaluation{
+		width: 150rpx;
+		line-height: 60rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 24rpx;
+		font-weight: 700;
+		margin: 50rpx 20rpx 0 0;
+		border-radius: 30rpx;
+		color: #ffffff;
+		float:right
+	}
+	view.data-v-3b2b1a80, scroll-view.data-v-3b2b1a80{
+		background-color: transparent !important;
 	}
 </style>

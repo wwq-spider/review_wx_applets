@@ -26,9 +26,10 @@
 /* 文章场景相关 */
 .search.data-v-626e75b1 {
   margin-bottom: 1rpx;
-  padding: 20rpx;
+  padding: 20rpx 40rpx 20rpx 40rpx;
   background: #ffffff;
   display: flex;
+  justify-content: space-between;
 }
 .recommend.data-v-626e75b1 {
   margin-right: 5%;
@@ -58,8 +59,37 @@ page.data-v-626e75b1 {
   margin-bottom: 10rpx;
   box-shadow: 0px 0px 15rpx 1rpx rgba(78, 101, 153, 0.14);
 }
+.item-masonry .evaluation.data-v-626e75b1 {
+  width: 150rpx;
+  line-height: 60rpx;
+  background: #628D3D;
+  text-align: center;
+  font-size: 24rpx;
+  font-weight: 700;
+  margin-top: -50rpx;
+  border-radius: 30rpx;
+  color: #ffffff;
+  float: right;
+}
+.img-radio.data-v-626e75b1 {
+  border-radius: 30rpx;
+  height: 100%;
+  width: 233rpx;
+}
 .item-masonry image.data-v-626e75b1 {
   width: 100%;
+}
+.question-evaluation.data-v-626e75b1 {
+  width: 150rpx;
+  line-height: 60rpx;
+  background: #628D3D;
+  text-align: center;
+  font-size: 24rpx;
+  font-weight: 700;
+  margin: 50rpx 20rpx 0 0;
+  border-radius: 30rpx;
+  color: #ffffff;
+  float: right;
 }
 .listtitle.data-v-626e75b1 {
   padding-left: 22rpx;
@@ -93,15 +123,12 @@ page.data-v-626e75b1 {
 }
 .question.data-v-626e75b1 {
   width: 88%;
-  background: #fff;
-  padding: 20rpx;
-  /* box-shadow: 0 0 28rpx 0 rgb(155 153 146 / 18%); */
+  background: rgba(215, 233, 230, 0.41);
   border-radius: 50rpx;
   margin: 20rpx auto;
   display: flex;
 }
 .questionr.data-v-626e75b1 {
-  padding-left: 10rpx;
   display: flex;
   justify-content: space-around;
   flex-flow: wrap row;
@@ -114,6 +141,7 @@ page.data-v-626e75b1 {
 .questionl .questionlimg.data-v-626e75b1 {
   width: 233rpx;
   height: 233rpx;
+  border-radius: 50rpx;
 }
 .questionr .title.data-v-626e75b1 {
   color: #594e3f;
@@ -125,7 +153,7 @@ page.data-v-626e75b1 {
   display: -webkit-box;
   -webkit-line-clamp: 1;
   line-clamp: 1;
-  -webkit-box-orient: vertical;
+  -webkit-box-ori5ent: vertical;
 }
 .questionr .subtitle.data-v-626e75b1 {
   font-size: 20rpx;
@@ -145,5 +173,10 @@ page.data-v-626e75b1 {
   color: #383838;
   margin-top: 2%;
   font-size: 30rpx;
+}
+.popularity .img-title.data-v-626e75b1 {
+  width: 24rpx;
+  height: 18rpx;
+  margin-left: 10rpx;
 }
 

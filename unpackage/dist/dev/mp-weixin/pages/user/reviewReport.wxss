@@ -129,6 +129,12 @@ page {
   min-height: 100%;
   height: auto;
 }
+.img-tab {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: rgba(215, 233, 230, 0.4);
+}
 .tips {
   color: #67c23a;
   font-size: 14px;
@@ -175,7 +181,7 @@ page {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-.report {
+.record {
   width: 88%;
   background: #fff;
   padding: 20rpx;
@@ -183,26 +189,24 @@ page {
   margin: 20rpx auto;
   display: flex;
 }
-.reportl {
+.recordl {
   width: 20%;
   padding-right: 27px;
 }
-.reportl .reportlimg {
+.recordl .recordlimg {
   width: 180rpx;
   height: 233rpx;
 }
-.reportr {
+.recordr {
   padding-left: 15rpx;
   display: flex;
   justify-content: space-around;
   flex-flow: wrap row;
   width: 100%;
 }
-.reportr .title {
-  width: 100%;
+.recordr .title {
   color: #594e3f;
   font-size: 30rpx;
-  margin: 20rpx 0 20rpx 0;
   font-weight: 700;
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
@@ -212,8 +216,7 @@ page {
   line-clamp: 1;
   -webkit-box-orient: vertical;
 }
-.reportr .subtitle {
-  width: 100%;
+.recordr .subtitle {
   font-size: 25rpx;
   color: #857f77;
   margin: 20rpx 0 20rpx 0;
@@ -226,24 +229,117 @@ page {
   line-clamp: 5;
   -webkit-box-orient: vertical;
 }
-.reportr .conbottom {
+.recordr .conbottom {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.reportr .agescope {
+.recordr .agescope {
   font-size: 24rpx;
   color: #ff9912;
 }
-.reportr .testbutton {
-  width: 140rpx;
+.recordr .testbutton {
+  width: 150rpx;
   line-height: 54rpx;
-  background: #55aaff;
+  background: #8bbeff;
   text-align: center;
   font-size: 26rpx;
-  color: #fff;
-  margin-left: 6px;
-  margin-bottom: 10rpx;
+  color: black;
+  margin-top: 18%;
+}
+.question {
+  width: 88%;
+  background: rgba(215, 233, 230, 0.41);
+  border-radius: 50rpx;
+  margin: 20rpx auto;
+  display: flex;
+}
+.questionr {
+  display: flex;
+  justify-content: space-around;
+  flex-flow: wrap row;
+  width: 100%;
+}
+.questionl {
+  width: 30%;
+  padding-right: 27px;
+}
+.questionl .questionlimg {
+  width: 233rpx;
+  height: 233rpx;
+  border-radius: 50rpx;
+}
+.questionr .title {
+  color: #594e3f;
+  font-size: 28rpx;
+  font-weight: 700;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-ori5ent: vertical;
+  line-height: 60rpx;
+}
+.questionr .subtitle {
+  font-size: 20rpx;
+  color: #857f77;
+  margin: 20rpx 0 20rpx 0;
+  line-height: 1.6;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+.questionr .subtitle {
+  font-size: 20rpx;
+  color: #857f77;
+  margin: 20rpx 0 20rpx 0;
+  line-height: 1.6;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+.img-radio {
+  border-radius: 30rpx;
+  height: 100%;
+  width: 233rpx;
+}
+.item-masonry image {
+  width: 100%;
+}
+.question-evaluation {
+  width: 150rpx;
+  line-height: 60rpx;
+  background: #628D3D;
+  text-align: center;
+  font-size: 24rpx;
+  font-weight: 700;
+  margin: 50rpx 20rpx 0 0;
+  border-radius: 30rpx;
+  color: #ffffff;
+  float: right;
+}
+.view-button {
+  width: 150rpx;
+  line-height: 60rpx;
+  background: #628D3D;
+  text-align: center;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #ffffff;
+  float: right;
+}
+view.data-v-3b2b1a80, scroll-view.data-v-3b2b1a80 {
+  background-color: transparent !important;
 }
 

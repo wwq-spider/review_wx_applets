@@ -129,6 +129,12 @@ page {
   min-height: 100%;
   height: auto;
 }
+.img-tab {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: rgba(215, 233, 230, 0.4);
+}
 .tips {
   color: #67c23a;
   font-size: 14px;
@@ -241,5 +247,88 @@ page {
   font-size: 26rpx;
   color: black;
   margin-top: 18%;
+}
+.question {
+  width: 88%;
+  background: rgba(215, 233, 230, 0.41);
+  border-radius: 50rpx;
+  margin: 20rpx auto;
+  display: flex;
+}
+.questionr {
+  display: flex;
+  justify-content: space-around;
+  flex-flow: wrap row;
+  width: 100%;
+}
+.questionl {
+  width: 30%;
+  padding-right: 27px;
+}
+.questionl .questionlimg {
+  width: 233rpx;
+  height: 233rpx;
+  border-radius: 50rpx;
+}
+.questionr .title {
+  color: #594e3f;
+  font-size: 23rpx;
+  font-weight: 700;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-ori5ent: vertical;
+}
+.questionr .subtitle {
+  font-size: 20rpx;
+  color: #857f77;
+  margin: 20rpx 0 20rpx 0;
+  line-height: 1.6;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+.questionr .subtitle {
+  font-size: 20rpx;
+  color: #857f77;
+  margin: 20rpx 0 20rpx 0;
+  line-height: 1.6;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+.img-radio {
+  border-radius: 30rpx;
+  height: 100%;
+  width: 233rpx;
+}
+.item-masonry image {
+  width: 100%;
+}
+.question-evaluation {
+  width: 150rpx;
+  line-height: 60rpx;
+  background: #628D3D;
+  text-align: center;
+  font-size: 24rpx;
+  font-weight: 700;
+  margin: 50rpx 20rpx 0 0;
+  border-radius: 30rpx;
+  color: #ffffff;
+  float: right;
+}
+view.data-v-3b2b1a80, scroll-view.data-v-3b2b1a80 {
+  background-color: transparent !important;
 }
 

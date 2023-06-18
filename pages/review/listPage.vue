@@ -4,7 +4,6 @@
 		<psychometrics v-if="current == 0"></psychometrics>
 		<PsychologicalCounsel v-if="current == 1"></PsychologicalCounsel>
 		<view v-if="current == 2">
-			<!-- <u-empty mode="page"></u-empty> -->
 			<counseling></counseling>
 		</view>
 		<view v-if="current == 3">

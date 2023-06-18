@@ -17,29 +17,39 @@
 		</view>
 		<view class="user-list">
 			<view @click="toPage('/pages/user/reviewRecord')" class="user-item">
-				<uni-icons type="paperplane-filled" size="20" color="#8ad2ff"></uni-icons>
+				<image class="image-size" style="width: 44rpx;height: 44rpx;" src="../../static/icons8-list-view-48 1.png"></image>
 				<text style="padding-left: 10px;">我的测评</text>
+				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
 			</view>
 			<view @click="toPage('/pages/user/reviewReport')" class="user-item">
-				<uni-icons type="map-filled" size="20" color="#8ad2ff"></uni-icons>
-				<text style="padding-left: 10px;">我的报告</text>
-			</view>
-			<view @click="toPage('/pages/user/myOrder')" class="user-item">
-				<uni-icons type="shop" size="20" color="#8ad2ff"></uni-icons>
-				<text style="padding-left: 10px;">我的订购</text>
+				<image class="img-icon" src="../../static/icons8-lab-coat-48 1.png"></image>
+				<text style="padding-left: 10px;">我的咨询</text>
+				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
 			</view>
 			<view @click="toPage('/pages/expert/myConsultation')" class="user-item">
-				<uni-icons type="chat-filled" size="20" color="#8ad2ff"></uni-icons>
-				<text style="padding-left: 10px;">我的咨询</text>
+				<image class="img-icon" src="../../static/icons8-school-48 1.png"></image>
+				<text style="padding-left: 10px;">我的课程</text>
+				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
+			</view>
+			<view @click="toPage('/pages/user/myOrder')" class="user-item">
+				<image class="img-icon" src="../../static/icons8-shopping-basket-48 1.png"></image>
+				<text style="padding-left: 10px;">我的商品</text>
+				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
 			</view>
 			<view @click="toPage('/pages/user/myInfo')" class="user-item">
-				<uni-icons type="person-filled" size="20" color="#8ad2ff"></uni-icons>
-				<text style="padding-left: 10px;">个人信息</text>
+				<image class="img-icon" src="../../static/icons8-staff-32 1.png"></image>
+				<text style="padding-left: 10px;">我的支持</text>
+				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
 			</view>
-			<view v-if="isExpert==true" @click="toPage('/pages/expert/myAppoint')" class="user-item">
+			<view @click="toPage('/pages/user/myInfo')" class="user-item">
+				<image class="img-icon" src="../../static/icons8-settings-48 1.png"></image>
+				<text style="padding-left: 10px;">设置</text>
+				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
+			</view>
+	<!-- 		<view v-if="isExpert==true" @click="toPage('/pages/expert/myAppoint')" class="user-item">
 				<uni-icons type="chat-filled" size="20" color="#8ad2ff"></uni-icons>
 				<text style="padding-left: 10px;">我的预约</text>
-			</view>
+			</view> -->
 			<!-- <view v-if="isExpert==true" @click="toPage('/pages/videocall/videocall')" class="user-item">
 				<uni-icons type="videocam-filled" size="20" color="#8ad2ff"></uni-icons>
 				<text style="padding-left: 10px;">进入房间</text>
@@ -130,6 +140,52 @@
 	}
 </style>
 <style lang="scss" scoped>
+	.question {
+		width: 88%;
+		// padding: 20rpx;
+		background: rgba(215,233,230,0.41);
+		border-radius: 50rpx;
+		margin: 20rpx auto;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+	}
+	.questionr {
+		// padding-left: 10rpx;
+		display: flex;
+		justify-content: space-around; 
+		flex-flow: wrap row;
+		width: 100%;
+	}
+	.questionl {
+		width: 30%;
+		padding-right: 27px;
+	}
+	.questionl .questionlimg {
+		width: 233rpx;
+		height: 233rpx;
+		border-radius: 50rpx;
+	}
+	.questionr .title {
+		color: #594e3f;
+		font-size: 23rpx;
+		font-weight: 700;
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1; //可设置显示的行数
+		line-clamp: 1;
+		-webkit-box-ori5ent: vertical;
+	}
+	.img-icon{
+		width: 44rpx;
+		height: 44rpx;
+	}
+	.icon-back{
+		width: 34rpx;
+		height: 34rpx;
+	}
 .user {
 	display: none;
 	&.active {
@@ -137,11 +193,12 @@
 	}
 }
 .user-top {
-	background-color: #fff;
+	background: linear-gradient(to bottom, rgba(47,107,26, 0.4) 0%, rgba(47,107,26, 0.2) 100%);
 	display: flex;
 	align-items: center;
 	padding: 40rpx;
 	.user-head {
+		// background: linear-gradient(to bottom, rgba(47,107,26, 0.4) 0%, rgba(47,107,26, 0.2) 100%);
 		flex: 1;
 		display: flex;
 		align-items: center;
@@ -195,16 +252,16 @@
 }
 .user-list {
 	background-color: #fff;
-	padding-left: 40rpx;
 	margin-top: 40rpx;
 	.user-item {
 		display: flex;
 		align-items: center;
 		border: 0;
 		border-bottom: 1px solid #f1f1f1;
-		background-color: #fff;
+		background-color: rgba(215,233,230,0.4);
 		border-radius: 0;
-		padding: 30rpx 0;
+		padding: 15rpx;
+		margin-bottom: 10rpx;
 		&:after {
 			border: 0;
 		}
