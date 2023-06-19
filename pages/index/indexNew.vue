@@ -27,7 +27,7 @@
 			<view class="imageStyle">
 				<image @click="toPsychometrics" mode="scaleToFill" class="psychometrics" src="/static/psychometrics.png"></image>
 				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/counsel.png"></image>
-				<image mode="scaleToFill" class="psychometrics" src="/static/CareerPlanning.png"></image>
+				<image @click="toCareerPlanning" mode="scaleToFill" class="psychometrics" src="/static/CareerPlanning.png"></image>
 				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/psychologicalCourses.png"></image>
 				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/psychologicalMall.png"></image>
 				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/professionalSupport.png"></image>
@@ -185,6 +185,12 @@
 				uni.switchTab({
 					url: '/pages/review/listPage?current=1'
 				})
+			},
+			/* 跳转到生涯规划页面 */
+			toCareerPlanning() {
+				uni.switchTab({
+					url: '/pages/review/listPage?current=2'
+				})
 			}
 		}
 	}
@@ -246,11 +252,11 @@
 		font-size: 35rpx;
 		color: #7f7f7f;
 		margin: 0 15px;
-		margin-top: 50%;
+		margin-top:15%;
 		font-weight: bold;
 	}
 	.imageStyle {
-		margin-top: -5%;
+		margin-top: -2%;
 		border-radius: 8px;
 		box-sizing: border-box;
 		display: flex;

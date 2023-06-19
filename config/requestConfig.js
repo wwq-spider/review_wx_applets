@@ -44,7 +44,6 @@ $http.getQnToken = function(callback) {
 }
 //请求开始拦截器
 $http.requestStart = function(options) {
-	console.log("请求开始222", options);
 	if (options.load) {
 		//打开加载动画
 		store.commit("setLoadingShow", true);

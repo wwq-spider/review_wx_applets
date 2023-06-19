@@ -135,8 +135,11 @@
 				})
 			},
 			buy() {
-				this.$nextTick(() => {
+				/* this.$nextTick(() => {
 					this.$refs.showPayConfirm.open("center")
+				}) */
+				uni.navigateTo({
+					url:'pages/review/evaluationScale'
 				})
 			},
 			cancel() {

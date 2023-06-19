@@ -1,58 +1,24 @@
 <template>
 	<view>
+		<!-- 生涯规划 -->
         <view style="width: 100%;">
-			<view class="question">
-				<view>
-					<view class="questionr">
-						<view class="questionl">
-							<image class="questionlimg" mode="scaleToFill" src="../../static/default_cover.jpeg"></image>
-						</view>
-						<view class="counsel-concent">
-							<view class="counsel-title">
-								<span class="counsel-name">{{calendarInfo.expertName}}</span>
-							</view>
-							<view class="counsel-charge">
-								<u-row>
-									<u-col>
-										<span style="margin-right: 200rpx;">
-											<p>{{calendarInfo.workingYears + '年'}}</p>
-											<p class="counsel-us">{{'从业年期'}}</p>
-										</span>
-										<span>
-											<p>{{'200+'}}<span class="counsel-unit">{{'人次'}}</span></p>
-											<p class="counsel-us">{{'咨询人数'}}</p>
-										</span>
-									</u-col>
-								</u-row>
-								<u-row>
-									<view>
-										<p>{{calendarInfo.serviceDuration+'+'}}<span class="counsel-unit">{{'小时'}}</span></p>
-										<p class="counsel-us">{{'服务时长'}}</p>
-									</view>
-								</u-row>
-								
-								
-							</view>
-						</view>
-					</view>
+			<view style="width: 100%;">
+				<view class="imageStyle">
+					<image @click="toPsychometrics" mode="widthFix" src="/static/recomm2.png"></image>
 				</view>
-				
+				<view style="margin: 0 35rpx;font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;">
+					<view class="title" style="color: #416F5D; font-size: 36rpx;margin-bottom: 20rpx;">{{"2023职业生涯规划"}}</view>
+				</view>
 			</view>
+
 			<view class="counsel-bar"></view>
-			<view class="counsel-detail">
+			<view class="counsel-detail" style="padding-bottom:120rpx">
 				<view style="font-size: 28rpx;color: #000000;display: block;text-align: center;">
 					<u-tabs activeColor="#628D3D" :list="tabList" :current="current" @click="changeTab" @change="changeTab"></u-tabs>
 				</view>
-				<!-- 介绍 -->
+				<!-- 详情 -->
 				<view v-if="current=='0'" class="counsel-detail-content">
-					<!-- <p>{{'国家卫健委认证心理咨询师'}}</p>
-					<p>{{'国家二级心理咨询师'}}</p>
-					<p>{{'国防大学应用心理学硕士'}}</p>
-					<p>{{'国家应急救援队心理技术指导小组专家'}}</p> -->
-					<p>{{calendarInfo.introduction}}</p>
-					<p style="font-weight: 700;margin: 10rpx 0;">{{'擅长领域'}}</p>
-					<!-- <p>{{'家庭咨询，婚姻咨询，个人咨询，团体辅导，心理诊断（如智力测验，多动症自闭症测验，大脑创伤测验等）'}}</p> -->
-					<p>{{expertFieldGroup+'等'}}</p>
+					
 				</view>
 				<!-- 预约时间 -->
 				<view v-if="current=='1'" class="counsel-detail-content">
@@ -66,10 +32,10 @@
 							<span @click="noReservableClick">{{'不可预约'}}</span>
 						</span>
 					</view>
-					<view style="width: 100%;display: block;float: inline-start;" v-for="(item, index) in calendarListInfo" :key="index">
-						<view>{{item.visitDateNew}}</view>
+					<view style="width: 100%;display: block;float: inline-start;" v-for="(item, index) in timeRadios" :key="index">
+						<view>{{item.date}}</view>
 						<view style="width: 100%; height: 400rpx; border-bottom: 1rpx solid #DDDDDD;">
-							<view v-for="(v, index) in item.visitDateList">
+							<view v-for="(v, index) in item.dataTime">
 								<span class="reservation" :class="[v.isChooseFlag?'bgColorGreen':'bgColorGray']">{{v.time}}</span>
 							</view>
 						</view>
@@ -81,11 +47,10 @@
 		</view>
 		<view>
 			<view class="tabbar-bottom">
-				<span>
-					<p style="color: #416F5D; font-size: 34rpx;">{{'￥800.00/小时'}}</p>
-					<p style="font-size: 22rpx;color:#979797">{{'最快可约今日18点'}}</p>
+				<span class="buy-button">
+					<image src="../../static/icons8-ringer-volume-30 1.png"></image>
+					<span>{{'立即预约'}}</span>
 				</span>
-				<span class="buy-button">{{'立即预约'}}</span>
 			</view>
 		</view>
 	</view>
@@ -96,16 +61,13 @@
 	export default {
 		data() {
 			return {
-				calendarInfo: {}, // 咨询师信息
-				expertFieldGroup:{},//咨询师擅长领域
 				isReservationFlag: true,
 				isNoReservationFlag: false,
-				calendarListInfo:{},
 				tabList:[
 					{
-						name: '介绍',
+						name: '详情',
 					}, {
-						name: '预约时间',
+						name: '预约',
 					}
 				],
 				current:0,
@@ -262,70 +224,9 @@
 				]
 			}
 		},
-		onLoad(event) {
-			if(event.id){
-				this.id = event.id
-			}
-			this.loadData();
-		},
 		computed:{
 		},
 		methods: {
-			loadData() {
-				let that = this
-				if(!this.id || this.id == "") {
-					uni.showToast({
-						title: "专家信息为空！"
-					})
-					return
-				}
-				uni.showLoading({
-					title: "数据加载中"
-				})
-				//查询咨询师详情
-				this.$apis.postCalendarDetail({'id': this.id}).then(res => {
-					uni.hideLoading()
-					if (res.code == 200) {
-						that.calendarInfo = res.result
-					} else {
-						uni.showToast({
-							title: res.msg
-						})
-					}
-				}).catch(err => {
-					uni.hideLoading()
-					console.log(err)
-				})
-				//查询咨询师擅长领域
-				this.$apis.postExpertFieldGroup({'id': this.id}).then(res => {
-					uni.hideLoading()
-					if (res.code == 200) {
-						that.expertFieldGroup = res.result
-						console.log('擅长领域：',JSON.stringify(that.expertFieldGroup))
-					} else {
-						uni.showToast({
-							title: res.msg
-						})
-					}
-				}).catch(err => {
-					uni.hideLoading()
-					console.log(err)
-				})
-				//查询咨询师日历
-				this.$apis.postListCalendarInfo({'expertId': this.id}).then(res => {
-					uni.hideLoading()
-					if (res.code == 200) {
-						that.calendarListInfo = res.result
-					} else {
-						uni.showToast({
-							title: res.msg
-						})
-					}
-				}).catch(err => {
-					uni.hideLoading()
-					console.log(err)
-				})
-			},
 			// 可预约
 			reservationClick(){
 				this.isReservationFlag = true;
@@ -369,6 +270,7 @@
 		width: 100%;
 		display: block;
 		margin: auto;
+		border-radius: 30rpx;
 	}
 	.tabbar-bottom{
 		display: flex;
@@ -386,7 +288,7 @@
 		justify-content: space-around;
 	}
 	.buy-button{
-		width: 400rpx;
+		width: 600rpx;
 		line-height: 80rpx;
 		background: #628D3D;
 		text-align: center;
@@ -395,6 +297,12 @@
 		border-radius: 20rpx;
 		color: #ffffff;
 		float:right
+	}
+	.buy-button image{
+		width: 48rpx;
+		height: 48rpx;
+		margin-right: 20rpx;
+		vertical-align: middle
 	}
 	.question {
 		width: 100%;
@@ -458,6 +366,7 @@
 	.counsel-Detail{
 		background: #ffffff;
 		min-height: 1000rpx;
+		padding-bottom: 100rpx;
 	}
 	.counsel-detail-content{
 		font-size: 24rpx;
@@ -474,7 +383,7 @@
 		width: 140rpx;
 		line-height: 50rpx;
 		text-align: center;
-		font-size: 20rpx;
+		font-size: 24rpx;
 		font-weight: 700;
 		margin: 10rpx;
 		border-radius: 30rpx;

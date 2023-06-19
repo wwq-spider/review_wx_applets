@@ -46,7 +46,6 @@ function loginAction(callback,parentOpenid) {
 function checkLogin(callback){
 	
 	let openid = uni.getStorageSync("openid")
-	console.log('ceedd:'+openid)
 	if (openid && openid != "") {
 		http.post(`${config.baseUrl}/reviewFront/user/getUserInfoByOpenid`, {"openid": openid}).then(res => {
 			if (res.code == 200 && res.result && res.result.mobilePhone) {//如果用户信息已经完善 直接跳转到测评项目页面

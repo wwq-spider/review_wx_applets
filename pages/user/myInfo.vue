@@ -31,11 +31,9 @@
 							 <checkbox-group @change="secrecyCheck">
 								<checkbox value="0" :checked="secrecy" style="transform: scale(0.6);"/>
 							 </checkbox-group>
-							 
 						</label>
 						<label @click="toDetail()" style="font-size: 10px; color: #007AFF;line-height: 25px;">用户服务协议及隐私条款</label>
 					</view>
-					<!-- </u-form-item> -->
 				</u-form>
 				<view class="savebutton" @click="submit">提交修改</view>
 			</view>
@@ -53,7 +51,6 @@
 			})
 			userCheck.checkLogin(function(userData){
 				uni.hideLoading()
-				
 				//1.保存用户信息
 				that.form.userName = userData.userName
 				that.form.age = userData.age
@@ -117,16 +114,6 @@
 						message: '请选择性别',
 						trigger: ['change', 'blur']
 					}],
-					// age: [{
-					// 	required: true,
-					// 	message: '请输入年龄',
-					// 	trigger: ['change', 'blur']
-					// }],
-					// msgCode: [{
-					// 	required: true,
-					// 	message: '请输入短信验证码',
-					// 	trigger: ['change', 'blur']
-					// }],
 					mobilePhone: [{
 							required: true,
 							message: '请输入联系方式',
@@ -280,17 +267,12 @@
 		width: 686rpx;
 		margin: 20rpx auto 0 auto;
 		background: #ffffff;
-		 /* background: url(../../static/background.png); */
-		/* box-shadow: 0 40rpx 0 -22rpx rgb(221 138 0 / 23%), 0 -9px 0 0 rgb(105 100 87 / 14%) inset; */
-		/* box-shadow: 0 0 30rpx 0 #e4d3b0; */
-		/* border: 2px solid #9cd1ff; */
 		border-radius: 50rpx;
 	}
 
 	.round {
 		width: 100%;
 		height: 124rpx;
-		/* background: url(../../static/roundbg.png) no-repeat 50%/100%; */
 	}
 
 	.avatar {
@@ -335,7 +317,6 @@
 		font-weight: 700;
 		margin: 40rpx auto;
 		text-align: center;
-		/* background: url(../../static/background.png) no-repeat 50%/100%; */
 		background-color: #97cdff;
 	}
 	.msgbutton {
@@ -344,10 +325,8 @@
 		color: #474747;
 		font-size: 21rpx;
 		font-weight: 700;
-		/* margin: 10rpx auto; */
 		text-align: center;
 		background-color: #97cdff;
-		/* margin-bottom: 10px;*/
 		float: right;
 	}
 </style>

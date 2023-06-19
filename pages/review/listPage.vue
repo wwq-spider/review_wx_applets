@@ -3,9 +3,7 @@
 		<u-tabs :list="tabList" :current="current" @click="changeTab" @change="changeTab"></u-tabs>
 		<psychometrics v-if="current == 0"></psychometrics>
 		<PsychologicalCounsel v-if="current == 1"></PsychologicalCounsel>
-		<view v-if="current == 2">
-			<counseling></counseling>
-		</view>
+		<careerPlan v-if="current == 2"></careerPlan>
 		<view v-if="current == 3">
 			<u-empty mode="page"></u-empty>
 		</view>
@@ -25,10 +23,12 @@
 	import userCheck from '@/utils/userAction.js';
 	import psychometrics from '@/pages/review/psychometrics';
 	import PsychologicalCounsel from '@/pages/review/PsychologicalCounsel';
+	import careerPlan from '@/pages/review/careerPlan';
     export default {
 		components:{
 			psychometrics,
-			PsychologicalCounsel
+			PsychologicalCounsel,
+			careerPlan
 		},
         data() {
             return {
@@ -54,6 +54,14 @@
 			if(event.current){
 				this.current = event.current
 			}
+			console.log('打印onLoad：',this.current)
+		},
+		mounted() {
+			
+			if(event.current){
+				this.current = event.current
+			}
+			console.log('打印mounted：',this.current)
 		},
         methods: {
 			changeTab(index) {

@@ -262,7 +262,25 @@
                 "enablePullDownRefresh": false
             }
             
-        }
+        },
+		{
+		    "path" : "pages/review/careerPlan",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "生涯规划",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+			"path" : "pages/review/evaluationScale",
+			"style" :                                                                                    
+			{
+				"navigationBarTitleText": "评测量表",
+				"enablePullDownRefresh": false
+			}
+			
+		}
     ],
 	"tabBar": {
 		"color": "#333",
