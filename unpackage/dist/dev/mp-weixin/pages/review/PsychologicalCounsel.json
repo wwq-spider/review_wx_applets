@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "心理咨询",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "u-search": "/uview-ui/components/u-search/u-search"
-  }
-}

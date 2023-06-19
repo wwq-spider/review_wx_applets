@@ -107,7 +107,6 @@
 					uni.hideLoading()
 					if(res.code == 200) {
 						that.reviewClass = res.result
-						//that.reviewClass.bannerImg = that.$config.aliYunEndpoint + res.result.bannerImg
 						that.reviewClass.bannerImg = res.result.bannerImg
 						if(that.title == '' && that.reviewClass.title){
 							that.title = that.reviewClass.title

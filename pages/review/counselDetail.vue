@@ -9,13 +9,13 @@
 						</view>
 						<view class="counsel-concent">
 							<view class="counsel-title">
-								<span class="counsel-name">{{'王莹'}}</span>
+								<span class="counsel-name">{{calendarInfo.expertName}}</span>
 							</view>
 							<view class="counsel-charge">
 								<u-row>
 									<u-col>
 										<span style="margin-right: 200rpx;">
-											<p>{{'11年11月'}}</p>
+											<p>{{calendarInfo.workingYears + '年'}}</p>
 											<p class="counsel-us">{{'从业年期'}}</p>
 										</span>
 										<span>
@@ -26,7 +26,7 @@
 								</u-row>
 								<u-row>
 									<view>
-										<p>{{'2500+'}}<span class="counsel-unit">{{'小时'}}</span></p>
+										<p>{{calendarInfo.serviceDuration+'+'}}<span class="counsel-unit">{{'小时'}}</span></p>
 										<p class="counsel-us">{{'服务时长'}}</p>
 									</view>
 								</u-row>
@@ -45,12 +45,14 @@
 				</view>
 				<!-- 介绍 -->
 				<view v-if="current=='0'" class="counsel-detail-content">
-					<p>{{'国家卫健委认证心理咨询师'}}</p>
+					<!-- <p>{{'国家卫健委认证心理咨询师'}}</p>
 					<p>{{'国家二级心理咨询师'}}</p>
 					<p>{{'国防大学应用心理学硕士'}}</p>
-					<p>{{'国家应急救援队心理技术指导小组专家'}}</p>
+					<p>{{'国家应急救援队心理技术指导小组专家'}}</p> -->
+					<p>{{calendarInfo.introduction}}</p>
 					<p style="font-weight: 700;margin: 10rpx 0;">{{'擅长领域'}}</p>
-					<p>{{'家庭咨询，婚姻咨询，个人咨询，团体辅导，心理诊断（如智力测验，多动症自闭症测验，大脑创伤测验等）'}}</p>
+					<!-- <p>{{'家庭咨询，婚姻咨询，个人咨询，团体辅导，心理诊断（如智力测验，多动症自闭症测验，大脑创伤测验等）'}}</p> -->
+					<p>{{expertFieldGroup+'等'}}</p>
 				</view>
 				<!-- 预约时间 -->
 				<view v-if="current=='1'" class="counsel-detail-content">
@@ -94,8 +96,11 @@
 	export default {
 		data() {
 			return {
+				calendarInfo: {}, // 咨询师信息
+				expertFieldGroup:{},//咨询师擅长领域
 				isReservationFlag: true,
 				isNoReservationFlag: false,
+				calendarListInfo:{},
 				tabList:[
 					{
 						name: '介绍',
@@ -257,9 +262,70 @@
 				]
 			}
 		},
+		onLoad(event) {
+			if(event.id){
+				this.id = event.id
+			}
+			this.loadData();
+		},
 		computed:{
 		},
 		methods: {
+			loadData() {
+				let that = this
+				if(!this.id || this.id == "") {
+					uni.showToast({
+						title: "专家信息为空！"
+					})
+					return
+				}
+				uni.showLoading({
+					title: "数据加载中"
+				})
+				//查询咨询师详情
+				this.$apis.postCalendarDetail({'id': this.id}).then(res => {
+					uni.hideLoading()
+					if (res.code == 200) {
+						that.calendarInfo = res.result
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				}).catch(err => {
+					uni.hideLoading()
+					console.log(err)
+				})
+				//查询咨询师擅长领域
+				this.$apis.postExpertFieldGroup({'id': this.id}).then(res => {
+					uni.hideLoading()
+					if (res.code == 200) {
+						that.expertFieldGroup = res.result
+						console.log('擅长领域：',JSON.stringify(that.expertFieldGroup))
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				}).catch(err => {
+					uni.hideLoading()
+					console.log(err)
+				})
+				//查询咨询师日历
+				this.$apis.postListCalendarInfo({'expertId': this.id}).then(res => {
+					uni.hideLoading()
+					if (res.code == 200) {
+						that.calendarListInfo = res.result
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				}).catch(err => {
+					uni.hideLoading()
+					console.log(err)
+				})
+			},
 			// 可预约
 			reservationClick(){
 				this.isReservationFlag = true;

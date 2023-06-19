@@ -29,9 +29,20 @@
 					<p style="color: #416F5D; font-size: 34rpx;">{{'￥' + reviewClass.realPrice}}</p>
 					<p style="font-size: 22rpx;color:#979797">{{reviewClassNumber + '人测过'}}</p>
 				</span>
-				<span class="buy-button">{{'购买测评'}}</span>
+				<span class="buy-button" @click="buy">{{'购买测评'}}</span>
 			</view>
 		</view>
+		<uni-popup ref="showPayConfirm" @change="change">
+			<view class="uni-tip">
+				<text class="uni-tip-title">购买确认</text>
+				<text class="uni-tip-content">量表名称：{{ reviewClass.title }}</text>
+				<text class="uni-tip-content iconfont" style="color: #dc7a54;">量表价格：&#xe606;{{ reviewClass.realPrice }}</text>
+				<view class="uni-tip-group-button">
+					<button class="uni-tip-button" style="margin-right: 30px; background-color: #b7b5b2;" @click="cancel()">取消</button>
+					<button class="uni-tip-button" @click="confirmBuy()" :loading="loading">确定</button>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -44,6 +55,7 @@
 				questionList: [],
 				time: '',
 				reviewClassNumber: '',
+				loading: false,
 			}
 		},
 		computed:{
@@ -116,12 +128,102 @@
 				})
 				this.$apis.postQuestions({'classId': this.id}).then(res => {
 					that.questionList = res.result
-					that.time = that.questionList.length//暂时按一道题一分钟计算测评时长
+					that.time = Math.round(that.questionList.length * 15/60)//暂时按一道题15秒计算测评时长
 				})
 				this.$apis.postReviewClassNumber({'classId': this.id}).then(res => {
 					that.reviewClassNumber = res.result
 				})
 			},
+			buy() {
+				this.$nextTick(() => {
+					this.$refs.showPayConfirm.open("center")
+				})
+			},
+			cancel() {
+				this.$refs.showPayConfirm.close()
+			},
+			change(e) {
+				console.log('是否打开:' + e.show)
+			},
+			confirmBuy() {
+				uni.showLoading({
+					title: "数据加载中"
+				})
+				let that = this
+				let pid = uni.getStorageSync("projectId")
+				this.loading = true
+				this.$apis.postCreatePrePayOrder({"classId": this.reviewClass.classId, "projectId": pid}).then(res => {
+					uni.hideLoading()
+					if(res.code == 200) {
+						let preOrder = res.data
+						if(preOrder && preOrder.prePayID) {
+							if(preOrder.prePayID == "000") {
+								that.buyBtnText = "已购买"
+								that.reviewClass.buy = true
+								uni.showToast({
+								    title: "购买成功",
+									icon: "success"
+								})
+								that.cancel()
+								that.loading = false;
+							} else {
+								uni.requestPayment({
+								    timeStamp: preOrder.timeStamp,
+								    nonceStr: preOrder.nonceStr,
+								    package: preOrder.packageStr,
+								    signType: 'MD5',
+								    paySign: preOrder.paySign,
+								    success: (res) => {
+										if(res && res.errMsg == "requestPayment:ok") {
+											that.buyBtnText = "已购买"
+											that.reviewClass.buy = true
+											//更新订单状态
+											that.$apis.postUpdOrderStatus({"payId": preOrder.prePayID, "status": 2, "orderAmount": that.reviewClass.realPrice}).then(res => {
+												console.log(JSON.stringify(res))
+											})
+											uni.showToast({
+											    title: "支付成功",
+												icon: "success"
+											})
+										} else {
+											uni.showToast({
+											    title: "支付发起失败"
+											})
+										}
+								    },
+								    fail: (res) => {
+								        uni.showModal({
+								            content: "支付失败,原因为: " + res.errMsg,
+								            showCancel: false,
+								        })
+								    },
+								    complete: () => {
+										that.cancel()
+								        that.loading = false;
+								    }
+								})
+							}
+						} else {
+							that.loading = false;
+							that.cancel()
+							uni.showToast({
+								title: res.msg
+							})
+						}
+					} else {
+						that.loading = false;
+						that.cancel()
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				}).catch(err => {
+					that.loading = false;
+					that.cancel()
+					uni.hideLoading()
+					console.log(JSON.stringify(err))
+				})
+			}
 		}
 	}
 </script>
@@ -165,5 +267,45 @@
 		border-radius: 20rpx;
 		color: #ffffff;
 		float:right
+	}
+	/* 提示窗口 */
+	.uni-tip {
+		display: flex;
+		flex-direction: column;
+		/* align-items: center; */
+		justify-content: center;
+		padding: 15px;
+		width: 110%;
+		background-color: #e6e3e3;
+		border-radius: 10px;
+		buttom: 100px;
+		left: 50%;
+		top: 50%;
+	}
+	.uni-tip-title {
+		margin-bottom: 10px;
+		text-align: center;
+		font-weight: bold;
+		font-size: 16px;
+		color: #333;
+	}
+	.uni-tip-content {
+		/* padding: 15px;*/
+		font-size: 14px;
+		color: #353434;
+	}
+	.uni-tip-group-button {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		margin-top: 20px;
+	}
+	.uni-tip-button {
+		flex: 1;
+		text-align: center;
+		font-size: 14px;
+		color: #fff;
+		background-color: #e6a23c;;
 	}
 </style>
