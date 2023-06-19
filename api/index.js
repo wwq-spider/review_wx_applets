@@ -52,7 +52,7 @@ export const postBannerList = (data) => http.post(`${config.baseUrl}/reviewFront
 //查询量表对应的报告模板
 export const postReportTemplateList = (data) => http.post(`${config.baseUrl}/reviewFront/reviewReport/getReportTemplate`, data)
 //查询专家列表
-export const postCalendarList = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/list`,data)
+export const postExpertList = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/list`,data)
 //查询专家详情
 export const postCalendarDetail = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/detail`,data)
 //查询专家日历
@@ -101,9 +101,16 @@ export const postConfirmAppoint = (data) => http.post(`${config.baseUrl}/reviewF
 export const postPayRemind = (data) => http.post(`${config.baseUrl}/reviewFront/sendMsg/postPayRemind`,data)
 //获取专家长程培训经历
 export const postLongDistanceTrainList = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/postLongDistanceTrainList`,data)
+//获取推荐量表
 export const postPsychoMetrics = (data) => http.post(`${config.baseUrl}/reviewFront/reviewClass/getPsychoMetrics`,data)
+//模糊查量表
 export const postReviewClassByLike = (data) => http.post(`${config.baseUrl}/reviewFront/reviewClass/getReviewClassByLike`,data)
+//量表测评人数
 export const postReviewClassNumber = (data) => http.post(`${config.baseUrl}/reviewFront/reviewClass/getReviewClassNumber`,data)
+//咨询师擅长领域
+export const postExpertFieldGroup = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/getExpertFieldGroup`,data)
+//咨询师擅长方向标签
+export const postBeGoodAtList = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/getBeGoodAtList`,data)
 
 /* //创建预约腾讯会议
 export const postCreateTXMeeting = (data) => http.post(`${config.baseUrl}/reviewFront/meeting/creatMeeting`, data) */

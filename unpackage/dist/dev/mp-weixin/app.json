@@ -21,6 +21,7 @@
     "pages/review/detailNew",
     "pages/expert/expert",
     "pages/expert/expertInfo",
+    "pages/review/counselDetail",
     "pages/expert/myConsultation",
     "pages/expert/consultationDetail",
     "pages/room/room",

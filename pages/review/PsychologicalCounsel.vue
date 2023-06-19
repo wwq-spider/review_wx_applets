@@ -12,25 +12,26 @@
 		<view>
 		<view class="question">
 			<view>
-				<view class="questionr" v-for="(calendarInfo, index) in calendarList" :key="index">
+				<view class="questionr" v-for="(expertInfo, index) in expertList" :key="index">
 					<view class="questionl">
-						<image class="questionlimg" mode="scaleToFill" src="../../static/default_cover.jpeg"></image>
+						<image class="questionlimg" mode="scaleToFill" :src="expertInfo.avatar || defaultCover" @error="imageError()"></image>
 					</view>
 					<view class="counsel-concent">
 						<view class="counsel-title">
-							<span class="counsel-name">{{calendarInfo.expertName}}</span>
-							<span class="counsel-charge">{{'$800.00/小时'}}</span>
+							<span class="counsel-name">{{expertInfo.expertName}}</span>
+							<span class="counsel-charge">{{'$'+expertInfo.dicountPrice+'/小时'}}</span>
 						</view>
-						<view class="counsel-intro">{{'国家卫健委认证心理咨询师国家卫健委认证心理咨询师国家卫健委认证心理咨询师国家卫健委认证心理咨询师'}}</view>
+						<view class="counsel-intro">{{expertInfo.label}}</view>
 						<view>
-							<view class="reservation" @click='reservationClick()'>立即预约</view>
+							<view class="reservation" @click='reservationClick(expertInfo.id)'>立即预约</view>
 						</view>
 					</view>
 					<view class="counsel-footer">
-						<view class="counsel-footer-Left">
-							<span class="counsel-button" @click='relationshipClick()'>亲子关系</span>
+						<view class="counsel-footer-Left" v-for="(beGoodAt, index) in expertInfo.beGoodAtList" :key="index">
+							<!-- <span class="counsel-button" @click='relationshipClick()'>亲子关系</span>
 							<span class="counsel-button" @click='interpersonalClick()'>人际关系</span>
-							<span class="counsel-button" @click='interpretationClick()'>评测解读</span>
+							<span class="counsel-button" @click='interpretationClick()'>评测解读</span> -->
+							<span class="counsel-button">{{beGoodAt.dictName}}</span>					
 						</view>
 						<view class="counsel-footer-right" style="float: right;color: #999999;font-size: 22rpx;">
 							<span>最快可约今日18:00</span>
@@ -57,23 +58,21 @@
 						label:'7878'
 					}
 				], 
-				calendarList: []// 咨询师列表
+				expertList: [],// 咨询师列表
+				defaultCover: '../../static/default_cover.jpeg',
 			}
 		},
 		mounted() {
 			this.loadData();
 		},
-		/* onLoad(option) {
-			this.loadData();
-		}, */
 		methods: {
 			loadData(pullRefresh) {
 				let that = this
 				//查询咨询师列表
-				this.$apis.postCalendarList({"page": 1, rows: 20}).then(res => {
+				this.$apis.postExpertList({"page": 1, rows: 20}).then(res => {
 					if (res.code == 200) {
 						res.result.records.forEach((row) => {
-							that.calendarList.push(row)
+							that.expertList.push(row)
 						})
 					} else {
 						uni.showToast({
@@ -94,17 +93,24 @@
 					console.log(err)
 				})
 			},
+			imageError() {
+				this.expertInfo.avatar = this.defaultCover 
+			},
 			screenList(){},
 			// 亲子关系
-			relationshipClick(){},
+			//relationshipClick(){},
 			// 人际关系
-			interpersonalClick(){},
+			//interpersonalClick(){},
 			// 评测解读
-			interpretationClick(){},
+			//interpretationClick(){},
 			search(){},
 			clear(){},
 			// 立即预约
-			reservationClick(){}
+			reservationClick(id){
+				uni.navigateTo({
+					url: '/pages/review/counselDetail?id=' + id
+				})
+			}
 		}
 	}
 </script>
@@ -130,12 +136,8 @@
 		width: 100%;
 		background: #fff;
 		padding: 20rpx;
-		/* box-shadow: 0 0 28rpx 0 rgb(155 153 146 / 18%); */
 		margin: 20rpx;
 		border-bottom: 1px solid #DDDEDF;
-		// display: -webkit-box;
-		// display: -webkit-flex;
-		// display: flex;
 	}
 	.questionr {
 		border-bottom: 1px solid #DDDEDF;

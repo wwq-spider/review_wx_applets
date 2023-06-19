@@ -169,7 +169,14 @@
         	    "enablePullDownRefresh": false,
         	    "navigationBarTitleText": "咨询师详情"
         	}
-        }
+        },
+		{
+			"path" : "pages/review/counselDetail",
+			"style" : {
+				"enablePullDownRefresh": false,
+				"navigationBarTitleText": "咨询师详情"
+			}
+		}
         ,{
             "path" : "pages/expert/myConsultation",
             "style" :                                                                                    
