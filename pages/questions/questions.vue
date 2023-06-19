@@ -1,64 +1,56 @@
 <template>
-	<view>
+	<view class="bg-color">
 		<camera device-position="front" @error="error" style="width: 0px; height: 0px" v-if="showCamera"></camera>
-		<view class="questionprogress combg">
+		<view class="uLine-progress">
 			<view v-if="classCount > 0" style="text-align: center; color: #2fba2f; margin-bottom: 10px;">量表: {{firstfloorindex}}/{{classCount}}</view>
-			<view class="conttop">
-				<view class="conttopl">
-					<u-icon name="clock" color="#35d33f" size="40" class="uicon"></u-icon>
-					<text>题目进度: ({{questionIndex+1}}/{{questionList.length}})</text>
-				</view>
+			<view style="width:88%;display: inline-block;float: left;">
+				<u-line-progress :percent="secondfloorper" inactiveColor="#92B473" activeColor="#628D3D" :show-percent="false" height="22"></u-line-progress>
 			</view>
-			<view class="progress-box">
-				<u-line-progress active-color="#35d33f" :percent="secondfloorper"></u-line-progress>
-			</view>
-			<!-- <view class="btitle">{{capitalindex[firstfloorindex]}}、{{qdata[firstfloorindex].title}}</view>
-			<view class="progress-box">
-				<u-line-progress active-color="#febd00" :percent="firstfloorper"></u-line-progress>
-			</view> -->
+			<view style="float: right;color: #628D3D;font-size: 28rpx;float: left;margin-top: 10rpx;margin-left: 10rpx;">{{questionIndex+1}}/{{questionList.length}}</view>
 		</view>
-
-		<view class="questest combg">
-			<view class="title">
-			<text v-if="questionList.length > 0">{{questionIndex+1}}、{{questionList[questionIndex].content}}</text>
-			<text v-else>题目加载中</text>
-			</view>
-			<!--单选题-->
-			<view v-if="questionList[questionIndex].questionType=='1'">
-				<view class="listitem" :class="{'active':item.answerchecked}"
-					@click="answerclick(item)"
-					v-for="(item,index) in items" 
-					:key="item.selectContent">
-					{{ item.selCode }}. {{ item.selectContent }}
+		<view style="background-color: #ffffff; border-radius: 20rpx; width: 80%; height: 800rpx;margin: 0 auto;">
+			<view style="width: 95%;padding: 30rpx 0;margin: 0 auto;">
+				<view class="titleNew">
+					<text v-if="questionList.length > 0">{{questionIndex+1}}、{{questionList[questionIndex].content}}</text>
+					<text v-else>题目加载中</text>
 				</view>
-			</view>
-			<!--问答题-->
-			<view v-if="questionList[questionIndex].questionType=='2'">
-				<textarea placeholder-style="color:#969592" style="border: 1rpx solid #92d6ff; width: 100%; border-radius: 10px;" 
-				placeholder="请输入答案" :value="questionList[questionIndex].rightAnswer" @input="inputAnswer($event, questionIndex)"/>
-			</view>
-			<!--多选题-->
-			<checkbox-group @change="mulSelChange"  v-if="questionList[questionIndex].questionType=='3'">
-				<label class="uni-list-cell uni-list-cell-pd" v-for="item in items" :key="item.selCode">
-					<view>
-						<checkbox :value="item.selCode" :checked="item.answerchecked" color="#55aaff"/>
+				<!--单选题-->
+				<view v-if="questionList[questionIndex].questionType=='1'">
+					<view :class="{'active':item.answerchecked}" class="topic-btn"
+						@click="answerclick(item)"
+						v-for="(item,index) in items" 
+						:key="item.selectContent">
+						{{ item.selCode }}. {{ item.selectContent }}
 					</view>
-					<view style="font-size: 15px; color: #74a9ff;">{{item.selCode}}.{{item.selectContent}}</view>
-				</label>
-			</checkbox-group>
-			
-			<!-- <view class="texttip">{{questionIndex+1}}/{{questionList.length}}</view> -->
+				</view>
+				<!--问答题-->
+				<view v-if="questionList[questionIndex].questionType=='2'">
+					<textarea placeholder-style="color:#969592" style="border: 1rpx solid #92d6ff; width: 100%; border-radius: 10px;" 
+					placeholder="请输入答案" :value="questionList[questionIndex].rightAnswer" @input="inputAnswer($event, questionIndex)"/>
+				</view>
+				<!--多选题-->
+				<checkbox-group @change="mulSelChange"  v-if="questionList[questionIndex].questionType=='3'">
+					<label class="titleNew" v-for="item in items" :key="item.selCode">
+						<view>
+							<checkbox :value="item.selCode" :checked="item.answerchecked" color="#55aaff"/>
+						</view>
+						<view style="font-size: 15px; color: #74a9ff;">{{item.selCode}}.{{item.selectContent}}</view>
+					</label>
+				</checkbox-group>
+			</view>
 		</view>
-		<view style="display: flex; width: 60%; margin-left: 25%;">
-			<view class="back" v-on:click="back" v-show="questionIndex">
-				<u-icon name="play-left-fill" color="#77beff" size="28" class="uicon"></u-icon><text>返回上一题</text>
-			</view>
-			<view class="back" style="margin-left: 20px;" v-on:click="nextQuestion" 
+		<view>
+			<view class="tabbar-bottom">
+				<span class="buy-button" v-on:click="back" v-show="questionIndex">
+					<span>{{'上一题'}}</span>
+				</span>
+				<span class="buy-button" v-on:click="nextQuestion" 
 				v-show="(questionList[questionIndex].questionType=='2' || questionList[questionIndex].questionType=='3') && questionIndex < questionList.length - 1">
-				<text>下一题</text><u-icon name="play-right-fill" color="#55aaff" size="28" class="uicon"></u-icon>
-			</view>
-			<view class="back" style="margin-left: 10px;" v-show="questionIndex == questionList.length - 1">
-				<button class="savebutton" @click="submit" :disabled="lock">提交</button>
+					<span>{{'下一题'}}</span>
+				</span>
+				<span class="buy-button" v-show="questionIndex == questionList.length - 1">
+					<span @click="submit" :disabled="lock">{{'提交'}}</span>
+				</span>
 			</view>
 		</view>
 	</view>
@@ -673,6 +665,9 @@
 	page {
 		background-color: #EFE4C8;
 	}
+	.active{
+		background-color: #92B473;
+	}
 
 	.conttop {
 		display: flex;
@@ -750,5 +745,60 @@
 	
 	.uni-list-cell {
 	    justify-content: flex-start
+	}
+	
+	.bg-color{
+	    background-color: rgba(215,233,230,0.4);
+		width: 100%;
+		height: 100%;
+		min-height: 1200rpx;
+	}
+	.uLine-progress{
+		width: 80%;
+		margin: 0 auto;
+		height: 80rpx;
+		padding-top: 20rpx;
+	}
+	.tabbar-bottom{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		position: relative;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		z-index: 998;
+		box-sizing: content-box;
+		background: rgba(215,233,230, 0.4);
+		height: 110rpx;
+		justify-content: space-around;
+	}
+	.buy-button{
+		width: 300rpx;
+		line-height: 80rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 34rpx;
+		font-weight: 700;
+		border-radius: 20rpx;
+		color: #ffffff;
+		float:right
+	}
+	.titleNew{
+		margin: 40rpx 0;
+		font-size: 34rpx;
+	}
+	.topic-btn{
+		width: 95%; 
+		height: 100rpx;
+		border: 1rpx solid rgba(212,184,132,0.3);
+		margin-bottom: 20rpx;
+		line-height: 100rpx;
+		font-size: 28rpx;
+		padding-left: 20rpx;
+		border-radius: 10rpx;
+		display: flex;
+		justify-content: center;
 	}
 </style>

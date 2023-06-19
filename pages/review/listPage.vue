@@ -38,6 +38,8 @@
 				}, {
 					name: '心理咨询',
 				}, {
+					name: '生涯规划'
+				},{
 					name: '心理课程'
 				}, {
 					name: '心理商城'
@@ -45,23 +47,24 @@
 					name: '专业支持'
 				}, {
 					name: '共享咨询室'
-				}, {
-					name: '生涯规划'
 				}],
             }
         },
 		onLoad(event) {
+			console.log('打印onLoad：',event.current)
 			if(event.current){
 				this.current = event.current
 			}
-			console.log('打印onLoad：',this.current)
+		},
+		onShow() {
+			console.log("全局变量1--------" , getApp().globalData.switchId)
+			this.current = getApp().globalData.switchId//获取到传参 			
 		},
 		mounted() {
-			
-			if(event.current){
+			/* if(event.current){
 				this.current = event.current
 			}
-			console.log('打印mounted：',this.current)
+			console.log('打印mounted：',this.current) */
 		},
         methods: {
 			changeTab(index) {

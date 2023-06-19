@@ -46,6 +46,9 @@
 		},
 		onHide: function() {
 			
+		},
+		globalData: {
+			switchId: 1
 		}
 	}
 </script>

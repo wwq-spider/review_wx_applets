@@ -32,7 +32,7 @@
 				<span class="buy-button" @click="buy">{{'购买测评'}}</span>
 			</view>
 		</view>
-		<uni-popup ref="showPayConfirm" @change="change">
+		<uniPopup ref="showPayConfirm" @change="change" :maskClick="true" :animation="false">
 			<view class="uni-tip">
 				<text class="uni-tip-title">购买确认</text>
 				<text class="uni-tip-content">量表名称：{{ reviewClass.title }}</text>
@@ -42,12 +42,13 @@
 					<button class="uni-tip-button" @click="confirmBuy()" :loading="loading">确定</button>
 				</view>
 			</view>
-		</uni-popup>
+		</uniPopup>
 	</view>
 </template>
 
 <script>
 	import htmlParser from '@/common/html-parser'
+	import uniPopup from '../../uview-ui/components/u-popup/u-popup.vue'
 	export default {
 		data() {
 			return {
@@ -57,6 +58,9 @@
 				reviewClassNumber: '',
 				loading: false,
 			}
+		},
+		components:{
+			uniPopup
 		},
 		computed:{
 			//拼接where条件
@@ -135,12 +139,12 @@
 				})
 			},
 			buy() {
-				/* this.$nextTick(() => {
+				this.$nextTick(() => {
 					this.$refs.showPayConfirm.open("center")
-				}) */
-				uni.navigateTo({
-					url:'pages/review/evaluationScale'
 				})
+				/* uni.navigateTo({
+					url:'pages/review/evaluationScale'
+				}) */
 			},
 			cancel() {
 				this.$refs.showPayConfirm.close()
@@ -158,7 +162,7 @@
 				this.$apis.postCreatePrePayOrder({"classId": this.reviewClass.classId, "projectId": pid}).then(res => {
 					uni.hideLoading()
 					if(res.code == 200) {
-						let preOrder = res.data
+						let preOrder = res.result
 						if(preOrder && preOrder.prePayID) {
 							if(preOrder.prePayID == "000") {
 								that.buyBtnText = "已购买"
@@ -169,6 +173,7 @@
 								})
 								that.cancel()
 								that.loading = false;
+								this.beginTest()
 							} else {
 								uni.requestPayment({
 								    timeStamp: preOrder.timeStamp,
@@ -226,7 +231,36 @@
 					uni.hideLoading()
 					console.log(JSON.stringify(err))
 				})
-			}
+			},
+			beginTest() {
+				if (!this.reviewClass) {
+					uni.showToast({
+					    title: "量表信息为空"
+					})
+				}
+				//量表是否收费
+				if(this.reviewClass.charge == 0 || (this.reviewClass.charge == 1 && this.reviewClass.buy)) {
+					//如果是栋梁测试，先跳转测评码输入页面
+					let dongliangClassId = '402880f082eecb960182eee3b1ef0001';
+					let dongliangClassProId = '2c9cff928408eab3018413a00d8a006a';
+					if(this.reviewClass.classId == dongliangClassId || this.reviewClass.classId == dongliangClassProId){
+						//跳转到测评码输入页面
+						uni.navigateTo({
+							url: '/pages/review/testCode?classId=' + this.reviewClass.classId
+						})
+					}else{
+						//跳转到当前量表
+						uni.navigateTo({
+							//url: '/pages/review/evaluationScale?classId=' + this.reviewClass.classId
+							url: '/pages/report/guide?classId=' + this.reviewClass.classId
+						})
+					}
+				} else {
+					uni.showToast({
+					    title: "用户未购买"
+					})
+				}
+			},
 		}
 	}
 </script>
@@ -278,12 +312,12 @@
 		/* align-items: center; */
 		justify-content: center;
 		padding: 15px;
-		width: 110%;
+		width: 80%;
 		background-color: #e6e3e3;
-		border-radius: 10px;
+		/* border-radius: 10px;
 		buttom: 100px;
 		left: 50%;
-		top: 50%;
+		top: 50%; */
 	}
 	.uni-tip-title {
 		margin-bottom: 10px;

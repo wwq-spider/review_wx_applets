@@ -176,20 +176,23 @@
 			},
 			/* 跳转到心理评测页面 */
 			toPsychometrics() {
+				getApp().globalData.switchId = 0
 				uni.switchTab({
-					url: '/pages/review/listPage?current=0'
+					url: '/pages/review/listPage'
 				})
 			},
 			/* 跳转到心理咨询页面 */
 			toPsychologicalCounsel() {
+				getApp().globalData.switchId = 1
 				uni.switchTab({
-					url: '/pages/review/listPage?current=1'
+					url: '/pages/review/listPage'
 				})
 			},
 			/* 跳转到生涯规划页面 */
 			toCareerPlanning() {
+				getApp().globalData.switchId = 2
 				uni.switchTab({
-					url: '/pages/review/listPage?current=2'
+					url: '/pages/review/listPage'
 				})
 			}
 		}
