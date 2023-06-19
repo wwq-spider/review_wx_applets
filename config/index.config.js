@@ -7,7 +7,7 @@ const CONFIG = {
 		//baseUrl: "https://review-system-1282746-1307626513.ap-shanghai.run.tcloudbase.com/review_system",
 		//baseUrl: "http://127.0.0.1:8087",
 		//baseUrl: "https://www.zhuxinkang.com/review",
-		baseUrl: "http://localhost:8080/review",
+		//baseUrl: "http://localhost:8080/review",
 		//baseUrl: "https://www.xinzhaitongxing.com/review",
 		baseUrl: "http://39.106.33.212:8080/jeecg-boot",
 		tokenKey: "WECHAT_TRADE", // 登录标识
