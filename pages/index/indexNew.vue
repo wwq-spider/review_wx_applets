@@ -30,7 +30,7 @@
 				<image @click="toCareerPlanning" mode="scaleToFill" class="psychometrics" src="/static/CareerPlanning.png"></image>
 				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/psychologicalCourses.png"></image>
 				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/psychologicalMall.png"></image>
-				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/professionalSupport.png"></image>
+				<image @click="toProfessionalSupport" mode="scaleToFill" class="psychometrics" src="/static/professionalSupport.png"></image>
 				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/sharedRoom.png"></image>
 			</view>
 		</view>
@@ -191,6 +191,13 @@
 			/* 跳转到生涯规划页面 */
 			toCareerPlanning() {
 				getApp().globalData.switchId = 2
+				uni.switchTab({
+					url: '/pages/review/listPage'
+				})
+			},
+			/* 跳转到专业支持页面 */
+			toProfessionalSupport() {
+				getApp().globalData.switchId = 5
 				uni.switchTab({
 					url: '/pages/review/listPage'
 				})

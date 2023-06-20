@@ -10,9 +10,7 @@
 		<view v-if="current == 4">
 			<u-empty mode="page"></u-empty>
 		</view>
-		<view v-if="current == 5">
-			<u-empty mode="page"></u-empty>
-		</view>
+		<professionalSupportList v-if="current == 5"></professionalSupportList>
 		<view v-if="current == 6">
 			<u-empty mode="page"></u-empty>
 		</view>
@@ -24,11 +22,13 @@
 	import psychometrics from '@/pages/review/psychometrics';
 	import PsychologicalCounsel from '@/pages/review/PsychologicalCounsel';
 	import careerPlan from '@/pages/review/careerPlan';
+	import professionalSupportList from '@/pages/review/professionalSupportList';
     export default {
 		components:{
 			psychometrics,
 			PsychologicalCounsel,
-			careerPlan
+			careerPlan,
+			professionalSupportList
 		},
         data() {
             return {

@@ -6,7 +6,7 @@
 			<u-tabs style="background: (255,255,255,0);" :list="tabList" :current="current" @click="changeTab" @change="changeTab"></u-tabs>
 	    </view>
 		<view class="question" v-for="(item, index) in recordList"  :key="item.resultId">
-			<view class="questionr">
+			<view class="questionr" @click="detail(item.resultId,item.classId,item.classTitle,item.reportResult)">
 				<view class="questionl">
 					<image class="questionlimg" mode="scaleToFill" :src="item.classCover || defaultCover" @error="imageError(index)"></image>
 				</view>
@@ -130,7 +130,22 @@
 				if (ended) {
 					this.formData.status = 'noMore'
 				}
-			}
+			},
+			detail(resultid, classId, title,reportResult) {
+				let dongliangClassId = '402880f082eecb960182eee3b1ef0001'
+				let dongliangClassProId = '2c9cff928408eab3018413a00d8a006a'
+				//let pdfUrl = 'https://www.zhuxinkang.com/review/upload2/PDF/create/2022/09/20/cp-20220920204836310.pdf'
+				if(classId == dongliangClassId || classId == dongliangClassProId){
+					//跳转报告查看页面
+					uni.navigateTo({
+						url: '/pages/report/pdfreport?pdfUrl=' + encodeURIComponent(reportResult)
+					})
+				}else{
+					uni.navigateTo({
+						url: '/pages/report/report?source=1&resultId=' + resultid + "&classId=" + classId + "&title=" + title
+					})
+				}
+			},
 		},
 		/**
 		 * 下拉刷新回调函数

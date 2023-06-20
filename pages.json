@@ -308,6 +308,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/review/professionalSupportList",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "专业支持",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/review/professionalSupportDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "专业支持详情页",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 		"color": "#333",
