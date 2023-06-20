@@ -21,12 +21,12 @@
 				<text style="padding-left: 10px;">我的测评</text>
 				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
 			</view>
-			<view @click="toPage('/pages/user/reviewReport')" class="user-item">
+			<view @click="toPage('/pages/expert/myConsultationNew')" class="user-item">
 				<image class="img-icon" src="../../static/icons8-lab-coat-48 1.png"></image>
 				<text style="padding-left: 10px;">我的咨询</text>
 				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
 			</view>
-			<view @click="toPage('/pages/expert/myConsultation')" class="user-item">
+			<view @click="toPage('/pages/user/myCourse')" class="user-item">
 				<image class="img-icon" src="../../static/icons8-school-48 1.png"></image>
 				<text style="padding-left: 10px;">我的课程</text>
 				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
@@ -36,7 +36,7 @@
 				<text style="padding-left: 10px;">我的商品</text>
 				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
 			</view>
-			<view @click="toPage('/pages/user/myInfo')" class="user-item">
+			<view @click="toPage('/pages/user/mySupport')" class="user-item">
 				<image class="img-icon" src="../../static/icons8-staff-32 1.png"></image>
 				<text style="padding-left: 10px;">我的支持</text>
 				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
