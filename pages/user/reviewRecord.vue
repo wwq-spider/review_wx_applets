@@ -5,17 +5,18 @@
 		<view class="img-tab">
 			<u-tabs style="background: (255,255,255,0);" :list="tabList" :current="current" @click="changeTab" @change="changeTab"></u-tabs>
 	    </view>
-		<view class="question">
+		<view class="question" v-for="(item, index) in recordList"  :key="item.resultId">
 			<view class="questionr">
 				<view class="questionl">
-					<image class="questionlimg" mode="scaleToFill" src="../../static/default_cover_bak.jpeg"></image>
+					<image class="questionlimg" mode="scaleToFill" :src="item.classCover || defaultCover" @error="imageError(index)"></image>
 				</view>
 				<view style="width: 60%;margin-top: 20rpx;">
-					<view class="title">{{'抑郁症筛查量表'}}</view>
-					<view class="subtitle">{{'测评时间:2023-03-30 13:09:12'}}</view>
+					<view class="title">{{item.classTitle}}</view>
+					<view class="subtitle">{{'测评时间:' + item.createTime}}</view>
 				</view>
 			</view>
 		</view>
+		<view v-if="recordList.length == 0" style="text-align: center; margin: 10%;">用户暂无测评记录</view>
 		<!-- 通过 loadMore 组件实现上拉加载效果，如需自定义显示内容，可参考：https://ext.dcloud.net.cn/plugin?id=29 -->
 		<uni-load-more v-if="loading || options.status === 'noMore' " :status="options.status" />
 	</view>
@@ -36,7 +37,7 @@
 					name: '全部'
 				}],
 				defaultCover: '../../static/default_cover.jpeg',
-				reviewClassList: [],
+				recordList: [],
 				// 查询字段，多个字段用 , 分割
 				field: '_id,mode,avatar,title,user_name,excerpt,last_modify_date',
 				formData: {
@@ -56,33 +57,56 @@
 				}
 			});
 		},
-		loadData(pullRefresh) {
+		mounted() {
+			let userData = uni.getStorageSync("userData")
 			let that = this
-			//查询专家列表
-			this.$apis.postPsychoMetrics().then(res => {
+			uni.showLoading({
+				title: "数据加载中"
+			})
+			let pid = uni.getStorageSync("projectId")
+			console.log('个人信息：',userData.userId)
+			//查询测评记录
+			this.$apis.postReviewRecords({"userId": userData.userId, "projectId": pid}).then(res => {
+				uni.hideLoading()
 				if (res.code == 200) {
 					res.result.forEach((row) => {
-						row.bannerImg = that.$config.aliYunEndpoint + row.bannerImg
-						that.comList.push(row)
+						that.recordList.push(row)
+					})
+					this.tabList[2].name = '已测评(' + that.recordList.length + ')'
+					this.tabList[3].name = '全部(' + that.recordList.length + ')'
+				} else {
+					uni.showToast({
+						title: res.msg,
+						icon: 'error'
+					})
+				}
+			})
+		},
+		loadData(pullRefresh) {
+			/* let userData = uni.getStorageSync("userData")
+			let that = this
+			uni.showLoading({
+				title: "数据加载中"
+			})
+			let pid = uni.getStorageSync("projectId")
+			console.log('个人信息：',userData.userId)
+			//查询测评记录
+			this.$apis.postReviewRecords({"userId": userData.userId, "projectId": pid}).then(res => {
+				uni.hideLoading()
+				if (res.code == 200) {
+					res.rows.forEach((row) => {
+						if (row.classCover) {
+							row.classCover = that.$config.aliYunEndpoint + row.classCover
+						}
+						that.recordList.push(row)
 					})
 				} else {
 					uni.showToast({
-						title: res.msg
+						title: res.msg,
+						icon: 'error'
 					})
 				}
-			}).catch(err => {
-				console.log(err)
-			})
-			//查询分类
-			this.$apis.postReviewClass().then(res => {
-				if (res.code == 200) {
-					res.result.forEach((row) => {
-						that.reviewClassList.push(row)
-					})
-				}
-			}).catch(err => {
-				console.log(err)
-			})
+			}) */
 		},
 		methods: {
 			againTest(classid, title) {
@@ -121,7 +145,10 @@
 				this.tipShow  = false
 				if (res.code == 200) {
 					that.recordList = []
-					res.result.forEach((row) => {
+					res.rows.forEach((row) => {
+						if (row.classCover) {
+							row.classCover = that.$config.aliYunEndpoint + row.classCover
+						}
 						that.recordList.push(row)
 					})
 				} else {
