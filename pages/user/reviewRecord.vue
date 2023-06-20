@@ -86,20 +86,15 @@
 		},
 		methods: {
 			againTest(classid, title) {
-				// uni.navigateTo({
-				// 	url: '/pages/questions/questions?source=1&classId='+classid + "&title=" + title
-				// })
 				//如果未登录且是扫二维码进来的 则跳转到第一个量表
 				let projectClass = uni.getStorageSync("projectClass")
 				if(projectClass && projectClass.length > 0) {
 					let classInfo = projectClass[0]
 					uni.navigateTo({
-						//url: '/pages/questions/questions?classId=' + projectClass[0].classId + "&title=" + projectClass[0].title
 						url: '/pages/report/guide?classId=' + classInfo.classId
 					})
 				} else {
 					uni.navigateTo({
-						//url: '/pages/questions/questions?classId=' + projectClass[0].classId + "&title=" + projectClass[0].title
 						url: '/pages/report/guide?classId=' + classid
 					})
 				}
@@ -127,9 +122,6 @@
 				if (res.code == 200) {
 					that.recordList = []
 					res.result.forEach((row) => {
-						/* if (row.classCover) {
-							row.classCover = that.$config.aliYunEndpoint + row.classCover
-						} */
 						that.recordList.push(row)
 					})
 				} else {
@@ -144,17 +136,6 @@
 				that.tipShow  = false
 				console.log(err)
 			})
-			
-			// this.$refs.udb.loadData({
-			// 	clear: true
-			// }, () => {
-			// 	this.tipShow = true
-			// 	clearTimeout(this.timer)
-			// 	this.timer = setTimeout(()=>{
-			// 		this.tipShow  = false
-			// 	},1000)
-			// 	uni.stopPullDownRefresh()
-			// })
 		},
 		/**
 		 * 上拉加载回调函数
