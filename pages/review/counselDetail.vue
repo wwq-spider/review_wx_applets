@@ -66,11 +66,11 @@
 							<span @click="noReservableClick">{{'不可预约'}}</span>
 						</span>
 					</view>
-					<view style="width: 100%;display: block;float: inline-start;" v-for="(item, index) in calendarListInfo" :key="index">
+					<view style="width: 100%;display: block;float: inline-start;" v-for="(item, index1) in calendarListInfo" :key="index1">
 						<view>{{item.visitDateNew}}</view>
 						<view style="width: 100%; height: 400rpx; border-bottom: 1rpx solid #DDDDDD;">
-							<view v-for="(v, index) in item.visitDateList">
-								<span class="reservation" :class="[v.isChooseFlag?'bgColorGreen':'bgColorGray']">{{v.time}}</span>
+							<view v-for="(v, index2) in item.visitDateList" :key="index2">
+								<span @click='orderExpert(v.calendarId,v.visitDate,v.beginTime,v.endTime,calendarInfo.expertName,calendarInfo.mobilePhone)' class="reservation" :class="[v.isChooseFlag?'bgColorGreen':'bgColorGray']">{{v.time}}</span>
 							</view>
 						</view>
 					</view>
@@ -100,7 +100,7 @@
 				expertFieldGroup:{},//咨询师擅长领域
 				isReservationFlag: true,
 				isNoReservationFlag: false,
-				calendarListInfo:{},
+				calendarListInfo:[],
 				tabList:[
 					{
 						name: '介绍',
@@ -109,157 +109,6 @@
 					}
 				],
 				current:0,
-				timeRadios:[{
-					date:'4月1日(周六)',
-					dataTime:[
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-							
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-							
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						}
-					]
-				},
-				{
-					date:'4月1日(周六)',
-					dataTime:[
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-							
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-							
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						}
-					]
-				}
-				]
 			}
 		},
 		onLoad(event) {
@@ -315,7 +164,10 @@
 				this.$apis.postListCalendarInfo({'expertId': this.id}).then(res => {
 					uni.hideLoading()
 					if (res.code == 200) {
-						that.calendarListInfo = res.result
+						/* that.calendarListInfo = res.result */
+						res.result.forEach((row) => {
+							that.calendarListInfo.push(row)
+						})
 					} else {
 						uni.showToast({
 							title: res.msg
@@ -323,6 +175,117 @@
 					}
 				}).catch(err => {
 					uni.hideLoading()
+					console.log(err)
+				})
+			},
+			//预约咨询师
+			orderExpert(calendarId,visitDate,beginTime,endTime,expertName,mobilePhone){
+				let that = this
+				console.log('日历id：'+calendarId)
+				let userData = uni.getStorageSync('userData')
+				this.$apis.postOrderExpert({'id': calendarId}).then(res => {
+					if (res.code == 200) {
+						var resultList = []
+						var obj = {
+							"expertId" : this.id,
+							"userId" : userData.userId,
+							"calendarId" : calendarId,
+							"patientName" : userData.userName,
+							"patientSex" : userData.sex,
+							"patientAge" : userData.age,
+							"type" : "2",
+							"status" : "1"
+						}
+						resultList.push(obj)
+						this.$apis.postSaveOoderInfo(resultList).then(res => {
+							if (res.code == 200) {
+								console.log("保存预约人信息成功");
+								this.requestSubscribeMessage(visitDate,beginTime,endTime,expertName,res.result.id,mobilePhone);
+								/* this.toConsultationDetail(res.result.id); */
+							} else {
+								uni.showToast({
+									title: res.msg
+								})
+							}
+							//给专家发送短信提醒
+							this.$apis.postSendAppointSuccessMsg({'expertName':expertName,'expertPhone':mobilePhone}).then(res => {
+								if (res.code == 200) {
+									console.log('给专家发送短信提醒成功')
+								} else {
+									uni.showToast({
+										title: res.msg
+									})
+								}
+							}).catch(err => {
+								console.log(err)
+							})
+						}).catch(err => {
+							console.log(err)
+						})
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+				//初始化数据
+				this.loadData();
+				wx.showToast({
+					title : '预约成功',
+					icon : 'success',
+					duration : 1000
+				});
+			},
+			toConsultationDetail(id){
+				//跳转到预约详情页面
+				uni.navigateTo({
+					url: '/pages/expert/consultationDetail?id='+ id
+				})
+			},
+			//消息推送
+			requestSubscribeMessage(visitDate,beginTime,endTime,expertName,consulId,mobilePhone){
+				//获取用户授权允许接收服务通知
+				uni.requestSubscribeMessage({
+					//tmplIds:["tz0qAaZq2v0s3dZbfPnOYwkFy7QOF82XVFNvpLZGTNQ"],
+					tmplIds:["4IVeiK2tYEmXqTcDJ7IVnXduD2CToUiV9Sz7ZHCObfs"],
+					success:res=>{
+						console.log('调起成功');
+						if(res[tempId[0]] === 'accept'){
+							console.log('允许')
+						}
+						if(res[tempId[0]] === 'reject'){
+							console.log('拒绝')
+						}
+					},
+					fail:err=>{
+						if(err.errCode == 20004){
+							console.log('关闭小程序主开关')
+						}else{
+							console.log('订阅失败')
+						}
+					}
+				})
+				//调用后端接口推送服务通知
+				let userData = uni.getStorageSync('userData')
+				var obj = {
+					"touser" : userData.openid,
+					"visitDate" : visitDate,
+					"beginTime" : beginTime,
+					"endTime" : endTime,
+					"expertName" : expertName,
+					"consulId" : consulId,
+					"mobilePhone" : mobilePhone,
+					"userId" : userData.userId
+				}
+				this.$apis.postsendMessage(obj).then(res => {
+					if (res.errcode == 0) {
+						console.log('模板消息推送成功')
+					} else {
+						console.log('模板消息推送失败')
+					}
+				}).catch(err => {
 					console.log(err)
 				})
 			},
