@@ -212,8 +212,7 @@
 		font-weight: 700;
 		margin: 100rpx auto;
 		text-align: center;
-		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
-		background-color: #77beff;
+		background-color: #00da69;
 	}
 	
 	.title {

@@ -16,7 +16,7 @@
 			<uni-icons type="sound-filled" size="18" color="#55aaff" style="margin-left: 3px;"></uni-icons>
 			<swiper class="swiper-nav" :circular="true" vertical="true" :autoplay="true" :interval="5000" :duration="1000">
 				<swiper-item style="display: table;"  v-for="(item,index) in noticeList" :key="index">
-					<view class="right" @click="noticeDetail(item.id)">{{item.noticeName}}</view>					
+					<view class="right" @click="noticeDetail(item.id)">{{item.noticeDesc}}</view>					
 				</swiper-item>
 			</swiper>
 		</view>
@@ -73,19 +73,19 @@
 		//分享页面标题设置
 		onShareAppMessage(res) {
 		    return {
-		      title: '心宅同行心理健康服务平台',
+		      title: '沃心理SAAS平台',
 		      path: 'pages/index/indexNew?source=1'
 		    }
 		},
 		onShareTimeline() {
 			return {
-			  title: '心宅同行心理健康服务平台',
+			  title: '沃心理SAAS平台',
 			  path: 'pages/index/indexNew?source=1'
 			}
 		},
 		onLoad(option) {
 			uni.showShareMenu({
-				title: '心宅同行心理健康服务平台',
+				title: '沃心理SAAS平台',
 				path: 'pages/index/indexNew?source=1'
 			})
 			if(option && option.scene) {
@@ -271,7 +271,6 @@
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
-		width: 100%;
 	}
 	.psychometrics {
 		width: 710rpx;

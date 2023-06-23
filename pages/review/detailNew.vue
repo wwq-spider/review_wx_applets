@@ -11,7 +11,7 @@
 			</view>
 			<view style="width: 100%; height: 20rpx;margin: 20rpx 0;background-color: rgba(237,237,237,0.4);"></view>
 			<view style="background: #ffffff;min-height: 700rpx;">
-				<view style="font-size: 28rpx;color: #000000;display: block;text-align: center;">{{'评测须知'}}</view>
+				<view style="font-size: 28rpx;color: #000000;display: block;text-align: center;">{{'测评须知'}}</view>
 				<view style="font-size: 24rpx;width: 85%;min-height: 400rpx;background: rgba(215,233,230, 0.4);border: 1rpx solid rgba(106,150,31,0.42);margin: 20rpx auto;padding: 20rpx;color: #555555;">
 					<p>{{'如果您要参加一次测评，请注意以下事项：'}}</p>
 					<p>{{'1.确认测评目的和内容：了解测评的目的和内容，确认自己是否符合参测条件，并了解测评结果的应用和影响。'}}</p>
@@ -32,7 +32,7 @@
 				<span class="buy-button" @click="buy">{{'购买测评'}}</span>
 			</view>
 		</view>
-		<uniPopup ref="showPayConfirm" @change="change" :maskClick="true" :animation="false">
+		<uni-popup ref="showPayConfirm" @change="change">
 			<view class="uni-tip">
 				<text class="uni-tip-title">购买确认</text>
 				<text class="uni-tip-content">量表名称：{{ reviewClass.title }}</text>
@@ -42,13 +42,12 @@
 					<button class="uni-tip-button" @click="confirmBuy()" :loading="loading">确定</button>
 				</view>
 			</view>
-		</uniPopup>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 	import htmlParser from '@/common/html-parser'
-	import uniPopup from '../../uview-ui/components/u-popup/u-popup.vue'
 	export default {
 		data() {
 			return {
@@ -58,9 +57,6 @@
 				reviewClassNumber: '',
 				loading: false,
 			}
-		},
-		components:{
-			uniPopup
 		},
 		computed:{
 			//拼接where条件
@@ -139,12 +135,13 @@
 				})
 			},
 			buy() {
-				this.$nextTick(() => {
+				/* this.$nextTick(() => {
 					this.$refs.showPayConfirm.open("center")
-				})
+				}) */
 				/* uni.navigateTo({
 					url:'pages/review/evaluationScale'
 				}) */
+				this.confirmBuy()//unipopup失效以及支付商户号未开放，暂按0元跳过支付
 			},
 			cancel() {
 				this.$refs.showPayConfirm.close()

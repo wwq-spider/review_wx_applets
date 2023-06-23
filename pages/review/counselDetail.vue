@@ -5,7 +5,7 @@
 				<view>
 					<view class="questionr">
 						<view class="questionl">
-							<image class="questionlimg" mode="scaleToFill" src="../../static/default_cover.jpeg"></image>
+							<image class="questionlimg" mode="scaleToFill" :src="calendarInfo.avatar || defaultCover" @error="imageError()"></image>
 						</view>
 						<view class="counsel-concent">
 							<view class="counsel-title">
@@ -25,13 +25,17 @@
 									</u-col>
 								</u-row>
 								<u-row>
+									<u-col>
 									<view>
+										<p style="font-size: 30rpx;color: #3b7600;">{{calendarInfo.realPrice + '/小时'}}</span></p>
+										<p class="counsel-us">{{'咨询费用'}}</p>
+									</view>
+									<view style="margin-top: 40rpx;">
 										<p>{{calendarInfo.serviceDuration+'+'}}<span class="counsel-unit">{{'小时'}}</span></p>
 										<p class="counsel-us">{{'服务时长'}}</p>
 									</view>
+									</u-col>
 								</u-row>
-								
-								
 							</view>
 						</view>
 					</view>
@@ -45,13 +49,8 @@
 				</view>
 				<!-- 介绍 -->
 				<view v-if="current=='0'" class="counsel-detail-content">
-					<!-- <p>{{'国家卫健委认证心理咨询师'}}</p>
-					<p>{{'国家二级心理咨询师'}}</p>
-					<p>{{'国防大学应用心理学硕士'}}</p>
-					<p>{{'国家应急救援队心理技术指导小组专家'}}</p> -->
 					<p>{{calendarInfo.introduction}}</p>
 					<p style="font-weight: 700;margin: 10rpx 0;">{{'擅长领域'}}</p>
-					<!-- <p>{{'家庭咨询，婚姻咨询，个人咨询，团体辅导，心理诊断（如智力测验，多动症自闭症测验，大脑创伤测验等）'}}</p> -->
 					<p>{{expertFieldGroup+'等'}}</p>
 				</view>
 				<!-- 预约时间 -->
@@ -74,12 +73,11 @@
 							</view>
 						</view>
 					</view>
-					
 				</view>
 			</view>
 			
 		</view>
-		<view>
+		<!-- <view>
 			<view class="tabbar-bottom">
 				<span>
 					<p style="color: #416F5D; font-size: 34rpx;">{{'￥800.00/小时'}}</p>
@@ -87,7 +85,7 @@
 				</span>
 				<span class="buy-button">{{'立即预约'}}</span>
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -109,11 +107,14 @@
 					}
 				],
 				current:0,
+				expertId:"",
+				defaultCover: '../../static/default_cover.jpeg',
 			}
 		},
 		onLoad(event) {
 			if(event.id){
 				this.id = event.id
+				this.expertId = event.id
 			}
 			this.loadData();
 		},
@@ -150,7 +151,6 @@
 					uni.hideLoading()
 					if (res.code == 200) {
 						that.expertFieldGroup = res.result
-						console.log('擅长领域：',JSON.stringify(that.expertFieldGroup))
 					} else {
 						uni.showToast({
 							title: res.msg
@@ -164,7 +164,6 @@
 				this.$apis.postListCalendarInfo({'expertId': this.id}).then(res => {
 					uni.hideLoading()
 					if (res.code == 200) {
-						/* that.calendarListInfo = res.result */
 						res.result.forEach((row) => {
 							that.calendarListInfo.push(row)
 						})
@@ -181,9 +180,17 @@
 			//预约咨询师
 			orderExpert(calendarId,visitDate,beginTime,endTime,expertName,mobilePhone){
 				let that = this
-				console.log('日历id：'+calendarId)
 				let userData = uni.getStorageSync('userData')
-				this.$apis.postOrderExpert({'id': calendarId}).then(res => {
+				uni.navigateTo({
+					url:'/pages/expert/appointExpertDetail?expertName=' + encodeURIComponent(expertName)
+					+ '&visitDate=' + encodeURIComponent(visitDate)
+					+ '&beginTime=' + encodeURIComponent(beginTime)
+					+ '&endTime=' + encodeURIComponent(endTime)
+					+ '&calendarId=' + encodeURIComponent(calendarId)
+					+ '&expertId=' + this.expertId
+					+ '&mobilePhone=' + encodeURIComponent(mobilePhone)
+				})
+				/* this.$apis.postOrderExpert({'id': calendarId}).then(res => {
 					if (res.code == 200) {
 						var resultList = []
 						var obj = {
@@ -201,13 +208,11 @@
 							if (res.code == 200) {
 								console.log("保存预约人信息成功");
 								this.requestSubscribeMessage(visitDate,beginTime,endTime,expertName,res.result.id,mobilePhone);
-								/* this.toConsultationDetail(res.result.id); */
 							} else {
 								uni.showToast({
 									title: res.msg
 								})
 							}
-							//给专家发送短信提醒
 							this.$apis.postSendAppointSuccessMsg({'expertName':expertName,'expertPhone':mobilePhone}).then(res => {
 								if (res.code == 200) {
 									console.log('给专家发送短信提醒成功')
@@ -229,14 +234,14 @@
 					}
 				}).catch(err => {
 					console.log(err)
-				})
-				//初始化数据
-				this.loadData();
+				}) */
+				/* this.loadData();
 				wx.showToast({
 					title : '预约成功',
 					icon : 'success',
 					duration : 1000
-				});
+				}); */
+				
 			},
 			toConsultationDetail(id){
 				//跳转到预约详情页面
@@ -301,6 +306,9 @@
 			},
 			changeTab(index) {
 			    this.current = index;
+			},
+			imageError() {
+				this.calendarInfo.avatar = this.defaultCover 
 			},
 		}
 	}
@@ -379,7 +387,7 @@
 	}
 	.questionl .questionlimg {
 		width: 233rpx;
-		height: 233rpx;
+		height: 280rpx;
 	}
 	.counsel-concent{
 		width: 60%;

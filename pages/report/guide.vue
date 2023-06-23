@@ -9,11 +9,6 @@
 </template>
 <script>
 	export default {
-		// onUnload(options) {
-		// 	console.log("onUnload===========")
-		// 	this.toIndex()
-		// 	return true;
-		// },
 		created: function() {
 			var aDate = new Date();
 			this.date = aDate.getFullYear() + "年" + (aDate.getMonth() + 1) + "月" + aDate.getDate() + "日";
@@ -150,8 +145,8 @@
 		font-weight: 700;
 		margin: 100rpx auto;
 		text-align: center;
-		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
-		background-color: #77beff;
+		background: #83bc51;
+		border-radius: 20rpx;
 		margin-bottom: 10rpx;
 	}
 	

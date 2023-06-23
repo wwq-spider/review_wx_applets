@@ -3,7 +3,7 @@
 		{
 			"path": "pages/index/indexNew",
 			"style":{
-				"navigationBarTitleText": "心宅同行5G+心理健康管理平台",
+				"navigationBarTitleText": "沃心理SAAS平台",
 				"app-plus":{
 					"titleNView":false
 				},
@@ -157,20 +157,6 @@
             
         },
 		{
-			"path" : "pages/expert/expert",
-			"style" : {
-			    "navigationBarTitleText": "咨询师列表",
-			    "enablePullDownRefresh": true
-			}
-		},
-        {
-        	"path" : "pages/expert/expertInfo",
-        	"style" : {
-        	    "enablePullDownRefresh": false,
-        	    "navigationBarTitleText": "咨询师详情"
-        	}
-        },
-		{
 			"path" : "pages/review/counselDetail",
 			"style" : {
 				"enablePullDownRefresh": false,
@@ -195,13 +181,13 @@
             }
             
         },
-		{
+		/* {
 		    "path" : "pages/room/room",
 		    "style" : {
 		        "enablePullDownRefresh": false,
 		        "navigationBarTitleText": "视频问诊"
 		    }
-		},
+		}, */
 		{
 		    "path" : "pages/videocall/videocall",
 		    "style" : {
@@ -214,24 +200,6 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/expert/myAppoint",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "我的预约",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/expert/expertNew",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "咨询师列表",
                 "enablePullDownRefresh": false
             }
             
@@ -326,6 +294,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/expert/appointExpertDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "预约信息",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 		"color": "#333",
@@ -352,7 +329,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "心宅同行心理健康服务平台",
+		"navigationBarTitleText": "沃心理SAAS平台",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#f4fff5"
 	},

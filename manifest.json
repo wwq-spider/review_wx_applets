@@ -60,6 +60,10 @@
                 "desc" : "演示定位能力"
             }
         }
+		// 开启分包优化配置
+		/* "optimization" : {  
+			"subPackages" : true
+		} */
     },
     "mp-alipay" : {
         "usingComponents" : true
@@ -77,7 +81,7 @@
         "devServer" : {
             "https" : false
         },
-        "title" : "心宅同行心理服务",
+        "title" : "沃心理SAAS平台",
         "router" : {
             "mode" : "history",
             "base" : "./"

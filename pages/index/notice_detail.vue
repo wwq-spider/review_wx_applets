@@ -38,8 +38,6 @@
 			}
 		},
 		onReady() {
-			//this.$refs.showshowPayConfirm.close()
-			// 开始加载数据，修改 where 条件后才开始去加载 clinetDB 的数据 ，需要等组件渲染完毕后才开始执行 loadData，所以不能再 onLoad 中执行
 			if(this.id){// ID 不为空，则发起查询
 				//加载详情数据
 				this.loadData()

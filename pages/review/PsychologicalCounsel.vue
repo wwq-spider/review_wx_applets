@@ -19,7 +19,7 @@
 					<view class="counsel-concent">
 						<view class="counsel-title">
 							<span class="counsel-name">{{expertInfo.expertName}}</span>
-							<span class="counsel-charge">{{'$'+expertInfo.dicountPrice+'/小时'}}</span>
+							<span class="counsel-charge">{{'$'+expertInfo.realPrice+'/小时'}}</span>
 						</view>
 						<view class="counsel-intro">{{expertInfo.label}}</view>
 						<view>
@@ -153,7 +153,7 @@
 	}
 	.questionl .questionlimg {
 		width: 233rpx;
-		height: 233rpx;
+		height: 280rpx;
 	}
 	.counsel-concent{
 		width: 60%;
@@ -166,7 +166,7 @@
 		text-align: center;
 		font-size: 24rpx;
 		font-weight: 700;
-		margin-top: 30rpx;
+		margin-top: 60rpx;
 		border-radius: 30rpx;
 		color: #ffffff;
 		float:right
@@ -182,8 +182,8 @@
 	}
 	.counsel-intro{
 		float: left;
-		font-size:20rpx;
-		height: 110rpx;
+		font-size:21rpx;
+		height: 120rpx;
 		overflow: scroll;
 		line-height: 1.6;
 	}

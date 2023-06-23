@@ -3,12 +3,12 @@
 		<camera device-position="front" @error="error" style="width: 0px; height: 0px" v-if="showCamera"></camera>
 		<view class="uLine-progress">
 			<view v-if="classCount > 0" style="text-align: center; color: #2fba2f; margin-bottom: 10px;">量表: {{firstfloorindex}}/{{classCount}}</view>
-			<view style="width:88%;display: inline-block;float: left;">
+			<view style="width:85%;display: inline-block;float: left;">
 				<u-line-progress :percent="secondfloorper" inactiveColor="#92B473" activeColor="#628D3D" :show-percent="false" height="22"></u-line-progress>
 			</view>
 			<view style="float: right;color: #628D3D;font-size: 28rpx;float: left;margin-top: 10rpx;margin-left: 10rpx;">{{questionIndex+1}}/{{questionList.length}}</view>
 		</view>
-		<view style="background-color: #ffffff; border-radius: 20rpx; width: 80%; height: 800rpx;margin: 0 auto;">
+		<view style="background-color: #ffffff; border-radius: 20rpx; width: 80%; height: 900rpx;margin: 0 auto;">
 			<view style="width: 95%;padding: 30rpx 0;margin: 0 auto;">
 				<view class="titleNew">
 					<text v-if="questionList.length > 0">{{questionIndex+1}}、{{questionList[questionIndex].content}}</text>

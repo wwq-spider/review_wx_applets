@@ -12,8 +12,8 @@
                     <view class="listtitle">
                         <view class="listtitle1">{{ item.title }}</view>
                         <view class="listtitle2">
-                            <text class="listtitle2son">￥</text>
-                            {{ item.realPrice }}
+                            <text class="listtitle2son">{{'￥'+ item.realPrice }}</text>
+							<p style="font-size: 22rpx;color:#979797">{{item.reviewCount + '人测过'}}</p>
                         </view>
                     </view>
 					<view class="evaluation" @click="beginTest(item.classId,item.title)">立即测评</view>
@@ -23,21 +23,25 @@
 		
 		<view>
 			<view class="search">
-				<text class="recommend">精品评测</text>
+				<text class="recommend">精品测评</text>
 				<view class="popularity"><span>按人气</span><image class="img-title" src="../../static/Polygon1.png"></image></view>
 			</view>
 			<view class="question" v-for="(reviewClass, index) in reviewClassList">
-				<view class="questionr" @click='beginTest(reviewClass.classId, reviewClass.title)' :key="index">
+				<view class="questionr">
 					<view class="questionl">
 						<image class="questionlimg" mode="scaleToFill" :src="reviewClass.bannerImg || defaultCover" @error="imageError(0, index, 2)"></image>
 					</view>
 					<view style="width: 60%;margin-top: 20rpx;">
 						<view class="title">{{reviewClass.title}}</view>
 						<view class="subtitle">{{reviewClass.classDesc}}</view>
-						<view v-if="reviewClass.charge==1">
+						<!-- <view v-if="reviewClass.charge==1">
 							<span class="iconfont" style="color: #df7a58;font-size: 9px;">&#xe606;{{reviewClass.realPrice}}</span>
 							<span class="iconfont" style="padding-left: 5px; color: #857f77;font-size: 9px;text-decoration:line-through;" v-if="reviewClass.dicounPrice != '0' && reviewClass.dicounPrice != '0.00'">&#xe606;{{reviewClass.orgPrice}}</span>
 							<span style="padding-left: 10px; color: #857f77; font-size: 9px;">{{reviewClass.buyCount}}人付款</span>
+						</view> -->
+						<view class="listtitle2">
+						    <text class="listtitle2son">{{'￥'+ reviewClass.realPrice }}</text>
+							<p style="font-size: 22rpx;color:#979797">{{reviewClass.reviewCount + '人测过'}}</p>
 						</view>
 						<view class="question-evaluation"  @click='beginTest(reviewClass.classId)'>立即测评</view>
 					</view>
@@ -56,6 +60,7 @@
 				searchValue: "",
 				recommendClassList: [],
 				reviewClassList: [],
+				reviewClassNumber: 0,
             }
         },
         onShow() {},
@@ -97,6 +102,9 @@
 					}
 				}).catch(err => {
 					console.log(err)
+				})
+				this.$apis.postReviewClassNumber({'classId': this.id}).then(res => {
+					that.reviewClassNumber = res.result
 				})
 			},
 			search(res) {

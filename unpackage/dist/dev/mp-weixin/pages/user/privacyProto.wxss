@@ -1,0 +1,51 @@
+
+.header-content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	font-size: 14px;
+}
+
+/* 标题 */
+.uni-title {
+	display: flex;
+	margin-bottom: 5px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #3b4144;
+}
+
+/* 描述 额外文本 */
+.uni-note {
+	color: #999;
+	font-size: 12px;
+}
+.footer {
+	display: flex;
+	align-items: center;
+}
+.footer-button {
+	display: flex;
+	align-items: center;
+	font-size: 12px;
+	height: 30px;
+	color: #fff;
+	background-color: #ff5a5f;
+}
+.uni-ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.article-title {
+	padding: 20px 15px;
+	padding-bottom: 0;
+	text-align: center;
+}
+.article-content {
+	padding: 15px;
+	font-size: 15px;
+	overflow: hidden;
+}
+
+
