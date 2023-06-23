@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="width: 100%;">
         <view style="width: 100%;">
 			<view class="question">
 				<view>
@@ -67,7 +67,7 @@
 					</view>
 					<view style="width: 100%;display: block;float: inline-start;" v-for="(item, index1) in calendarListInfo" :key="index1">
 						<view>{{item.visitDateNew}}</view>
-						<view style="width: 100%; height: 400rpx; border-bottom: 1rpx solid #DDDDDD;">
+						<view style="width: 100%; height: 220rpx; border-bottom: 1rpx solid #DDDDDD;">
 							<view v-for="(v, index2) in item.visitDateList" :key="index2">
 								<span @click='orderExpert(v.calendarId,v.visitDate,v.beginTime,v.endTime,calendarInfo.expertName,calendarInfo.mobilePhone)' class="reservation" :class="[v.isChooseFlag?'bgColorGreen':'bgColorGray']">{{v.time}}</span>
 							</view>

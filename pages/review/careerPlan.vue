@@ -4,7 +4,7 @@
         <view style="width: 100%;">
 			<view style="width: 100%;">
 				<view class="imageStyle">
-					<image @click="toPsychometrics" mode="widthFix" src="/static/recomm2.png"></image>
+					<image @click="toPsychometrics" mode="widthFix" src="/static/recomm2.jpg"></image>
 				</view>
 				<view style="margin: 0 35rpx;font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;">
 					<view class="title" style="color: #416F5D; font-size: 36rpx;margin-bottom: 20rpx;">{{"2023职业生涯规划"}}</view>
@@ -18,11 +18,12 @@
 				</view>
 				<!-- 详情 -->
 				<view v-if="current=='0'" class="counsel-detail-content">
-					
+					<view class="question-evaluation"  @click='beginTest(1)'>进入职业规划版测评</view>
 				</view>
 				<!-- 预约时间 -->
 				<view v-if="current=='1'" class="counsel-detail-content">
-					<view class="reservation-btn">
+					<view class="question-evaluation"  @click='beginTest(2)'>进入学生版测评</view>
+					<!-- <view class="reservation-btn">
 						<span>
 							<image class="img-size" :src="isReservationFlag?'../../static/Ellipse 9.png':'../../static/Ellipse 10.png'"></image>
 							<span @click="reservationClick">{{'可预约'}}</span>
@@ -31,28 +32,33 @@
 							<image class="img-size" :src="isNoReservationFlag?'../../static/Ellipse 9.png':'../../static/Ellipse 10.png'"></image>
 							<span @click="noReservableClick">{{'不可预约'}}</span>
 						</span>
-					</view>
-					<view style="width: 100%;display: block;float: inline-start;" v-for="(item, index) in timeRadios" :key="index">
+					</view> -->
+					<!-- <view style="width: 100%;display: block;float: inline-start;" v-for="(item, index) in timeRadios" :key="index">
 						<view>{{item.date}}</view>
 						<view style="width: 100%; height: 400rpx; border-bottom: 1rpx solid #DDDDDD;">
 							<view v-for="(v, index) in item.dataTime">
 								<span class="reservation" :class="[v.isChooseFlag?'bgColorGreen':'bgColorGray']">{{v.time}}</span>
 							</view>
 						</view>
-					</view>
+					</view> -->
 					
+				</view>
+				<view style="background: #ffffff;min-height: 600rpx;">
+					<view style="font-size: 24rpx;width: 85%;min-height: 300rpx;background: rgba(215,233,230, 0.4);border: 1rpx solid rgba(106,150,31,0.42);margin: 20rpx auto;padding: 20rpx;color: #555555;">
+						<p>{{'生涯规划是一种专业的心理辅导方式，它是指一名经过专业培训的心理督导师，通过与另一名心理工作者的合作学习和讨论，帮助他们提高自身的心理辅导技能和水平。心理督导可以帮助心理工作者提高对心理辅导的认识和理解，加深对受助者心理问题的把握和解决方案的设计能力，同时也可以加强心理工作者的自我认识和自我成长。心理督导通常通过个别或小组形式进行，旨在为心理工作者提供一个安全、私密、专业的交流平台，帮助他们在工作中更好地发挥自己的潜力和能力。 当一名心理咨询师在进行心理辅导工作时，可能会面临一些难以解决的问题，例如无法掌握受助者的情感，无法理解受助者的内心体验等。'}}</p>
+					</view>
 				</view>
 			</view>
 			
 		</view>
-		<view>
+		<!-- <view>
 			<view class="tabbar-bottom">
 				<span class="buy-button">
 					<image src="../../static/icons8-ringer-volume-30 1.png"></image>
 					<span>{{'立即预约'}}</span>
 				</span>
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -65,9 +71,9 @@
 				isNoReservationFlag: false,
 				tabList:[
 					{
-						name: '详情',
+						name: '职业规划版',
 					}, {
-						name: '预约',
+						name: '学生版',
 					}
 				],
 				current:0,
@@ -240,6 +246,20 @@
 			changeTab(index) {
 			    this.current = index;
 			},
+			beginTest(classid){
+				let dongliangClassId = '402880f082eecb960182eee3b1ef0001';
+				let dongliangClassProId = '2c9cff928408eab3018413a00d8a006a';
+				//跳转到当前量表
+				if(classid == 1){
+					uni.navigateTo({
+						url: '/pages/review/detailNew?classId=' + dongliangClassProId
+					})
+				}else {
+					uni.navigateTo({
+						url: '/pages/review/detailNew?classId=' + dongliangClassId
+					})
+				}
+			},
 		}
 	}
 </script>
@@ -371,7 +391,7 @@
 	.counsel-detail-content{
 		font-size: 24rpx;
 		width: 85%;
-		min-height: 400rpx;
+		min-height:100rpx;
 		background: rgba(215,233,230, 0.4);
 		border: 1rpx solid rgba(106,150,31,0.42);
 		margin: 20rpx auto;
@@ -397,5 +417,17 @@
 	.bgColorGray{
 		background: #D9D9D9;
 		color: #000000;
+	}
+	.question-evaluation{
+		width: 360rpx;
+		line-height: 60rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 24rpx;
+		font-weight: 700;
+		border-radius: 30rpx;
+		color: #ffffff;
+		margin-top: 15rpx;
+		margin-left: 150rpx;
 	}
 </style>

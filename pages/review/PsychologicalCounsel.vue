@@ -1,51 +1,53 @@
 <template>
-	<view>
-		<!-- 心理咨询 -->
-		<view class="search">
-			<u-search style="width: 100%;" :clearabled="true" @clear="clear()" @search="search" :show-action="false" placeholder="咨询师"></u-search>
-		</view>
-		<view class="screen-list">
-			<view @click="screenList" class="screen-list-item"><span>按人气</span><image class="img-title" src="../../static/Polygon1.png"></image></view>
-			<view @click="screenList" class="screen-list-item"><span>时间</span><image class="img-title" src="../../static/Polygon1.png"></image></view>
-			<view @click="screenList" class="screen-list-item"><span>筛选</span><image class="img-title" src="../../static/icons8-funnel-50 1.png"></image></view>
-		</view>
-		<view>
-		<view class="question">
+	<view class="Index">
+		<view style="width: 100%;">
+			<!-- 心理咨询 -->
+			<view class="search">
+				<u-search style="width: 100%;" :clearabled="true" @clear="clear()" @search="search" :show-action="false" placeholder="咨询师"></u-search>
+			</view>
+			<view class="screen-list">
+				<view @click="screenList" class="screen-list-item"><span>按人气</span><image class="img-title" src="../../static/Polygon1.png"></image></view>
+				<view @click="screenList" class="screen-list-item"><span>时间</span><image class="img-title" src="../../static/Polygon1.png"></image></view>
+				<view @click="screenList" class="screen-list-item"><span>筛选</span><image class="img-title" src="../../static/icons8-funnel-50 1.png"></image></view>
+			</view>
 			<view>
-				<view class="questionr" v-for="(expertInfo, index) in expertList" :key="index">
-					<view class="questionl">
-						<image class="questionlimg" mode="scaleToFill" :src="expertInfo.avatar || defaultCover" @error="imageError()"></image>
-					</view>
-					<view class="counsel-concent">
-						<view class="counsel-title">
-							<span class="counsel-name">{{expertInfo.expertName}}</span>
-							<span class="counsel-charge">{{'$'+expertInfo.realPrice+'/小时'}}</span>
-						</view>
-						<view class="counsel-intro">{{expertInfo.label}}</view>
-						<view>
-							<view class="reservation" @click='reservationClick(expertInfo.id)'>立即预约</view>
-						</view>
-					</view>
-					<view class="counsel-footer">
-						<view class="counsel-footer-Left" v-for="(beGoodAt, index) in expertInfo.beGoodAtList" :key="index">
-							<!-- <span class="counsel-button" @click='relationshipClick()'>亲子关系</span>
-							<span class="counsel-button" @click='interpersonalClick()'>人际关系</span>
-							<span class="counsel-button" @click='interpretationClick()'>评测解读</span> -->
-							<span class="counsel-button">{{beGoodAt.dictName}}</span>					
-						</view>
-						<view class="counsel-footer-right" style="float: right;color: #999999;font-size: 22rpx;">
-							<span>最快可约今日18:00</span>
+				<view class="question">
+					<view>
+						<view class="questionr" v-for="(expertInfo, index) in expertList" :key="index">
+							<view class="questionl">
+								<image class="questionlimg" mode="scaleToFill" :src="expertInfo.avatar || defaultCover" @error="imageError()"></image>
+							</view>
+							<view class="counsel-concent">
+								<view class="counsel-title">
+									<span class="counsel-name">{{expertInfo.expertName}}</span>
+									<span class="counsel-charge">{{'$'+expertInfo.realPrice+'/小时'}}</span>
+								</view>
+								<view class="counsel-intro">{{expertInfo.label}}</view>
+								<view>
+									<view class="reservation" @click='reservationClick(expertInfo.id)'>立即预约</view>
+								</view>
+							</view>
+							<view class="counsel-footer">
+								<view class="counsel-footer-Left" v-for="(beGoodAt, index) in expertInfo.beGoodAtList" :key="index">
+									<!-- <span class="counsel-button" @click='relationshipClick()'>亲子关系</span>
+									<span class="counsel-button" @click='interpersonalClick()'>人际关系</span>
+									<span class="counsel-button" @click='interpretationClick()'>评测解读</span> -->
+									<span class="counsel-button">{{beGoodAt.dictName}}</span>					
+								</view>
+								<view class="counsel-footer-right" style="float: right;color: #999999;font-size: 22rpx;">
+									<span>最快可约今日18:00</span>
+								</view>
+							</view>
 						</view>
 					</view>
 				</view>
-			</view>
-			
+			</view>	
 		</view>
-		</view>	
 	</view>
 </template>
 
 <script>
+	import htmlParser from '@/common/html-parser'
 	export default {
 		data() {
 			return {
@@ -117,6 +119,13 @@
 
 <style scoped="scoped" lang="scss">
 	@import '@/common/uni-ui.scss';
+	.Index {
+	    /* display: flex;
+	    flex-direction: column;
+	    justify-content: center; */
+	    width: 100%;
+	    height: 100%;
+	}
 	.image-1 {
 	        flex-shrink: 0;
 	        margin-right: 10px;

@@ -121,6 +121,13 @@
   color: #333;
   text-decoration: underline;
 }
+.Index.data-v-23ad2be4 {
+  /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+  width: 100%;
+  height: 100%;
+}
 .image-1.data-v-23ad2be4 {
   flex-shrink: 0;
   margin-right: 10px;
