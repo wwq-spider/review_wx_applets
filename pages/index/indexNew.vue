@@ -28,10 +28,10 @@
 				<image @click="toPsychometrics" mode="scaleToFill" class="psychometrics" src="/static/psychometrics.png"></image>
 				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/counsel.png"></image>
 				<image @click="toCareerPlanning" mode="scaleToFill" class="psychometrics" src="/static/CareerPlanning.png"></image>
-				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/psychologicalCourses.png"></image>
-				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/psychologicalMall.png"></image>
+				<image @click="toPsychologicalCourses" mode="scaleToFill" class="psychometrics" src="/static/psychologicalCourses.png"></image>
+				<image @click="toPsychologicalMall" mode="scaleToFill" class="psychometrics" src="/static/psychologicalMall.png"></image>
 				<image @click="toProfessionalSupport" mode="scaleToFill" class="psychometrics" src="/static/professionalSupport.png"></image>
-				<image @click="toPsychologicalCounsel" mode="scaleToFill" class="psychometrics" src="/static/sharedRoom.png"></image>
+				<image @click="toPharedRoom" mode="scaleToFill" class="psychometrics" src="/static/sharedRoom.png"></image>
 			</view>
 		</view>
 	</view>
@@ -195,9 +195,30 @@
 					url: '/pages/review/listPage'
 				})
 			},
+			/* 跳转到心理课程 */
+			toPsychologicalCourses() {
+				getApp().globalData.switchId = 3
+				uni.switchTab({
+					url: '/pages/review/listPage'
+				})
+			},
+			/* 跳转到心理商城 */
+			toPsychologicalMall() {
+				getApp().globalData.switchId = 4
+				uni.switchTab({
+					url: '/pages/review/listPage'
+				})
+			},
 			/* 跳转到专业支持页面 */
 			toProfessionalSupport() {
 				getApp().globalData.switchId = 5
+				uni.switchTab({
+					url: '/pages/review/listPage'
+				})
+			},
+			/* 跳转到共享咨询师页面 */
+			toPharedRoom() {
+				getApp().globalData.switchId = 6
 				uni.switchTab({
 					url: '/pages/review/listPage'
 				})

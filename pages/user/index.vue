@@ -2,8 +2,8 @@
 	<view class="user" :class="{active: bodyShow}">
 		<view class="user-top">
 			<view class="user-head">
-				<image v-if="userInfo.sex == '1'" class="user-headicon" src="@/static/man.png"></image>
-				<image v-if="userInfo.sex == '2'" class="user-headicon" src="@/static/woman.png"></image>
+				<image v-if="userInfo.sex == '1'" class="user-headicon" src="@/static/default_cover.jpeg"></image>
+				<image v-if="userInfo.sex == '2'" class="user-headicon" src="@/static/default_cover.jpeg"></image>
 				<!-- <image class="user-headicon" :src="userInfo.avatarUrl" v-if="userInfo.avatarUrl" mode="widthFix" /> -->
 				<view class="user-default" v-if="!userInfo.sex || userInfo.sex == ''">
 					<image src="@/static/default-user-headicon.png" mode="widthFix"/>

@@ -184,7 +184,7 @@
 			},
 			restart(){
 				uni.switchTab({
-					url:  '/pages/index/index',
+					url:  '/pages/index/indexNew',
 					success(res) {
 						console.log(res)
 					},

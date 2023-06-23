@@ -38,7 +38,7 @@
 		<view>
 			<view class="tabbar-bottom">
 				<span>
-					<p style="color: #416F5D; font-size: 34rpx;">{{'800/小时'}}</p>
+					<p style="color: #416F5D; font-size: 34rpx;">{{'$'+calendarInfo.realPrice+'/小时'}}</p>
 				</span>
 				<span class="buy-button" @click="appoint">{{'提交订单'}}</span>
 			</view>

@@ -27,7 +27,7 @@
 								<u-row>
 									<u-col>
 									<view>
-										<p style="font-size: 30rpx;color: #3b7600;">{{calendarInfo.realPrice + '/小时'}}</span></p>
+										<p style="font-size: 30rpx;color: #3b7600;">{{'$'+calendarInfo.realPrice + '/小时'}}</span></p>
 										<p class="counsel-us">{{'咨询费用'}}</p>
 									</view>
 									<view style="margin-top: 40rpx;">
