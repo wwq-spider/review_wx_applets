@@ -6,9 +6,9 @@
 				<view class="imageStyle">
 					<image @click="toPsychometrics" mode="widthFix" src="/static/recomm2.jpg"></image>
 				</view>
-				<view style="margin: 0 35rpx;font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;">
+				<!-- <view style="margin: 0 35rpx;font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;">
 					<view class="title" style="color: #416F5D; font-size: 36rpx;margin-bottom: 20rpx;">{{"2023职业生涯规划"}}</view>
-				</view>
+				</view> -->
 			</view>
 
 			<view class="counsel-bar"></view>
@@ -41,11 +41,15 @@
 							</view>
 						</view>
 					</view> -->
-					
 				</view>
-				<view style="background: #ffffff;min-height: 600rpx;">
+				<view v-if="current=='0'" style="background: #ffffff;min-height: 600rpx;">
 					<view style="font-size: 24rpx;width: 85%;min-height: 300rpx;background: rgba(215,233,230, 0.4);border: 1rpx solid rgba(106,150,31,0.42);margin: 20rpx auto;padding: 20rpx;color: #555555;">
-						<p>{{'生涯规划是一种专业的心理辅导方式，它是指一名经过专业培训的心理督导师，通过与另一名心理工作者的合作学习和讨论，帮助他们提高自身的心理辅导技能和水平。心理督导可以帮助心理工作者提高对心理辅导的认识和理解，加深对受助者心理问题的把握和解决方案的设计能力，同时也可以加强心理工作者的自我认识和自我成长。心理督导通常通过个别或小组形式进行，旨在为心理工作者提供一个安全、私密、专业的交流平台，帮助他们在工作中更好地发挥自己的潜力和能力。 当一名心理咨询师在进行心理辅导工作时，可能会面临一些难以解决的问题，例如无法掌握受助者的情感，无法理解受助者的内心体验等。'}}</p>
+						<p>{{reviewClassPro.classDesc}}</p>
+					</view>
+				</view>
+				<view v-if="current=='1'" style="background: #ffffff;min-height: 600rpx;">
+					<view style="font-size: 24rpx;width: 85%;min-height: 300rpx;background: rgba(215,233,230, 0.4);border: 1rpx solid rgba(106,150,31,0.42);margin: 20rpx auto;padding: 20rpx;color: #555555;">
+						<p>{{reviewClass.classDesc}}</p>
 					</view>
 				</view>
 			</view>
@@ -69,6 +73,10 @@
 			return {
 				isReservationFlag: true,
 				isNoReservationFlag: false,
+				dongliangClassId : '402880f082eecb960182eee3b1ef0001',
+				dongliangClassProId : '2c9cff928408eab3018413a00d8a006a',
+				reviewClass: {},
+				reviewClassPro: {},
 				tabList:[
 					{
 						name: '职业规划版',
@@ -77,162 +85,45 @@
 					}
 				],
 				current:0,
-				timeRadios:[{
-					date:'4月1日(周六)',
-					dataTime:[
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-							
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-							
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						}
-					]
-				},
-				{
-					date:'4月1日(周六)',
-					dataTime:[
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-							
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:false
-							
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						},
-						{
-							time:'8:00-9:00',
-							isChooseFlag:true
-						}
-					]
-				}
-				]
 			}
 		},
 		computed:{
 		},
+		mounted() {
+			this.loadData();
+		},
 		methods: {
+			loadData() {
+				let that = this
+				this.$apis.postReviewClassDetail({'classId': this.dongliangClassId}).then(res => {
+					uni.hideLoading()
+					if(res.code == 200) {
+						that.reviewClass = res.result
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				
+				}).catch(err => {
+					uni.hideLoading()
+					console.log(err)
+				})
+				this.$apis.postReviewClassDetail({'classId': this.dongliangClassProId}).then(res => {
+					uni.hideLoading()
+					if(res.code == 200) {
+						that.reviewClassPro = res.result
+					} else {
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				
+				}).catch(err => {
+					uni.hideLoading()
+					console.log(err)
+				})
+			},
 			// 可预约
 			reservationClick(){
 				this.isReservationFlag = true;
@@ -247,16 +138,14 @@
 			    this.current = index;
 			},
 			beginTest(classid){
-				let dongliangClassId = '402880f082eecb960182eee3b1ef0001';
-				let dongliangClassProId = '2c9cff928408eab3018413a00d8a006a';
 				//跳转到当前量表
 				if(classid == 1){
 					uni.navigateTo({
-						url: '/pages/review/detailNew?classId=' + dongliangClassProId
+						url: '/pages/review/detailNew?classId=' + this.dongliangClassProId
 					})
 				}else {
 					uni.navigateTo({
-						url: '/pages/review/detailNew?classId=' + dongliangClassId
+						url: '/pages/review/detailNew?classId=' + this.dongliangClassId
 					})
 				}
 			},

@@ -1,8 +1,0 @@
-{
-  "enablePullDownRefresh": true,
-  "navigationBarTitleText": "我的测评报告",
-  "usingComponents": {
-    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
-    "uni-load-more": "/uni_modules/uni-load-more/components/uni-load-more/uni-load-more"
-  }
-}

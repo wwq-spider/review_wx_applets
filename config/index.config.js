@@ -22,9 +22,9 @@ const CONFIG = {
 			"/pages/userform/userform",
 		],
 		apiWhitePath: [
-			"register.do",
-			"getUserInfoByOpenid.do",
-			"getReviewClass.do"
+			"register",
+			"getUserInfoByOpenid",
+			"getReviewClass"
 		],
 		aliYunEndpoint: 'https://xztx-review-img.oss-cn-beijing.aliyuncs.com/',
 		defaultBanner: 'https://xztx-review-img.oss-cn-beijing.aliyuncs.com/review_banner.png',
@@ -37,7 +37,8 @@ const CONFIG = {
 		assetsPath: "/static/img", // 静态资源路径
 		//baseUrl: "https://review-system-1282746-1307626513.ap-shanghai.run.tcloudbase.com/review_system",
 		//baseUrl: "https://www.www.zhuxinkang.com/review",
-		baseUrl: "https://www.xinzhaitongxing.com/review",
+		//baseUrl: "https://www.xinzhaitongxing.com/review",
+		baseUrl: "https://wlj.xinzhaitongxing.com/review",
 		tokenKey: "WECHAT_TRADE", // 登录标识
 		testOpenId: "oEjRxwy7jL9PgG0kWeb4VcDTZEas", // 小程序测试openId
 		forcedLogin: false, // touristMode游客模式下APP是否强制用户登录 场景：当用户进入登录页面后无法后退。
@@ -50,9 +51,9 @@ const CONFIG = {
 		],
 		aliYunEndpoint: 'https://xztx-review-img.oss-cn-beijing.aliyuncs.com/',
 		apiWhitePath: [
-			"register.do",
-			"getUserInfoByOpenid.do",
-			"getReviewClass.do"
+			"register",
+			"getUserInfoByOpenid",
+			"getReviewClass"
 		],
 		defaultBanner: 'https://xztx-review-img.oss-cn-beijing.aliyuncs.com/review_banner.png'
 	}
