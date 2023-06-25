@@ -102,7 +102,7 @@
 	font-weight: 700;
 	margin: 100rpx auto;
 	text-align: center;
-	background-color: #00da69;
+	background-color: #628D3D;
 }
 .title {
 	color: #594e3f;

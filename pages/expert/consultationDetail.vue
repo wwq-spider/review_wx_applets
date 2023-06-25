@@ -186,8 +186,8 @@
 		padding-right: 27px;
 	}
 	.questionl .questionlimg {
-		width: 233rpx;
-		height: 270rpx;
+		width: 240rpx;
+		height: 280rpx;
 	}
 	.counsel-concent{
 		width: 60%;
