@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "评测量表",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-line-progress": "/uview-ui/components/u-line-progress/u-line-progress"
+  }
+}

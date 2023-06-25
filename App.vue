@@ -48,7 +48,7 @@
 			
 		},
 		globalData: {
-			switchId: 1
+			switchId: 0
 		}
 	}
 </script>

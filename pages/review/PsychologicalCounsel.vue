@@ -62,6 +62,7 @@
 				], 
 				expertList: [],// 咨询师列表
 				defaultCover: '../../static/default_cover.jpeg',
+				searchValue: "",
 			}
 		},
 		mounted() {
@@ -105,8 +106,19 @@
 			//interpersonalClick(){},
 			// 评测解读
 			//interpretationClick(){},
-			search(){},
-			clear(){},
+			search(res) {
+				this.$apis.postExpertListByLike({"expertName": res}).then(res => {
+					if (res.code == 200) {
+						this.expertList.splice(0,this.expertList.length)
+						res.result.forEach((row) => {
+							this.expertList.push(row)
+						})
+					}
+				})
+			},
+			clear() {
+				this.searchValue = "";
+			},
 			// 立即预约
 			reservationClick(id){
 				uni.navigateTo({

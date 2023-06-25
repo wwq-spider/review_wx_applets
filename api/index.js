@@ -111,6 +111,8 @@ export const postReviewClassNumber = (data) => http.post(`${config.baseUrl}/revi
 export const postExpertFieldGroup = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/getExpertFieldGroup`,data)
 //咨询师擅长方向标签
 export const postBeGoodAtList = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/getBeGoodAtList`,data)
+//模糊查咨询师列表
+export const postExpertListByLike = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/listByLike`,data)
 
 /* //创建预约腾讯会议
 export const postCreateTXMeeting = (data) => http.post(`${config.baseUrl}/reviewFront/meeting/creatMeeting`, data) */

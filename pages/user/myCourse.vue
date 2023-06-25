@@ -1,7 +1,6 @@
 <template>
 	<view>
-		<u-empty mode="list">
-		</u-empty>
+		<u-empty text="该栏目还未开通,敬请期待!" mode="list"></u-empty>
 	</view>
 </template>
 

@@ -7,20 +7,29 @@
  						<u-input v-model="form.evalCode" placeholder="无测评码？请点击立即购买"/>
  					</u-form-item>
 					<view class="paybutton" @click="evalCodeBuy">立即购买</view>
-					<view style="font-size: 28rpx; margin-top: 20rpx; color: #757575;"><text>可在我的订购中查看已购买的测评码</text></view>
+					<view style="font-size: 28rpx; margin-top: 20rpx; color: #757575;"><text>可在我的商品中查看已购买的测评码</text></view>
  				</u-form>
 				<view class="savebutton" @click="submit">下一步</view>
  			</view>
  		</view>
 		
 		<uni-popup ref="showPayConfirm" @change="change">
-			<view class="uni-tip">
+			<!-- <text style="color: #628D3D;">暂不支持购买</text> -->
+			<!-- <view class="uni-tip">
 				<text class="uni-tip-title">购买确认</text>
 				<text class="uni-tip-content">测评码购买</text>
 				<text class="uni-tip-content iconfont" style="color: #dc7a54;">价格：&#xe606;{{price}}</text>
 				<view class="uni-tip-group-button">
 					<button class="uni-tip-button" style="margin-right: 30px; background-color: #b7b5b2;" @click="cancel()">取消</button>
 					<button class="uni-tip-button" @click="confirmBuy()" :loading="loading">确定</button>
+				</view>
+			</view> -->
+			<view class="uni-tip">
+				<text class="uni-tip-title">购买确认</text>
+				<text class="uni-tip-content">暂不支持购买</text>
+				<view class="uni-tip-group-button">
+					<button class="uni-tip-button" style="margin-right: 30px; background-color: #b7b5b2;" @click="cancel()">取消</button>
+					<button class="uni-tip-button" @click="confirmBuy1()" :loading="loading">确定</button>
 				</view>
 			</view>
 		</uni-popup>
@@ -106,6 +115,9 @@
  			},
 			change(e) {
 				console.log('是否打开:' + e.show)
+			},
+			confirmBuy1() {
+				this.$refs.showPayConfirm.close()
 			},
 			confirmBuy() {
 				uni.showLoading({
@@ -222,7 +234,7 @@
  		width: 686rpx;
  		margin: 60rpx auto 0 auto;
  		background: #ffffff;
- 		border: 1px solid #55aaff;
+ 		border: 1px solid #628D3D;
  		border-radius: 50rpx;
  	}
  	.formcontent {
@@ -241,7 +253,7 @@
  		font-weight: 700;
  		margin: 40rpx auto;
  		text-align: center;
- 		background-color: #70bdff;
+ 		background-color: #628D3D;
  	}
 	.notefont {
 		text-align: center;
@@ -252,7 +264,7 @@
 		text-decoration: underline;
 		font-weight: 400;
 		font-size: 30rpx;
-		color: cornflowerblue;
+		color: #628D3D;
 	}
 	.noteShow {
 		text-align: center;
@@ -272,7 +284,7 @@
 		/* margin: 100rpx auto; */
 		text-align: center;
 		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
-		background-color: #55aaff;
+		background-color: #628D3D;
 		border-radius: 6px !important;
 	}
 	
@@ -315,7 +327,7 @@
 		text-align: center;
 		font-size: 14px;
 		color: #fff;
-		background-color: #e6a23c;;
+		background-color:  #628D3D;
 	}
 
  </style>

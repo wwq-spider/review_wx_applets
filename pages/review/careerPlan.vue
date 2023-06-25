@@ -4,7 +4,7 @@
         <view style="width: 100%;">
 			<view style="width: 100%;">
 				<view class="imageStyle">
-					<image @click="toPsychometrics" mode="widthFix" src="/static/recomm2.jpg"></image>
+					<image @click="toPsychometrics" mode="widthFix" src="/static/recomm2.png"></image>
 				</view>
 				<!-- <view style="margin: 0 35rpx;font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;">
 					<view class="title" style="color: #416F5D; font-size: 36rpx;margin-bottom: 20rpx;">{{"2023职业生涯规划"}}</view>

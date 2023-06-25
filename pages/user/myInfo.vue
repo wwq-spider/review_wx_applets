@@ -8,7 +8,7 @@
 					</u-form-item>
 					<u-form-item label="性别" prop="sex" required label-width="140" border-bottom>
 						<u-radio-group v-model="form.sex">
-							<u-radio active-color="#55aaff" v-for="(item, index) in sexList" :key="item.code"
+							<u-radio active-color="#387100" v-for="(item, index) in sexList" :key="item.code"
 								:name="item.code" :disabled="item.disabled">
 								{{ item.name }}
 							</u-radio>
@@ -32,7 +32,7 @@
 								<checkbox value="0" :checked="secrecy" style="transform: scale(0.6);"/>
 							 </checkbox-group>
 						</label>
-						<label @click="toDetail()" style="font-size: 10px; color: #007AFF;line-height: 25px;">用户服务协议及隐私条款</label>
+						<label @click="toDetail()" style="font-size: 10px; color: #4f9f00;line-height: 25px;">用户服务协议及隐私条款</label>
 					</view>
 				</u-form>
 				<view class="savebutton" @click="submit">提交修改</view>
@@ -317,16 +317,17 @@
 		font-weight: 700;
 		margin: 40rpx auto;
 		text-align: center;
-		background-color: #97cdff;
+		background-color: #51a300;
+		border-radius: 30rpx;
 	}
 	.msgbutton {
-		width: 200rpx;
+		width: 220rpx;
 		line-height: 70rpx;
 		color: #474747;
 		font-size: 21rpx;
 		font-weight: 700;
 		text-align: center;
-		background-color: #97cdff;
+		background-color: #56ac00;
 		float: right;
 	}
 </style>

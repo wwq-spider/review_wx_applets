@@ -199,7 +199,7 @@
 		text-align: center;
 		font-size: 24rpx;
 		font-weight: 700;
-		margin: -50rpx 10rpx 0 0;
+		margin: -55rpx 10rpx 0 0;
 		border-radius: 30rpx;
 		color: #ffffff;
 		float:right
@@ -207,16 +207,21 @@
     .listtitle {
         padding-left: 15rpx;
         font-size: 30rpx;
-        padding-bottom: 22rpx;
+        /* padding-bottom: 22rpx; */
         .listtitle1 {
-            line-height: 39rpx;
+            /* line-height: 39rpx;
             text-overflow: -o-ellipsis-lastline;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 1;
             line-clamp: 2;
-            -webkit-box-orient: vertical;
+            -webkit-box-orient: vertical; */
+			overflow: hidden;
+			-webkit-line-clamp: 1;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
         }
         .listtitle2 {
             color: #3d7a00;

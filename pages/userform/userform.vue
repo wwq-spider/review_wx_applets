@@ -30,7 +30,7 @@
 					<view style="margin-bottom: 30px;"  v-if="showExtra" >
 						<text style="font-size: 12px; color: #565654;">自入学至今，你有生病或受伤吗？</text>
 						<u-radio-group v-model="form.extraObj.isSick">
-							<u-radio active-color="#55aaff" v-for="(item, index) in yesOrNo" :key="item.code"
+							<u-radio active-color="#3f7e00" v-for="(item, index) in yesOrNo" :key="item.code"
 								:name="item.code" :disabled="item.disabled" @change="sickChange" :checked="item.checked">
 								{{ item.name }}
 							</u-radio>
@@ -45,7 +45,7 @@
 							 </checkbox-group>
 							 
 						</label>
-						<label @click="toDetail()" style="font-size: 10px; color: #007AFF;line-height: 25px;">用户服务协议及隐私条款</label>
+						<label @click="toDetail()" style="font-size: 10px; color: #628D3D;line-height: 25px;">用户服务协议及隐私条款</label>
 					</view>
 					<!-- </u-form-item> -->
 				</u-form>
@@ -417,7 +417,7 @@
 		margin: 40rpx auto;
 		text-align: center;
 		/* background: url(../../static/background.png) no-repeat 50%/100%; */
-		background-color: #97cdff;
+		background-color: #3d7a00;
 		/* box-shadow: 0 30rpx 0 -10rpx #b3b3b3; */
 	}
 	.msgbutton {
@@ -428,7 +428,7 @@
 		font-weight: 700;
 		/* margin: 10rpx auto; */
 		text-align: center;
-		background-color: #97cdff;
+		background-color: #628D3D;
 		/* margin-bottom: 10px;*/
 		float: right;
 	}

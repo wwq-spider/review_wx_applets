@@ -1,0 +1,81 @@
+
+.imageStyle {
+	border-radius: 16px;
+	flex-direction: column;
+	width: 90%;
+	/* margin: 0 auto; */
+	margin: 20rpx auto;
+	display: flex;
+}
+.imageStyle image{
+	width: 100%;
+	display: block;
+	margin: auto;
+}
+.tabbar-bottom{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	position: relative;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	z-index: 998;
+	box-sizing: content-box;
+	background: rgba(215,233,230, 0.4);
+	height: 110rpx;
+	justify-content: space-around;
+}
+.buy-button{
+	width: 400rpx;
+	line-height: 80rpx;
+	background: #628D3D;
+	text-align: center;
+	font-size: 34rpx;
+	font-weight: 700;
+	border-radius: 20rpx;
+	color: #ffffff;
+	float:right
+}
+/* 提示窗口 */
+.uni-tip {
+	display: flex;
+	flex-direction: column;
+	/* align-items: center; */
+	justify-content: center;
+	padding: 15px;
+	width: 80%;
+	background-color: #e6e3e3;
+	/* border-radius: 10px;
+	buttom: 100px;
+	left: 50%;
+	top: 50%; */
+}
+.uni-tip-title {
+	margin-bottom: 10px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 16px;
+	color: #333;
+}
+.uni-tip-content {
+	/* padding: 15px;*/
+	font-size: 14px;
+	color: #353434;
+}
+.uni-tip-group-button {
+
+	display: flex;
+
+	flex-direction: row;
+	margin-top: 20px;
+}
+.uni-tip-button {
+	flex: 1;
+	text-align: center;
+	font-size: 14px;
+	color: #fff;
+	background-color: #e6a23c;
+}
+

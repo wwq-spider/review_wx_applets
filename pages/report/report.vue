@@ -35,7 +35,7 @@
 			</uni-card>
 			
 
-			<view v-if="projectId != 31" class="savebutton" @click="restart">重新评测</view>
+			<view v-if="projectId != 31" class="savebutton" @click="restart">重新测评</view>
 		</view>
 	</view>
 </template>
@@ -246,7 +246,7 @@
 
 	.subtitle {
 		font-size: 30rpx;
-		color: #1a89ff;
+		color: #628D3D;
 		margin: 20rpx auto;
 	}
 
@@ -330,8 +330,9 @@
 		margin: 40rpx auto;
 		text-align: center;
 		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
-		background-color: #6cc4ff;
+		background-color: #628D3D;
 		margin-bottom: 10rpx;
+		border-radius: 30rpx;
 	}
 	
 	.title {
