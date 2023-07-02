@@ -73,16 +73,16 @@
 				this.showExtra = true
 			} */
 			let that = this
-			userCheck.checkLogin(function(userData){
+			/* userCheck.checkLogin(function(userData){
 				//1.保存用户信息
 				uni.setStorageSync('userData', userData)
 				//2.跳转页面
-				if(that.toPath && that.toPath != "") {
+				if(that.toPath && that.toPath != "" && that.toPath != "/pages/index/indexNew") {
 					that.toOrgPath(that.toPath)
 				} else {
 					that.toIndex(that.projectId)
 				}
-			});
+			}); */
 		},
 		data() {
 			return {
@@ -248,7 +248,7 @@
 			},
 			toIndex(projectId) {
 				uni.switchTab({
-					url: '/pages/index/index?projectId=' + projectId,
+					url: '/pages/index/indexNew?projectId=' + projectId,
 					success(res) {
 						console.log(res);
 					},
@@ -270,12 +270,15 @@
 					if (res.code == 200) { //注册成功
 						that.form.userId = res.result //用户id赋值
 						uni.setStorageSync('userData', that.form)
-						if (that.toPath && that.toPath != "") {
+						if (that.toPath && that.toPath != "" && that.toPath != "/pages/index/indexNew") {
+							console.log("that.toPath====" + that.toPath)
 							that.toOrgPath(that.toPath)
 						} else {
+							console.log("that.toIndex======")
 							that.toIndex(that.projectId)
 						}
 					} else { //注册失败
+						alert(res.msg)
 						uni.showToast({
 							title: res.msg
 						})
@@ -317,9 +320,11 @@
 					if (valid) {
 						let openid = uni.getStorageSync("openid")
 						if(openid && openid != "") {
+							console.log('openid not null');
 							this.form.openid = openid
 							that.postLogin()
 						} else {
+							console.log('openid is null' + openid);
 							uni.login({
 								provider: 'weixin',
 								success(login) {

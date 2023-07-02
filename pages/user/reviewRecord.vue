@@ -3,7 +3,7 @@
 		<!-- 刷新页面后的顶部提示框 -->
 		<view class="tips" :class="{ 'tips-ani': tipShow }">上拉刷新...</view>
 		<view class="img-tab">
-			<u-tabs style="background: (255,255,255,0);" :list="tabList" :current="current" @click="changeTab" @change="changeTab"></u-tabs>
+			<u-tabs style="background: (255,255,255,0);" :list="tabList" :current="current" active-color="#4f9f00" inactive-color="#606266" @change="changeTab"></u-tabs>
 	    </view>
 		<view class="question" v-for="(item, index) in recordList"  :key="item.resultId">
 			<view class="questionr" @click="detail(item.resultId,item.classId,item.classTitle,item.reportResult)">
@@ -27,23 +27,22 @@
 		components: {},
 		data() {
 			return {
-				tabList: [{
-					name: '待付款(0)',
-				}, {
-					name: '未测评(0)',
-				}, {
-					name: '已测评(1)'
-				}, {
-					name: '全部'
-				}],
+				tabList: [
+					{name: '全部(0)'}, 
+					{name: '已测评(0)'}, 
+					{name: '未测评(0)'}, 
+					{name: '待付款(0)'},
+				],
 				defaultCover: '../../static/default_cover.jpeg',
 				recordList: [],
+				recordListTemp: [],
 				// 查询字段，多个字段用 , 分割
 				field: '_id,mode,avatar,title,user_name,excerpt,last_modify_date',
 				formData: {
 					status: 'loading', // 加载状态
 				},
-				tipShow: false // 是否显示顶部提示框
+				tipShow: false, // 是否显示顶部提示框
+				current: 0,
 			};
 		},
 		onUnload() {
@@ -71,9 +70,10 @@
 				if (res.code == 200) {
 					res.result.forEach((row) => {
 						that.recordList.push(row)
+						that.recordListTemp.push(row)
 					})
-					this.tabList[2].name = '已测评(' + that.recordList.length + ')'
-					this.tabList[3].name = '全部(' + that.recordList.length + ')'
+					this.tabList[1].name = '已测评(' + that.recordList.length + ')'
+					this.tabList[0].name = '全部(' + that.recordList.length + ')'
 				} else {
 					uni.showToast({
 						title: res.msg,
@@ -82,32 +82,7 @@
 				}
 			})
 		},
-		loadData(pullRefresh) {
-			/* let userData = uni.getStorageSync("userData")
-			let that = this
-			uni.showLoading({
-				title: "数据加载中"
-			})
-			let pid = uni.getStorageSync("projectId")
-			console.log('个人信息：',userData.userId)
-			//查询测评记录
-			this.$apis.postReviewRecords({"userId": userData.userId, "projectId": pid}).then(res => {
-				uni.hideLoading()
-				if (res.code == 200) {
-					res.rows.forEach((row) => {
-						if (row.classCover) {
-							row.classCover = that.$config.aliYunEndpoint + row.classCover
-						}
-						that.recordList.push(row)
-					})
-				} else {
-					uni.showToast({
-						title: res.msg,
-						icon: 'error'
-					})
-				}
-			}) */
-		},
+		loadData(pullRefresh) {},
 		methods: {
 			againTest(classid, title) {
 				//如果未登录且是扫二维码进来的 则跳转到第一个量表
@@ -145,6 +120,19 @@
 						url: '/pages/report/report?source=1&resultId=' + resultid + "&classId=" + classId + "&title=" + title
 					})
 				}
+			},
+			changeTab(index) {
+				if(this.current != index){
+					this.recordList.splice(0,this.recordList.length)
+					if(index == 2 || index == 3){
+						this.recordList.splice(0,this.recordList.length)
+					}else{
+						this.recordListTemp.forEach((row) => {
+							this.recordList.push(row)
+						})
+					}
+				}
+			    this.current = index;
 			},
 		},
 		/**

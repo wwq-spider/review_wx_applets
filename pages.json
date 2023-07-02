@@ -226,7 +226,7 @@
             "path" : "pages/review/listPage",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "沃心理SAAS平台",
                 "enablePullDownRefresh": false
             }
             

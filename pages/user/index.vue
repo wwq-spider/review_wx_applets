@@ -252,7 +252,7 @@
 }
 .user-list {
 	background-color: #fff;
-	margin-top: 40rpx;
+	margin-top: 20rpx;
 	.user-item {
 		display: flex;
 		align-items: center;
@@ -262,6 +262,7 @@
 		border-radius: 0;
 		padding: 15rpx;
 		margin-bottom: 10rpx;
+		height: 80rpx;
 		&:after {
 			border: 0;
 		}

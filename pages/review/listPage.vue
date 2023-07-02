@@ -1,6 +1,6 @@
 <template>
     <view class="Index">
-		<u-tabs :list="tabList" :current="current" @click="changeTab" @change="changeTab"></u-tabs>
+		<u-tabs :list="tabList" :current="current" @click="changeTab" @change="changeTab" bg-color="#ebebeb" active-color="#4c9800" inactive-color="#606266"></u-tabs>
 		<psychometrics v-if="current == 0"></psychometrics>
 		<PsychologicalCounsel v-if="current == 1"></PsychologicalCounsel>
 		<careerPlan v-if="current == 2"></careerPlan>

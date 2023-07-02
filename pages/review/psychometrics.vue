@@ -151,10 +151,6 @@
 		color: #383838;
 		margin-top: 1%;
 	}
-    /* page {
-        background-color: #eee;
-        height: 100%;
-    } */
     .pubuBox {
         padding: 10rpx;
     } 
@@ -207,16 +203,7 @@
     .listtitle {
         padding-left: 15rpx;
         font-size: 30rpx;
-        /* padding-bottom: 22rpx; */
         .listtitle1 {
-            /* line-height: 39rpx;
-            text-overflow: -o-ellipsis-lastline;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            line-clamp: 2;
-            -webkit-box-orient: vertical; */
 			overflow: hidden;
 			-webkit-line-clamp: 1;
 			text-overflow: ellipsis;
@@ -244,12 +231,8 @@
 		background: rgba(215,233,230,0.41);
 		border-radius: 50rpx;
 		margin: 20rpx auto;
-		/* display: -webkit-box;
-		display: -webkit-flex;
-		display: flex; */
 	}
 	.questionr {
-		// padding-left: 10rpx;
 		display: flex;
 		justify-content: space-around; 
 		flex-flow: wrap row;
@@ -257,7 +240,6 @@
 	}
 	.questionl {
 		width: 30%;
-		// height: 100%;
 		padding-right: 27px;
 	}
 	.questionl .questionlimg {

@@ -1,1 +1,0 @@
-<view><view class="report combg"><view class="title">{{reviewClass.title}}</view><view class="_subtitle">{{reviewClass.guide}}</view><view data-event-opts="{{[['tap',[['startTest',['$event']]]]]}}" class="savebutton" bindtap="__e">进入测试</view></view></view>

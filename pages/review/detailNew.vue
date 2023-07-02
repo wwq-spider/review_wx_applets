@@ -32,14 +32,19 @@
 				<span class="buy-button" @click="buy">{{'购买测评'}}</span>
 			</view>
 		</view>
-		<uni-popup ref="showPayConfirm" @change="change">
+		<!-- <view class="organization">
+			<button class="savebutton" style="margin-left: 120px;" @click="buy">{{'购买测评'}}</button>
+			<button class="savebutton" @click="beginTest">开始评测</button>
+		</view> -->
+		<uni-popup ref="showPayConfirm" @change="change" class="uniPopupStyle">
 			<view class="uni-tip">
-				<text class="uni-tip-title">购买确认</text>
-				<text class="uni-tip-content">量表名称：{{ reviewClass.title }}</text>
-				<text class="uni-tip-content iconfont" style="color: #dc7a54;">量表价格：&#xe606;{{ reviewClass.realPrice }}</text>
+				<text class="uni-tip-title">{{'购买确认'}}</text>
+				<text class="uni-tip-content">量表名称</text>
+				<text class="uni-tip-content">{{ reviewClass.title }}</text>
+				<text class="uni-tip-content iconfont" style="color: #dc7a54;">量表价格：&#xe606;{{ '0.1' }}</text>
 				<view class="uni-tip-group-button">
 					<button class="uni-tip-button" style="margin-right: 30px; background-color: #b7b5b2;" @click="cancel()">取消</button>
-					<button class="uni-tip-button" @click="confirmBuy()" :loading="loading">确定</button>
+					<button class="uni-tip-button" @click="confirmBuy()" :loading="loading">确认</button>
 				</view>
 			</view>
 		</uni-popup>
@@ -135,13 +140,13 @@
 				})
 			},
 			buy() {
-				/* this.$nextTick(() => {
+				this.$nextTick(() => {
 					this.$refs.showPayConfirm.open("center")
-				}) */
+				})
 				/* uni.navigateTo({
 					url:'pages/review/evaluationScale'
 				}) */
-				this.confirmBuy()//unipopup失效以及支付商户号未开放，暂按0元跳过支付
+				//this.confirmBuy()//unipopup失效以及支付商户号未开放，暂按0元跳过支付
 			},
 			cancel() {
 				this.$refs.showPayConfirm.close()
@@ -267,7 +272,6 @@
 		border-radius: 16px;
 		flex-direction: column;
 		width: 90%;
-		/* margin: 0 auto; */
 		margin: 20rpx auto;
 		display: flex;
 	}
@@ -302,19 +306,22 @@
 		color: #ffffff;
 		float:right
 	}
+	.uniPopupStyle {
+		position: absolute;
+		display: block;
+		top: 50%;
+	}
 	/* 提示窗口 */
 	.uni-tip {
 		display: flex;
 		flex-direction: column;
-		/* align-items: center; */
+		align-items: center;
 		justify-content: center;
-		padding: 15px;
+		padding: 5%;
 		width: 80%;
-		background-color: #e6e3e3;
-		/* border-radius: 10px;
-		buttom: 100px;
-		left: 50%;
-		top: 50%; */
+		background-color: #dcdcdc;
+		border-radius: 10px;
+		margin: 0 5%;
 	}
 	.uni-tip-title {
 		margin-bottom: 10px;
@@ -341,5 +348,28 @@
 		font-size: 14px;
 		color: #fff;
 		background-color: #e6a23c;;
+	}
+	.organization {
+		display: flex;
+		justify-content: space-around; 
+		flex-flow: wrap row;
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+		background-color: #dcd6d6;
+		padding: 15rpx;
+		/* margin: 30rpx auto; */
+	}
+	.savebutton {
+		width: 25%;
+		line-height: 80rpx;
+		color: #fff;
+		font-size: 32rpx;
+		font-weight: 700;
+		/* margin: 100rpx auto; */
+		text-align: center;
+		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
+		background-color: #55aaff;
+		border-radius: 6px !important;
 	}
 </style>

@@ -5,6 +5,7 @@ import {
 } from 'uni-simple-router';
 import store from '@/common/store'
 import config from '@/config/index.config.js';
+import userCheck from '@/utils/userAction.js';
 
 const router = createRouter({
 	platform: process.env.VUE_APP_PLATFORM,
@@ -61,13 +62,23 @@ router.beforeEach((to, from, next) => {
 			// 权限控制登录
 			next()
 		} else {
-			console.log("user not login, path:" + path + ", redirect to userform")
-			next({
-				path: '/pages/userform/userform',
-				query: {
-					toPath: to.fullPath
-				},
-				NAVTYPE: 'push'
+			console.log("beforeEach======================")
+			userCheck.checkLogin(function(userData){
+				//1.保存用户信息
+				uni.setStorageSync('userData', userData)
+				//2.跳转页面
+				if (userData && userData.mobilePhone) {
+					next()
+				} else {
+					console.log("user not login, path:" + path + ", redirect to userform")
+					next({
+						path: '/pages/userform/userform',
+						query: {
+							toPath: to.fullPath
+						},
+						NAVTYPE: 'push'
+					});
+				}
 			});
 		}
 	}

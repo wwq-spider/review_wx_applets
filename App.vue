@@ -2,10 +2,11 @@
 	import userCheck from '@/utils/userAction.js';
 	export default {
 		onLaunch: function() {
-			userCheck.checkLogin(function(userData){
+			/* userCheck.checkLogin(function(userData){
+				console.log("onLaunch======================")
 				//保存用户信息
 				uni.setStorageSync('userData', userData)
-			});
+			}); */
 			// let that = this
 			// let openid = uni.getStorageSync("openid")
 			// if (openid && openid != "") {
