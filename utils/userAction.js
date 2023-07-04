@@ -48,10 +48,12 @@ function checkLogin(callback){
 	let openid = uni.getStorageSync("openid")
 	if (openid && openid != "") {
 		http.post(`${config.baseUrl}/reviewFront/user/getUserInfoByOpenid`, {"openid": openid}).then(res => {
+			console.log("checkLogin:getUserInfoByOpenid:result:" + JSON.stringify(res))
 			if (res.code == 200 && res.result && res.result.mobilePhone) {//如果用户信息已经完善 直接跳转到测评项目页面
-				callback && callback(res.result);
+				callback && callback(res.result)
 			} else {
 				uni.removeStorageSync("userData")
+				callback && callback()
 			}
 		})
 	} else {

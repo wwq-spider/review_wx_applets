@@ -86,6 +86,10 @@ $http.requestStart = function(options) {
 		if(options.data && options.data.classId) {
 			options.header['classId'] = options.data.classId
 		}
+		let tenantId = uni.getStorageSync("tenantId") 
+		if (tenantId && tenantId != 0) {
+			options.header['X-Tenant-Id'] = tenantId
+		}
 	}
 	return options;
 }
@@ -128,7 +132,7 @@ $http.dataFactory = async function(res) {
 			// onLogin();跳转登录页面
 			// #endif
 			// 返回错误的结果(catch接受数据)
-			return Promise.reject({
+			return Promise.resolve({
 				statusCode: 0,
 				errMsg: "【request】" + (httpData.info || httpData.msg),
 				data: res.data
@@ -156,7 +160,7 @@ $http.dataFactory = async function(res) {
 				data = res.response.data
 			}			
 			// 返回错误的结果(catch接受数据)
-			return Promise.reject({
+			return Promise.resolve({
 				statusCode: 0,
 				errMsg: "【request】" + (httpData.info || httpData.msg),
 				data: data

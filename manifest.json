@@ -60,11 +60,11 @@
                 "desc" : "演示定位能力"
             }
         }
-		// 开启分包优化配置
-		/* "optimization" : {  
+    },
+    // 开启分包优化配置
+    /* "optimization" : {  
 			"subPackages" : true
 		} */
-    },
     "mp-alipay" : {
         "usingComponents" : true
     },

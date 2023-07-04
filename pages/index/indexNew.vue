@@ -90,7 +90,17 @@
 			})
 			if(option && option.scene) {
 				let arr = decodeURIComponent(option.scene).split("=")
-				if(arr.length == 2) {
+				let projectId
+				for (let i=0; i<arr.length; i++) {
+					let pairStr = arr[i]
+					let paramPair = pairStr.split("=")
+					if (paramPair[0] == "projectId") {
+						projectId = parseInt(paramPair[1])
+						uni.setStorageSync('projectId', projectId)
+						break
+					}
+				}
+				if(projectId && projectId > 0) {
 					this.projectId = parseInt(arr[1])
 					uni.setStorageSync("projectId", this.projectId)
 					this.pCount = 100
