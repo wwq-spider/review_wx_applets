@@ -140,9 +140,13 @@
 				})
 			},
 			buy() {
-				this.$nextTick(() => {
-					this.$refs.showPayConfirm.open("center")
+				uni.setStorageSync('reviewClass',this.reviewClass)
+				uni.navigateTo({
+					url: '/pages/order/reviewOrder'
 				})
+				/* this.$nextTick(() => {
+					this.$refs.showPayConfirm.open("center")
+				}) */
 				/* uni.navigateTo({
 					url:'pages/review/evaluationScale'
 				}) */

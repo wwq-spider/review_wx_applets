@@ -294,8 +294,8 @@
 		flex-direction: column;
 	}
 	.psychometrics {
-		width: 710rpx;
-		height: 350rpx;
+		width: 730rpx;
+		height: 360rpx;
 		border-radius: 25rpx;
 		margin: 0 auto;
 	}

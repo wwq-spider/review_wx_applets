@@ -303,6 +303,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/order/reviewOrder",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "确认量表订单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 		"color": "#333",
