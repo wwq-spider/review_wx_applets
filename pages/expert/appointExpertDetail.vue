@@ -25,6 +25,13 @@
 				</view>
 			</view>
 			<view style="width: 100%; height: 20rpx;margin: 20rpx 0;background-color: rgba(237,237,237,0.4);"></view>
+			<view>
+				<view style="display: inline-flex;">
+					<p style="margin: 0 0 30rpx 40rpx;">需支付咨询费</p>
+					<p style="margin: 0 20rpx 10rpx 400rpx;color: #ff0000;">{{'￥'+ calendarInfo.realPrice }}</p>
+				</view>
+			</view>
+			<view style="width: 100%; height: 20rpx;margin: 20rpx 0;background-color: rgba(237,237,237,0.4);"></view>
 			<view style="background: #ffffff;min-height: 700rpx;">
 				<view style="font-size: 28rpx;color: #000000;display: block;text-align: center;">{{'咨询须知'}}</view>
 				<view style="font-size: 24rpx;width: 85%;min-height: 400rpx;background: rgba(215,233,230, 0.4);border: 1rpx solid rgba(106,150,31,0.42);margin: 20rpx auto;padding: 20rpx;color: #555555;">
@@ -37,10 +44,27 @@
 		</view>
 		<view>
 			<view class="tabbar-bottom">
-				<span>
-					<p style="color: #416F5D; font-size: 34rpx;">{{'$'+calendarInfo.realPrice+'/小时'}}</p>
+				<span style="display: inline-flex;">
+					<p style="margin-left: 20rpx;">你需要支付：</p>
+					<p style="color: #ff0000; font-size: 34rpx;">{{'￥'+calendarInfo.realPrice}}</p>
 				</span>
-				<span class="buy-button" @click="appoint">{{'提交订单'}}</span>
+				<span class="buy-button" @click="buy">{{'提交订单'}}</span>
+			</view>
+			<view class="popup-container">
+					<uni-popup style="width:100%" ref="popup" type="bottom" @change="change">
+						<view style="background-color: #eaeaea;padding: 10px;width:100%;height: 600rpx;margin-top: -400rpx;">
+							<view style="font-size: 35rpx;text-align: center;">{{'确认支付'}}</view>
+							<view style="font-size: 32rpx;margin: 30rpx 20rpx 50rpx 10rpx;">{{'支付方式：微信支付'}}</view>
+							<view style="font-size: 32rpx;margin: 30rpx 20rpx 50rpx 10rpx;display: inline-flex;">
+								<p>{{'支付金额：￥'}}</p>
+								<p>{{calendarInfo.realPrice}}</p>
+							</view>
+							<view style="display: inline-flex;">
+								<view class="cancle-button" @click="cancleOrder">{{'取消'}}</view>
+								<view class="submit-button" @click="submitOrder">{{'立即支付'}}</view>
+							</view>
+						</view>
+					</uni-popup>	
 			</view>
 		</view>
 	</view>
@@ -88,6 +112,15 @@
 			this.loadData();
 		},
 		methods: {
+			buy() {
+				this.$refs.popup.open("bottom")
+			},
+			change(e) {
+				console.log('是否打开：',e.show)
+			},
+			cancleOrder() {
+				this.$refs.popup.close()
+			},
 			loadData() {
 				let that = this
 				//查询咨询师详情
@@ -107,6 +140,86 @@
 			},
 			imageError() {
 				this.calendarInfo.avatar = this.defaultCover 
+			},
+			submitOrder(){
+				uni.showLoading({
+					title: "数据加载中"
+				})
+				let that = this
+				let pid = uni.getStorageSync("projectId")
+				this.loading = true
+				this.$apis.postCreateConsulPrePayOrder({"expertId": this.expertId, "classId": this.calendarId}).then(res => {
+					uni.hideLoading()
+					if(res.code == 200) {
+						let preOrder = res.result
+						if(preOrder && preOrder.prePayID) {
+							if(preOrder.prePayID == "000") {
+								uni.showToast({
+								    title: "购买成功",
+									icon: "success"
+								})
+								that.cancleOrder()
+								that.loading = false;
+							} else {
+								uni.requestPayment({
+								    timeStamp: preOrder.timeStamp,
+								    nonceStr: preOrder.nonceStr,
+								    package: preOrder.packageStr,
+								    signType: 'MD5',
+								    paySign: preOrder.paySign,
+								    success: (res) => {
+										if(res && res.errMsg == "requestPayment:ok") {
+											//更新订单状态
+											that.$apis.postUpdOrderStatus({"payId": preOrder.prePayID, "status": 2, "orderAmount": that.calendarInfo.realPrice}).then(res => {
+												console.log(JSON.stringify(res))
+											})
+											uni.showToast({
+											    title: "支付成功",
+												icon: "success"
+											})
+										} else {
+											uni.showToast({
+											    title: "支付发起失败"
+											})
+										}
+								    },
+								    fail: (res) => {
+								        uni.showModal({
+								            content: "支付失败,原因为: " + res.errMsg,
+								            showCancel: false,
+								        })
+								    },
+								    complete: () => {
+										that.cancleOrder()
+								        that.loading = false;
+										console.log('支付成功')
+										this.appoint()
+										uni.navigateTo({
+											url: '/pages/order/appointExpertOrderDetail?payId=' + preOrder.prePayID + '&id='+this.calendarId
+										})
+								    }
+								})
+							}
+						} else {
+							that.loading = false;
+							that.cancel()
+							uni.showToast({
+								title: res.msg
+							})
+						}
+					} else {
+						that.loading = false;
+						that.cancel()
+						uni.showToast({
+							title: res.msg
+						})
+					}
+				}).catch(err => {
+					that.loading = false;
+					that.cancel()
+					uni.hideLoading()
+					console.log(JSON.stringify(err))
+				})
 			},
 			appoint() {
 				let that = this
@@ -132,7 +245,6 @@
 									icon : 'success',
 									duration : 1000
 								});
-								console.log("保存预约人信息成功");
 								this.requestSubscribeMessage(that.visitDate,that.beginTime,that.endTime,that.expertName,res.result.id,that.mobilePhone);
 							} else {
 								uni.showToast({
@@ -142,9 +254,6 @@
 							this.$apis.postSendAppointSuccessMsg({'expertName':that.expertName,'expertPhone':that.mobilePhone}).then(res => {
 								if (res.code == 200) {
 									console.log('给专家发送短信提醒成功')
-									uni.switchTab({
-										url: '/pages/index/indexNew'
-									});
 								} else {
 									uni.showToast({
 										title: res.msg
@@ -164,14 +273,13 @@
 				}).catch(err => {
 					console.log(err)
 				}) 
-			},
+			}, 
 			requestSubscribeMessage(visitDate,beginTime,endTime,expertName,consulId,mobilePhone){
 				//获取用户授权允许接收服务通知
 				uni.requestSubscribeMessage({
 					//tmplIds:["tz0qAaZq2v0s3dZbfPnOYwkFy7QOF82XVFNvpLZGTNQ"],
 					tmplIds:["4IVeiK2tYEmXqTcDJ7IVnXduD2CToUiV9Sz7ZHCObfs"],
 					success:res=>{
-						console.log('调起成功');
 						if(res[tempId[0]] === 'accept'){
 							console.log('允许')
 						}
@@ -266,5 +374,35 @@
 		width: 60%;
 		color: #333333;
 		font-size: 28rpx;
+	}
+	.popup-container{
+		position: absolute;
+		z-index: 1000;
+		width: 100%;
+	}
+	.submit-button{
+		width: 300rpx;
+		line-height: 80rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 34rpx;
+		font-weight: 700;
+		border-radius: 20rpx;
+		color: #ffffff;
+		margin-top: 150rpx;
+		margin-left: 100rpx;
+			
+	}
+	.cancle-button {
+		width: 300rpx;
+		line-height: 80rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 34rpx;
+		font-weight: 700;
+		border-radius: 20rpx;
+		color: #ffffff;
+		margin-top: 150rpx;
+		margin-left: 10rpx;
 	}
 </style>

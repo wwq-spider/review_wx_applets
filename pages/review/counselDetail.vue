@@ -69,7 +69,7 @@
 						<view>{{item.visitDateNew}}</view>
 						<view style="width: 100%; height: 220rpx; border-bottom: 1rpx solid #DDDDDD;">
 							<view v-for="(v, index2) in item.visitDateList" :key="index2">
-								<span @click='orderExpert(v.calendarId,v.visitDate,v.beginTime,v.endTime,calendarInfo.expertName,calendarInfo.mobilePhone)' class="reservation" :class="[v.isChooseFlag?'bgColorGreen':'bgColorGray']">{{v.time}}</span>
+								<span @click='orderExpert(v.isChooseFlag,v.calendarId,v.visitDate,v.beginTime,v.endTime,calendarInfo.expertName,calendarInfo.mobilePhone)' class="reservation" :class="[v.isChooseFlag?'bgColorGreen':'bgColorGray']">{{v.time}}</span>
 							</view>
 						</view>
 					</view>
@@ -77,15 +77,6 @@
 			</view>
 			
 		</view>
-		<!-- <view>
-			<view class="tabbar-bottom">
-				<span>
-					<p style="color: #416F5D; font-size: 34rpx;">{{'￥800.00/小时'}}</p>
-					<p style="font-size: 22rpx;color:#979797">{{'最快可约今日18点'}}</p>
-				</span>
-				<span class="buy-button">{{'立即预约'}}</span>
-			</view>
-		</view> -->
 	</view>
 </template>
 
@@ -178,70 +169,20 @@
 				})
 			},
 			//预约咨询师
-			orderExpert(calendarId,visitDate,beginTime,endTime,expertName,mobilePhone){
-				let that = this
-				let userData = uni.getStorageSync('userData')
-				uni.navigateTo({
-					url:'/pages/expert/appointExpertDetail?expertName=' + encodeURIComponent(expertName)
-					+ '&visitDate=' + encodeURIComponent(visitDate)
-					+ '&beginTime=' + encodeURIComponent(beginTime)
-					+ '&endTime=' + encodeURIComponent(endTime)
-					+ '&calendarId=' + encodeURIComponent(calendarId)
-					+ '&expertId=' + this.expertId
-					+ '&mobilePhone=' + encodeURIComponent(mobilePhone)
-				})
-				/* this.$apis.postOrderExpert({'id': calendarId}).then(res => {
-					if (res.code == 200) {
-						var resultList = []
-						var obj = {
-							"expertId" : this.id,
-							"userId" : userData.userId,
-							"calendarId" : calendarId,
-							"patientName" : userData.userName,
-							"patientSex" : userData.sex,
-							"patientAge" : userData.age,
-							"type" : "2",
-							"status" : "1"
-						}
-						resultList.push(obj)
-						this.$apis.postSaveOoderInfo(resultList).then(res => {
-							if (res.code == 200) {
-								console.log("保存预约人信息成功");
-								this.requestSubscribeMessage(visitDate,beginTime,endTime,expertName,res.result.id,mobilePhone);
-							} else {
-								uni.showToast({
-									title: res.msg
-								})
-							}
-							this.$apis.postSendAppointSuccessMsg({'expertName':expertName,'expertPhone':mobilePhone}).then(res => {
-								if (res.code == 200) {
-									console.log('给专家发送短信提醒成功')
-								} else {
-									uni.showToast({
-										title: res.msg
-									})
-								}
-							}).catch(err => {
-								console.log(err)
-							})
-						}).catch(err => {
-							console.log(err)
-						})
-					} else {
-						uni.showToast({
-							title: res.msg
-						})
-					}
-				}).catch(err => {
-					console.log(err)
-				}) */
-				/* this.loadData();
-				wx.showToast({
-					title : '预约成功',
-					icon : 'success',
-					duration : 1000
-				}); */
-				
+			orderExpert(isChooseFlag,calendarId,visitDate,beginTime,endTime,expertName,mobilePhone){
+				if(isChooseFlag){
+					let that = this
+					let userData = uni.getStorageSync('userData')
+					uni.navigateTo({
+						url:'/pages/expert/appointExpertDetail?expertName=' + encodeURIComponent(expertName)
+						+ '&visitDate=' + encodeURIComponent(visitDate)
+						+ '&beginTime=' + encodeURIComponent(beginTime)
+						+ '&endTime=' + encodeURIComponent(endTime)
+						+ '&calendarId=' + encodeURIComponent(calendarId)
+						+ '&expertId=' + this.expertId
+						+ '&mobilePhone=' + encodeURIComponent(mobilePhone)
+					})
+				}	
 			},
 			toConsultationDetail(id){
 				//跳转到预约详情页面

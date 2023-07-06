@@ -312,6 +312,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/order/reviewOrderDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "量表订单详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/order/appointExpertOrderDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "预约咨询订单详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar": {
 		"color": "#333",

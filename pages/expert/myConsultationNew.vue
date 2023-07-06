@@ -10,7 +10,7 @@
 				<view style="width: 90%;margin: 0 auto;padding: 20rpx 0;">
 					<view class="title">{{'预约专家:' + consultationInfo.expertName}}</view>
 					<view class="title">{{'预约时间:' + consultationInfo.visitDate}}({{consultationInfo.weekDayName}})  {{consultationInfo.beginTime}}-{{consultationInfo.endTime}}</view>
-					<view class="title">{{'问诊内容：'}}<span class="view-button" @click='viewConsultationDetail(consultationInfo.id)'>{{'查看详情'}}</span></view>
+					<view class="title">{{'问诊内容：'}}<span class="view-button" @click='viewConsultationDetail(consultationInfo.calendarId)'>{{'查看详情'}}</span></view>
 				</view>
 			</view>
 		</view>
@@ -71,6 +71,7 @@
 				})
 			},
 			viewConsultationDetail(id){
+				console.log('日历id：',id)
 				//跳转到预约详情页面
 				uni.navigateTo({
 					url: '/pages/expert/consultationDetail?id=' + id

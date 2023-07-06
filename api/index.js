@@ -113,6 +113,8 @@ export const postExpertFieldGroup = (data) => http.post(`${config.baseUrl}/revie
 export const postBeGoodAtList = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/getBeGoodAtList`,data)
 //模糊查咨询师列表
 export const postExpertListByLike = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/listByLike`,data)
+//查询订单详情
+export const postReviewOrderDetail = (data) => http.post(`${config.baseUrl}/reviewFront/order/getReviewOrderDetail`,data)
 
 /* //创建预约腾讯会议
 export const postCreateTXMeeting = (data) => http.post(`${config.baseUrl}/reviewFront/meeting/creatMeeting`, data) */

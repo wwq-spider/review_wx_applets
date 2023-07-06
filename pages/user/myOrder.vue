@@ -7,7 +7,7 @@
 				<view class="recordl">
 					<image class="recordlimg" :src="item.bannerImg || defaultCover" @error="imageError(index)"></image>
 				</view>
-				<view style="width: 70%;">
+				<view style="width: 60%;margin-left: 10rpx;">
 					<view class="title">{{item.className}}</view>
 					<view class="subtitle">订单号: {{item.orderNo}}</view>
 					<view class="subtitle">订购时间: {{item.operateTime}}</view>
@@ -269,12 +269,11 @@
 	.recordr .testbutton {
 		width: 140rpx;
 		line-height: 54rpx;
-		background: #77beff;
-		//border-radius: 27rpx;
+		background: #628D3D;
+		border-radius: 27rpx;
 		text-align: center;
 		font-size: 26rpx;
 		color: black;
-		//margin-left: 10px;
-		//margin-top: 10%;
+		margin-top: 20rpx;
 	}
 </style>

@@ -29,9 +29,6 @@
 							</view>
 							<view class="counsel-footer">
 								<view class="counsel-footer-Left" v-for="(beGoodAt, index) in expertInfo.beGoodAtList" :key="index">
-									<!-- <span class="counsel-button" @click='relationshipClick()'>亲子关系</span>
-									<span class="counsel-button" @click='interpersonalClick()'>人际关系</span>
-									<span class="counsel-button" @click='interpretationClick()'>评测解读</span> -->
 									<span class="counsel-button">{{beGoodAt.dictName}}</span>					
 								</view>
 								<view class="counsel-footer-right" style="float: right;color: #999999;font-size: 22rpx;">
