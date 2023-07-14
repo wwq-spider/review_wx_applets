@@ -52,7 +52,7 @@
 			</view>
 			<view class="popup-container">
 					<uni-popup style="width:100%" ref="popup" type="bottom" @change="change">
-						<view style="background-color: #eaeaea;padding: 10px;width:100%;height: 600rpx;margin-top: -400rpx;">
+						<view style="background-color: #eaeaea;padding: 10px;width:100%;height: 600rpx;margin-top: -450rpx;">
 							<view style="font-size: 35rpx;text-align: center;">{{'确认支付'}}</view>
 							<view style="font-size: 32rpx;margin: 30rpx 20rpx 50rpx 10rpx;">{{'支付方式：微信支付'}}</view>
 							<view style="font-size: 32rpx;margin: 30rpx 20rpx 50rpx 10rpx;display: inline-flex;">
