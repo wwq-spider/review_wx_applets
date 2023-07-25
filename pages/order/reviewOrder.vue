@@ -148,21 +148,21 @@
 							}
 						} else {
 							that.loading = false;
-							that.cancel()
+							that.cancleOrder()
 							uni.showToast({
 								title: res.msg
 							})
 						}
 					} else {
 						that.loading = false;
-						that.cancel()
+						that.cancleOrder()
 						uni.showToast({
 							title: res.msg
 						})
 					}
 				}).catch(err => {
 					that.loading = false;
-					that.cancel()
+					that.cancleOrder()
 					uni.hideLoading()
 					console.log(JSON.stringify(err))
 				})

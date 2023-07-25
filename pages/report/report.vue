@@ -13,13 +13,16 @@
 				<view class="title">测评得分：</view>
 				<view class="_subtitle">{{reviewResult.gradeTotal}}</view>
 			</view> -->
-			<uni-card :is-shadow="false" is-full>
-				<text class="uni-h6">{{reportTips}}</text>
-			</uni-card>
-			<uni-card v-for="template in reportTemplateList" :title="template.title" :is-shadow="false" is-full >
-				<text class="uni-body">{{template.explanation}}</text>
-			</uni-card>
-			
+			<view v-if="reportTips != ''">
+				<uni-card :is-shadow="false" is-full>
+					<text class="uni-h6">{{reportTips}}</text>
+				</uni-card>
+			</view>
+			<view v-if="reportTemplateList.length > 0">
+				<uni-card v-for="template in reportTemplateList" :title="template.title" :is-shadow="false" is-full >
+					<text class="uni-body">{{template.explanation}}</text>
+				</uni-card>
+			</view>
 			<view class="subtitle" style="margin-top: 20px;">您本次测评的量表呈现结果</view>
 			
 			<!-- <view v-for="result1 in resArr1">

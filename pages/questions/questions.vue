@@ -552,8 +552,8 @@
 									'questionId': q.questionId, 
 									'questionNum': q.questionNum, 
 									'selCode': q.selCode, 
-									'variateId': q.variateId, 
-									'variateName': q.variateName, 
+									//'variateId': q.variateId, 
+									//'variateName': q.variateName, 
 									'classId': q.classId,
 									'projectId': projectId
 								}
