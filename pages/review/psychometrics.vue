@@ -15,8 +15,8 @@
                             <text class="listtitle2son">{{'￥'+ item.realPrice }}</text>
 							<p style="font-size: 22rpx;color:#979797">{{item.reviewCount + '人测过'}}</p>
                         </view>
+						<view class="evaluation" @click="beginTest(item.classId,item.title)">立即测评</view>
                     </view>
-					<view class="evaluation" @click="beginTest(item.classId,item.title)">立即测评</view>
                 </view>
             </view>
         </view>
@@ -31,7 +31,7 @@
 					<view class="questionl">
 						<image class="questionlimg" mode="scaleToFill" :src="reviewClass.bannerImg || defaultCover" @error="imageError(0, index, 2)"></image>
 					</view>
-					<view style="width: 60%;margin-top: 20rpx;">
+					<view style="width: 48%;margin-top: 0rpx;">
 						<view class="title">{{reviewClass.title}}</view>
 						<view class="subtitle">{{reviewClass.classDesc}}</view>
 						<!-- <view v-if="reviewClass.charge==1">
@@ -150,6 +150,7 @@
 		margin-right: 5%;
 		color: #383838;
 		margin-top: 1%;
+		font-size: 34rpx;
 	}
     .pubuBox {
         padding: 10rpx;
@@ -172,12 +173,16 @@
 			line-height: 60rpx;
 			background: #628D3D;
 			text-align: center;
-			font-size: 24rpx;
+			font-size: 30rpx;
 			font-weight: 700;
 			margin-bottom: 15rpx;
-			border-radius: 30rpx;
+			border-radius: 22rpx;
 			color: #ffffff;
-			float:right
+			float:right;
+			position: absolute;
+			top: 55rpx;
+			left: 26%;
+			padding: 2rpx 0 2rpx 0;
 		}
     }
 	.img-radio{
@@ -193,16 +198,33 @@
 		line-height: 60rpx;
 		background: #628D3D;
 		text-align: center;
-		font-size: 24rpx;
+		font-size: 30rpx;
 		font-weight: 700;
 		margin: -55rpx 10rpx 0 0;
-		border-radius: 30rpx;
+		border-radius: 22rpx;
 		color: #ffffff;
-		float:right
+		float:right;
+		padding: 2rpx 0 2rpx 0;
+		/* width: 150rpx;
+		line-height: 60rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 30rpx;
+		font-weight: 700;
+		margin-bottom: 15rpx;
+		border-radius: 22rpx;
+		color: #ffffff;
+		float:right;
+		position: absolute;
+		top: 55rpx;
+		left: 26%;
+		padding: 2rpx 0 2rpx 0; */
 	}
     .listtitle {
         padding-left: 15rpx;
         font-size: 30rpx;
+		position: relative;
+		padding-bottom: 15rpx;
         .listtitle1 {
 			overflow: hidden;
 			-webkit-line-clamp: 1;
@@ -239,19 +261,18 @@
 		width: 100%;
 	}
 	.questionl {
-		width: 30%;
+		width: 40%;
 		padding-right: 27px;
 	}
 	.questionl .questionlimg {
-		width: 233rpx;
+		width: 305rpx;
 		height: 233rpx;
-		border-radius: 50rpx;
+		border-radius: 20rpx;
 	}
 	.questionr .title {
 		color: #594e3f;
-		font-size: 23rpx;
+		font-size: 34rpx;
 		font-weight: 700;
-		text-overflow: -o-ellipsis-lastline;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
@@ -260,16 +281,15 @@
 		-webkit-box-ori5ent: vertical;
 	}
 	.questionr .subtitle {
-		font-size: 20rpx;
+		font-size: 28rpx;
 		color: #857f77;
-		margin: 20rpx 0 20rpx 0;
-		line-height: 1.6;
-		text-overflow: -o-ellipsis-lastline;
+		margin: 10rpx 0 20rpx 0;
+		line-height: 1.3;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
-		-webkit-line-clamp: 5; //可设置显示的行数
-		line-clamp: 5;
+		-webkit-line-clamp: 2; //可设置显示的行数
+		line-clamp: 2;
 		-webkit-box-orient: vertical;
 	}
 	.popularity {

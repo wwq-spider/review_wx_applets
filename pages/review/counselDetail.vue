@@ -44,7 +44,7 @@
 			</view>
 			<view class="counsel-bar"></view>
 			<view class="counsel-detail">
-				<view style="font-size: 28rpx;color: #000000;display: block;text-align: center;">
+				<view style="font-size: 30rpx;color: #000000;display: block;text-align: center;">
 					<u-tabs activeColor="#628D3D" :list="tabList" :current="current" @click="changeTab" @change="changeTab"></u-tabs>
 				</view>
 				<!-- 介绍 -->
@@ -259,7 +259,8 @@
 	.img-size{
 		width: 10rpx;
 		height: 10rpx;
-		margin-left: 30rpx;
+		padding: 0 10rpx 7rpx 13rpx;
+		margin: 0 10rpx;
 	}
 	.reservation-btn{
 		width: 100%;
@@ -320,25 +321,25 @@
 		display: flex;
 		justify-content: space-around; 
 		flex-flow: wrap row;
-		width: 88%;
+		width: 90%;
 	}
 	.questionl {
 		width: 30%;
 		padding-right: 27px;
 	}
 	.questionl .questionlimg {
-		width: 233rpx;
-		height: 280rpx;
+		width: 250rpx;
+		height: 250rpx;
 	}
 	.counsel-concent{
-		width: 60%;
+		width: 55%;
 		color: #333333;
 		font-size: 28rpx;
 	}
 	.counsel-charge{
 		color: #416F5D;
 		overflow: scroll;
-		line-height: 1.6;
+		line-height: 1.4;
 		display: flex;
 	}
 	.counsel-unit{
@@ -372,15 +373,16 @@
 		min-height: 1000rpx;
 	}
 	.counsel-detail-content{
-		font-size: 24rpx;
-		width: 85%;
+		font-size: 30rpx;
+		width: 80%;
 		min-height: 400rpx;
 		background: rgba(215,233,230, 0.4);
 		border: 1rpx solid rgba(106,150,31,0.42);
 		margin: 20rpx auto;
-		padding: 20rpx;
+		padding: 23rpx 23px 120px 23px;
 		color: #555555;
 		overflow: scroll;
+		line-height: 42rpx;
 	}
 	.reservation {
 		width: 140rpx;

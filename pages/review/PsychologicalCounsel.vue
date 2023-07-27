@@ -31,7 +31,7 @@
 								<view class="counsel-footer-Left" v-for="(beGoodAt, index) in expertInfo.beGoodAtList" :key="index">
 									<span class="counsel-button">{{beGoodAt.dictName}}</span>					
 								</view>
-								<view class="counsel-footer-right" style="float: right;color: #999999;font-size: 22rpx;">
+								<view class="counsel-footer-right" style="float: right;color: #999999;font-size: 22rpx;padding: 10rpx 0px;">
 									<span>最快可约今日18:00</span>
 								</view>
 							</view>
@@ -163,47 +163,69 @@
 		display: flex;
 		justify-content: space-around; 
 		flex-flow: wrap row;
-		width: 88%;
+		width: 90%;
 	}
 	.questionl {
 		width: 30%;
 		padding-right: 27px;
 	}
 	.questionl .questionlimg {
-		width: 233rpx;
-		height: 280rpx;
+		width: 250rpx;
+		height: 250rpx;
 	}
 	.counsel-concent{
-		width: 60%;
+		width: 58%;
 		color: #333333;
+		position: relative;
 	}
 	.reservation {
 		width: 150rpx;
 		line-height: 60rpx;
 		background: #628D3D;
 		text-align: center;
-		font-size: 24rpx;
+		font-size: 30rpx;
 		font-weight: 700;
 		margin-top: 60rpx;
-		border-radius: 30rpx;
+		border-radius: 22rpx;
 		color: #ffffff;
-		float:right
+		float:right;
+		position: absolute;
+		top: 137rpx;
+		right: 10rpx;
+		padding: 2rpx 0 2rpx 0;
 	}
+	/* .evaluation{
+		width: 150rpx;
+		line-height: 60rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 30rpx;
+		font-weight: 700;
+		margin-bottom: 15rpx;
+		border-radius: 22rpx;
+		color: #ffffff;
+		float:right;
+		position: absolute;
+		top: 55rpx;
+		left: 26%;
+		padding: 2rpx 0 2rpx 0;
+	} */
 	.counsel-charge{
 		color: #416F5D;
 		float: right;
 	}
 	.counsel-title{
-		font-size: 24rpx;
+		font-size: 34rpx;
 		margin-bottom: 20rpx;
 		font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
 	}
 	.counsel-intro{
 		float: left;
-		font-size:21rpx;
+		font-size:28rpx;
 		height: 120rpx;
 		overflow: scroll;
 		line-height: 1.6;
+		padding: 0 10rpx;
 	}
 	.counsel-footer{
 		width: 100%;
@@ -214,9 +236,9 @@
 		line-height: 40rpx;
 		background: #ffffff;
 		text-align: center;
-		font-size: 24rpx;
+		font-size: 28rpx;
 		font-weight: 700;
-		margin-right: 10rpx;
+		margin-right: 17rpx;
 		border-radius: 10rpx;
 		color: #999999;
 		float:left;

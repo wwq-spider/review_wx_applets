@@ -5,14 +5,14 @@
 				<image @click="toPsychometrics" mode="widthFix" :src="reviewClass.bannerImg || defaultCover" @error="imageError()"></image>
 			</view>
 			<view style="margin: 0 35rpx;font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;">
-				<view class="title" style="color: #416F5D; font-size: 36rpx;margin-bottom: 20rpx;">{{reviewClass.title}}</view>
-				<view class="content" style="font-size: 28rpx;margin-bottom: 20rpx;color: #000000;">{{reviewClass.guide}}</view>
+				<view class="title" style="color: #416F5D; font-size: 40rpx;margin-bottom: 20rpx;">{{reviewClass.title}}</view>
+				<view class="content" style="font-size: 32rpx;margin-bottom: 20rpx;color: #555;padding: 0 21rpx;">{{reviewClass.guide}}</view>
 				<view class="time" style="font-size: 28rpx;color: #000000;font-weight: 700;">{{'共'+questionList.length+'题|预计用时'+time+'分钟'}}</view>
 			</view>
 			<view style="width: 100%; height: 20rpx;margin: 20rpx 0;background-color: rgba(237,237,237,0.4);"></view>
 			<view style="background: #ffffff;min-height: 700rpx;">
-				<view style="font-size: 28rpx;color: #000000;display: block;text-align: center;">{{'测评须知'}}</view>
-				<view style="font-size: 24rpx;width: 85%;min-height: 400rpx;background: rgba(215,233,230, 0.4);border: 1rpx solid rgba(106,150,31,0.42);margin: 20rpx auto;padding: 20rpx;color: #555555;">
+				<view style="font-size: 38rpx;color: #000000;display: block;text-align: center;">{{'测评须知'}}</view>
+				<view style="font-size: 30rpx;width: 80%;min-height: 400rpx;background: rgba(215,233,230, 0.4);border: 1rpx solid rgba(106,150,31,0.42);margin: 20rpx auto;padding: 23rpx 23px 120px 23px;color: #555555;line-height: 42rpx;">
 					<p>{{'如果您要参加一次测评，请注意以下事项：'}}</p>
 					<p>{{'1.确认测评目的和内容：了解测评的目的和内容，确认自己是否符合参测条件，并了解测评结果的应用和影响。'}}</p>
 					<p>{{'2.提前准备：确保充分休息、饮食充足，避免在测评前进行身体或心理上的剧烈运动、刺激性活动或大量饮酒等不利于测评结果的行为。'}}</p>
@@ -295,9 +295,10 @@
 		width: 100%;
 		z-index: 998;
 		box-sizing: content-box;
-		background: rgba(215,233,230, 0.4);
+		background: #d7e9e6;
 		height: 110rpx;
 		justify-content: space-around;
+		padding: 26rpx 0;
 	}
 	.buy-button{
 		width: 400rpx;

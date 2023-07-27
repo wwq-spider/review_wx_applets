@@ -245,8 +245,9 @@ export default {
 	transition: opacity 0.5s ease-in-out;
 
 	&__image {
-		width: 100%;
+		width: 92%;
 		height: 100%;
+		margin: 0 3%;
 	}
 
 	&__loading,

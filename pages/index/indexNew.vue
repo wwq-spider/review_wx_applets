@@ -272,6 +272,7 @@
 		display: flex;
 		flex-flow: wrap row;
 		width: 100%;
+		margin: 1% 2% 0 2%;
 	}
 	.swiper-nav{
 		width: 90%;
@@ -280,14 +281,14 @@
 	}
 	.right{
 		text-overflow: -o-ellipsis-lastline;
-		 overflow: hidden;
-		 text-overflow: ellipsis;
-		 display: -webkit-box;
-		 -webkit-line-clamp: 1; //可设置显示的行数
-		 line-clamp: 1;
-		 -webkit-box-orient: vertical;
-		 color: #7e7b7b;
-		 font-size: 13px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1; //可设置显示的行数
+		line-clamp: 1;
+		-webkit-box-orient: vertical;
+		color: #7e7b7b;
+		font-size: 30rpx;
 	}
 	.text {
 		font-size: 35rpx;
