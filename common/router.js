@@ -67,12 +67,20 @@ router.beforeEach((to, from, next) => {
 			}
 		}
 	}
-	
+	let appId = uni.getStorageSync("appId")
+	if(!appId) {
+		const accountInfo = uni.getAccountInfoSync()
+		let appIdTemp = accountInfo.miniProgram.appId
+		console.log('小程序appId：',appIdTemp)
+		uni.setStorageSync('appId', appIdTemp)
+	}
 	let path = to.path
+	console.log('config.whitePath:', path);
 	if (config.whitePath.indexOf(path) > -1) {
 		// 权限控制登录
 		next()
 	} else {
+		console.log('userData:', userData);
 		let userData = uni.getStorageSync("userData")
 		if (userData && userData.mobilePhone) {
 			// 权限控制登录

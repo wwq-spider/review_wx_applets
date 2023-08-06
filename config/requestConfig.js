@@ -90,6 +90,10 @@ $http.requestStart = function(options) {
 		if (tenantId && tenantId != 0) {
 			options.header['X-Tenant-Id'] = tenantId
 		}
+		let appId = uni.getStorageSync("appId") 
+		if (appId) {
+			options.header['X-AppId-Id'] = appId
+		}
 	}
 	return options;
 }
