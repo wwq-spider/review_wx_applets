@@ -22,7 +22,6 @@
 			this.date = aDate.getFullYear() + "年" + (aDate.getMonth() + 1) + "月" + aDate.getDate() + "日";
 		},
 		onLoad: function(option) {
-			
 			if (option.pdfUrl) {
 				this.pdfUrl = decodeURIComponent(decodeURIComponent(option.pdfUrl))
 			}
@@ -35,7 +34,7 @@
 		methods: {
 			toIndex(){
 				uni.switchTab({
-					url:  '/pages/index/index',
+					url:  '/pages/index/indexNew',
 					success(res) {
 						console.log(res)
 					},

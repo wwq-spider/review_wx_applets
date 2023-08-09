@@ -55,7 +55,6 @@ router.beforeEach((to, from, next) => {
 	let fullPath = from.fullPath
 	if (fullPath && fullPath != "" && fullPath.indexOf("?scene=") > -1) {
 		let scene = fullPath.split("?scene=")[1]
-		console.log("beforeEach: scene==" + scene)
 		let arr = decodeURIComponent(scene).split("&")
 		for (let i=0; i<arr.length; i++) {
 			let pairStr = arr[i]
@@ -71,16 +70,13 @@ router.beforeEach((to, from, next) => {
 	if(!appId) {
 		const accountInfo = uni.getAccountInfoSync()
 		let appIdTemp = accountInfo.miniProgram.appId
-		console.log('小程序appId：',appIdTemp)
 		uni.setStorageSync('appId', appIdTemp)
 	}
 	let path = to.path
-	console.log('config.whitePath:', path);
 	if (config.whitePath.indexOf(path) > -1) {
 		// 权限控制登录
 		next()
 	} else {
-		console.log('userData:', userData);
 		let userData = uni.getStorageSync("userData")
 		if (userData && userData.mobilePhone) {
 			// 权限控制登录

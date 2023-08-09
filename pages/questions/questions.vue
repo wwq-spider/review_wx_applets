@@ -521,7 +521,7 @@
 									uni.removeStorageSync(this.reviewRecordKey)
 									//跳转报告查看页面
 									uni.navigateTo({
-										url: '/pages/report/pdfreport?pdfUrl=' + encodeURIComponent(res.pdfUrl)
+										url: '/pages/report/pdfreport?pdfUrl=' + encodeURIComponent(res.result)
 									})
 								} else {
 									uni.showToast({

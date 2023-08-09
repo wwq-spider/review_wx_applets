@@ -8,7 +8,7 @@
 					</u-form-item>
 					<u-form-item label="性别" prop="sex" required label-width="140" border-bottom>
 						<u-radio-group v-model="form.sex">
-							<u-radio active-color="#55aaff" v-for="(item, index) in sexList" :key="item.code"
+							<u-radio active-color="#3d7a00" v-for="(item, index) in sexList" :key="item.code"
 								:name="item.code" :disabled="item.disabled">
 								{{ item.name }}
 							</u-radio>
@@ -327,7 +327,7 @@
 		font-weight: 700;
 		margin: 40rpx auto;
 		text-align: center;
-		background-color: #97cdff;
+		background-color: #3d7a00;
 	}
 	.msgbutton {
 		width: 200rpx;
@@ -336,7 +336,7 @@
 		font-size: 21rpx;
 		font-weight: 700;
 		text-align: center;
-		background-color: #97cdff;
+		background-color: #3d7a00;
 		float: right;
 	}
 </style>

@@ -104,7 +104,6 @@
 			}
 			//判断是否为专家
 			this.$apis.postIsExpert({'mobilePhone': userData.mobilePhone}).then(res => {
-				console.log('专家手机号：'+userData.mobilePhone);
 				if(res.code == 200 && res.isExpert == true){
 					that.isExpert = true
 				}

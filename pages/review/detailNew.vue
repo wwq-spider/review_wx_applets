@@ -23,7 +23,7 @@
 			</view>
 			
 		</view>
-		<view>
+		<view v-if="this.id != this.dongliangClassId && this.id != dongliangClassProId">
 			<view class="tabbar-bottom">
 				<span>
 					<p style="color: #416F5D; font-size: 34rpx;">{{'￥' + reviewClass.realPrice}}</p>
@@ -32,10 +32,15 @@
 				<span class="buy-button" @click="buy">{{'购买测评'}}</span>
 			</view>
 		</view>
-		<!-- <view class="organization">
-			<button class="savebutton" style="margin-left: 120px;" @click="buy">{{'购买测评'}}</button>
-			<button class="savebutton" @click="beginTest">开始评测</button>
-		</view> -->
+		<view v-if="this.id == this.dongliangClassId || this.id == dongliangClassProId">
+			<view class="tabbar-bottom">
+				<!-- <span>
+					<p style="color: #416F5D; font-size: 34rpx;">{{'￥' + reviewClass.realPrice}}</p>
+					<p style="font-size: 22rpx;color:#979797">{{reviewClassNumber + '人测过'}}</p>
+				</span> -->
+				<span class="buy-button1" @click="buyCareerPlan">{{'购买测评码'}}</span>
+			</view>
+		</view>
 		<uni-popup ref="showPayConfirm" @change="change" class="uniPopupStyle">
 			<view class="uni-tip">
 				<text class="uni-tip-title">{{'购买确认'}}</text>
@@ -61,6 +66,9 @@
 				time: '',
 				reviewClassNumber: '',
 				loading: false,
+				id: '',
+				dongliangClassId : '402880f082eecb960182eee3b1ef0001',
+				dongliangClassProId : '2c9cff928408eab3018413a00d8a006a',
 			}
 		},
 		computed:{
@@ -144,13 +152,12 @@
 				uni.navigateTo({
 					url: '/pages/order/reviewOrder'
 				})
-				/* this.$nextTick(() => {
-					this.$refs.showPayConfirm.open("center")
-				}) */
-				/* uni.navigateTo({
-					url:'pages/review/evaluationScale'
-				}) */
-				//this.confirmBuy()//unipopup失效以及支付商户号未开放，暂按0元跳过支付
+			},
+			buyCareerPlan() {
+				uni.setStorageSync('reviewClass',this.reviewClass)
+				uni.navigateTo({
+					url: '/pages/review/testCode?classId=' + this.id
+				})
 			},
 			cancel() {
 				this.$refs.showPayConfirm.close()
@@ -302,6 +309,17 @@
 	}
 	.buy-button{
 		width: 400rpx;
+		line-height: 80rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 34rpx;
+		font-weight: 700;
+		border-radius: 20rpx;
+		color: #ffffff;
+		float:right
+	}
+	.buy-button1{
+		width: 600rpx;
 		line-height: 80rpx;
 		background: #628D3D;
 		text-align: center;

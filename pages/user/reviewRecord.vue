@@ -6,7 +6,7 @@
 			<u-tabs style="background: (255,255,255,0);" :list="tabList" :current="current" active-color="#4f9f00" inactive-color="#606266" @change="changeTab"></u-tabs>
 	    </view>
 		<view class="question" v-for="(item, index) in recordList"  :key="item.resultId">
-			<view class="questionr" @click="detail(item.resultId,item.classId,item.classTitle,item.reportResult)">
+			<view class="questionr" @click="detail(item.resultId,item.classId,item.classTitle,item.reviewResult)">
 				<view class="questionl">
 					<image class="questionlimg" mode="scaleToFill" :src="item.classCover || defaultCover" @error="imageError(index)"></image>
 				</view>
@@ -106,14 +106,14 @@
 					this.formData.status = 'noMore'
 				}
 			},
-			detail(resultid, classId, title,reportResult) {
+			detail(resultid, classId, title,reviewResult) {
 				let dongliangClassId = '402880f082eecb960182eee3b1ef0001'
 				let dongliangClassProId = '2c9cff928408eab3018413a00d8a006a'
 				//let pdfUrl = 'https://www.zhuxinkang.com/review/upload2/PDF/create/2022/09/20/cp-20220920204836310.pdf'
 				if(classId == dongliangClassId || classId == dongliangClassProId){
 					//跳转报告查看页面
 					uni.navigateTo({
-						url: '/pages/report/pdfreport?pdfUrl=' + encodeURIComponent(reportResult)
+						url: '/pages/report/pdfreport?pdfUrl=' + encodeURIComponent(reviewResult)
 					})
 				}else{
 					uni.navigateTo({
