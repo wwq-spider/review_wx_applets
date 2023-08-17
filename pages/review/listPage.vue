@@ -10,7 +10,10 @@
 		<view v-if="current == 4">
 			<u-empty text="该栏目还未开通,敬请期待!" mode="list"></u-empty>
 		</view>
-		<professionalSupportList v-if="current == 5"></professionalSupportList>
+		<!-- <professionalSupportList v-if="current == 5"></professionalSupportList> -->
+		<view v-if="current == 5">
+			<u-empty text="该栏目还未开通,敬请期待!" mode="list"></u-empty>
+		</view>
 		<view v-if="current == 6">
 			<u-empty text="该栏目还未开通,敬请期待!" mode="list"></u-empty>
 		</view>
