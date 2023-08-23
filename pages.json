@@ -10,7 +10,7 @@
 				"enablePullDownRefresh": true
 			}
 		}
-	    ,{
+		,{
 			"path": "pages/index/notice_detail",
 			"style":{
 				"navigationBarTitleText": "公告详情"

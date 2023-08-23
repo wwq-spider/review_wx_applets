@@ -138,14 +138,14 @@ $http.dataFactory = async function(res) {
 			// 返回错误的结果(catch接受数据)
 			return Promise.resolve({
 				statusCode: 0,
-				errMsg: "【request】" + (httpData.info || httpData.msg),
+				errMsg: "【request】" + (httpData.info || httpData.message),
 				data: res.data
 			});
 		} else if (httpData.code == "401") { // token失效
 			setTimeout(() => {
 				uni.showToast({
 					icon: 'none',
-					title: httpData.info || httpData.msg,
+					title: httpData.info || httpData.message,
 					duration: 1500
 				});
 			}, 0);
@@ -154,7 +154,7 @@ $http.dataFactory = async function(res) {
 				setTimeout(() => {
 					uni.showToast({
 						icon: 'none',
-						title: httpData.info || httpData.msg,
+						title: httpData.info || httpData.message,
 						duration: 3000
 					});
 				}, 0);
@@ -166,7 +166,7 @@ $http.dataFactory = async function(res) {
 			// 返回错误的结果(catch接受数据)
 			return Promise.resolve({
 				statusCode: 0,
-				errMsg: "【request】" + (httpData.info || httpData.msg),
+				errMsg: "【request】" + (httpData.info || httpData.message),
 				data: data
 			});
 		}

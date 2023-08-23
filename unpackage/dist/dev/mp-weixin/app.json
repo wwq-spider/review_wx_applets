@@ -1,0 +1,80 @@
+{
+  "pages": [
+    "pages/index/indexNew",
+    "pages/index/notice_detail",
+    "pages/userform/userform",
+    "pages/questions/questions",
+    "pages/report/report",
+    "pages/report/guide",
+    "pages/report/finished",
+    "pages/report/pdfreport",
+    "pages/user/index",
+    "pages/user/reviewRecord",
+    "pages/user/myOrder",
+    "pages/user/reviewReport",
+    "pages/user/myInfo",
+    "pages/user/privacyProto",
+    "pages/review/video",
+    "pages/review/personalInfoConfirm",
+    "pages/review/testCode",
+    "pages/pdf/filePreview",
+    "pages/review/detailNew",
+    "pages/review/counselDetail",
+    "pages/expert/myConsultation",
+    "pages/expert/consultationDetail",
+    "pages/videocall/videocall",
+    "pages/review/testCodeAagin",
+    "pages/review/psychometrics",
+    "pages/review/PsychologicalCounsel",
+    "pages/review/listPage",
+    "pages/review/careerPlan",
+    "pages/review/evaluationScale",
+    "pages/expert/myConsultationNew",
+    "pages/user/mySupport",
+    "pages/user/myCourse",
+    "pages/review/professionalSupportList",
+    "pages/review/professionalSupportDetail",
+    "pages/expert/appointExpertDetail",
+    "pages/order/reviewOrder",
+    "pages/order/reviewOrderDetail",
+    "pages/order/appointExpertOrderDetail"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "沃心理SAAS平台",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#f4fff5"
+  },
+  "tabBar": {
+    "color": "#333",
+    "selectedColor": "#55aaff",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/indexNew",
+        "text": "首页",
+        "iconPath": "static/shouye.png",
+        "selectedIconPath": "static/shouye.png"
+      },
+      {
+        "pagePath": "pages/review/listPage",
+        "text": "服务",
+        "iconPath": "static/fangtan.png",
+        "selectedIconPath": "static/fangtan.png"
+      },
+      {
+        "pagePath": "pages/user/index",
+        "text": "我的",
+        "iconPath": "static/wode.png",
+        "selectedIconPath": "static/wode.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "演示定位能力"
+    }
+  },
+  "usingComponents": {}
+}

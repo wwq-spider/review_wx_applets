@@ -73,7 +73,7 @@
 				let projectClass = uni.getStorageSync("projectClass")
 				uni.navigateTo({
 					url: '/pages/report/report?source=1&classId=' + that.classId + "&resultId=" +
-					 that.resultId + "&title=" + that.classTitle + "&projectId=" + that.projectId + "&pCount=" + projectClass.length
+					that.resultId + "&title=" + that.classTitle + "&projectId=" + that.projectId + "&pCount=" + projectClass.length
 				})
 			}
 		}

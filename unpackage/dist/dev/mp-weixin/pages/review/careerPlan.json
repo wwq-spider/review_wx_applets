@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "生涯规划",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs"
+  }
+}

@@ -36,18 +36,36 @@
 				<view><text class="uni-body">测评结果: {{result.grade}}</text></view>
 				<view><text class="uni-body">测评分数解读: {{result.explain}}</text></view>
 			</uni-card>
-			
-
 			<view v-if="projectId != 31" class="savebutton" @click="restart">重新测评</view>
 		</view>
 	</view>
 </template>
 <script>
 	export default {
+		data() {
+			return {
+				resArr: [],
+				resArr1: [],
+				source: '',
+				reviewResult: {},
+				classTitle: '',
+				projectId: 0,
+				pCount:0,
+				user: {
+					name: '',
+					sex: '',
+					age: '',
+					tel: ''
+				},
+				reportTips: '',
+				reportTemplateList: [],
+				limitId:0
+			}
+		},
 		onUnload(options) {
 			if(this.source != "1") {
 				uni.switchTab({
-					url:  '/pages/index/index',
+					url:  '/pages/index/indexNew',
 					success(res) {
 						console.log(res)
 					},
@@ -81,7 +99,6 @@
 			let resultId = option.resultId
 			let classId = option.classId
 			let that = this
-			
 			//查询报告模板
 			this.$apis.postReportTemplateList({"classId": classId}).then(res => {
 				if(res.code == 200) {
@@ -95,10 +112,24 @@
 			})
 			let zongfen = {}
 			if(that.projectId != 0){
+				console.log('whtfuc:',that.pCount)
 				let userData = uni.getStorageSync('userData')
 				this.$apis.postReportDetail({"resultId": resultId,"userId": userData.userId,"projectId": that.projectId,"pCount":that.pCount,"limitId":that.limitId}).then(res => {
 					if(res.code == 200) {
 						res.result.forEach((item1) =>{
+							if(item1.reviewResult){
+								let arr = item1.reviewResult.split("<br>")
+								arr.forEach((item, index) => {
+									let row = {}
+									let a = item.indexOf("得分:")
+									row["varName"] = item.substring(0, a)
+									row["grade"] = item.substring(a + 3, item.indexOf(";"))
+									row["explain"] = item.substring(item.indexOf("结果:")+3)
+									that.resArr.push(row)
+								})
+							}
+						})
+						/* res.result.forEach((item1) =>{
 							if(item1.reviewResult){
 								let arr = item1.reviewResult.split("<br>")
 								arr.forEach((item, index) => {
@@ -117,7 +148,8 @@
 								})
 								that.resArr.push(zongfen)
 							}
-						})
+							that.resArr.push(row)
+						}) */
 					} else {
 						uni.showToast({
 							title: res.msg
@@ -158,31 +190,11 @@
 			}
 			
 		},
-		data() {
-			return {
-				resArr: [],
-				resArr1: [],
-				source: '',
-				reviewResult: {},
-				classTitle: '',
-				projectId: 0,
-				pCount:'',
-				user: {
-					name: '',
-					sex: '',
-					age: '',
-					tel: ''
-				},
-				reportTips: '',
-				reportTemplateList: [],
-				limitId:0
-			}
-		},
 		methods: {
 			//methods方法
 			toback(){
 				uni.navigateTo({
-					url:  '/pages/index/index'
+					url:  '/pages/index/indexNew'
 				});
 			},
 			restart(){

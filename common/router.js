@@ -51,18 +51,18 @@ const router = createRouter({
 
 //全局路由前置守卫
 router.beforeEach((to, from, next) => {
-	//console.log('from: '+ JSON.stringify(from)+ ', to: '+ JSON.stringify(to))
 	let fullPath = from.fullPath
 	if (fullPath && fullPath != "" && fullPath.indexOf("?scene=") > -1) {
 		let scene = fullPath.split("?scene=")[1]
-		let arr = decodeURIComponent(scene).split("&")
+		let arr = decodeURIComponent(scene).split("*")
 		for (let i=0; i<arr.length; i++) {
 			let pairStr = arr[i]
-			let paramPair = pairStr.split("=")
-			console.log("beforeEach: paramPair==" + paramPair)
+			let paramPair = pairStr.split("/")
 			if (paramPair[0] == "tenantId") {
-				console.log("beforeEach: tenant_id==" + paramPair[1])
 				uni.setStorageSync('tenantId', parseInt(paramPair[1]))
+			}
+			if (paramPair[0] == "projectId") {
+				uni.setStorageSync('projectId', parseInt(paramPair[1]))
 			}
 		}
 	}
@@ -82,7 +82,6 @@ router.beforeEach((to, from, next) => {
 			// 权限控制登录
 			next()
 		} else {
-			console.log("beforeEach======================")
 			userCheck.checkLogin(function(userData){
 				//跳转页面
 				if (userData && userData.mobilePhone) {

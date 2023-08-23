@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "专业支持详情页",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs"
+  }
+}

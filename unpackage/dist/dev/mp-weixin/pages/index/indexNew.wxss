@@ -1,0 +1,155 @@
+
+.content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+.tips {
+	color: #00aaff;
+	font-size: 14px;
+	line-height: 40px;
+	text-align: center;
+	background-color: #f0f9eb;
+	height: 0;
+	opacity: 0;
+	-webkit-transform: translateY(-100%);
+	        transform: translateY(-100%);
+	transition: all 0.3s;
+}
+.tips-ani {
+	-webkit-transform: translateY(0);
+	        transform: translateY(0);
+	height: 40px;
+	opacity: 1;
+}
+.uni-margin-wrap {
+	width:690rpx;
+	width: 100%;
+}
+.swiper {
+	height: 400rpx;
+}
+.notice{
+	display: flex;
+	flex-flow: wrap row;
+	width: 100%;
+	margin: 1% 2% 0 2%;
+}
+.swiper-nav{
+	width: 90%;
+	height: 30px;
+	margin-left: 8px;
+}
+.right{
+	text-overflow: -o-ellipsis-lastline;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1; /*可设置显示的行数 */
+	line-clamp: 1;
+	-webkit-box-orient: vertical;
+	color: #7e7b7b;
+	font-size: 30rpx;
+}
+.text {
+	font-size: 35rpx;
+	color: #7f7f7f;
+	margin: 0 15px;
+	margin-top:15%;
+	font-weight: bold;
+}
+.imageStyle {
+	margin-top: -2%;
+	border-radius: 8px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+}
+.psychometrics {
+	width: 730rpx;
+	height: 360rpx;
+	border-radius: 25rpx;
+	margin: 0 auto;
+}
+._scroll-list {
+	border-bottom: 20rpx solid #eee;
+	width: 100%;
+}
+.startTest {
+	width: 622rpx;
+	line-height: 90rpx;
+	color: #594e3f;
+	font-size: 32rpx;
+	font-weight: 700;
+	margin: 40rpx auto;
+	text-align: center;
+	background-color: #628D3D;
+}
+.question {
+	width: 88%;
+	padding: -1rpx;
+	background: rgba(215,233,230,0.41);
+	border-radius: 50rpx;
+	margin: 20rpx auto;
+}
+.questionr {
+	display: flex;
+	justify-content: space-around; 
+	flex-flow: wrap row;
+	width: 100%;
+}
+.questionl {
+	width: 40%;
+	padding-right: 27px;
+}
+.questionl .questionlimg {
+	width: 305rpx;
+	height: 233rpx;
+	border-radius: 20rpx;
+}
+.questionr .title {
+	color: #594e3f;
+	font-size: 34rpx;
+	font-weight: 700;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1; /*可设置显示的行数 */
+	line-clamp: 1;
+	-webkit-box-ori5ent: vertical;
+}
+.questionr .subtitle {
+	font-size: 28rpx;
+	color: #857f77;
+	margin: 10rpx 0 20rpx 0;
+	line-height: 1.3;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2; /*可设置显示的行数 */
+	line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+.listtitle2 {
+	color: #3d7a00;
+	font-size: 32rpx;
+	line-height: 32rpx;
+	font-weight: bold;
+	padding-top: 22rpx;
+}
+.question-evaluation{
+	width: 150rpx;
+	line-height: 60rpx;
+	background: #628D3D;
+	text-align: center;
+	font-size: 30rpx;
+	font-weight: 700;
+	margin: -55rpx 10rpx 0 0;
+	border-radius: 22rpx;
+	color: #ffffff;
+	float:right;
+	padding: 2rpx 0 2rpx 0;
+}
+

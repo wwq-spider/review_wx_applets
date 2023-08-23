@@ -8,8 +8,8 @@
 			</view>
 			<view style="float: right;color: #628D3D;font-size: 28rpx;float: left;margin-top: 10rpx;margin-left: 10rpx;">{{questionIndex+1}}/{{questionList.length}}</view>
 		</view>
-		<view style="background-color: #ffffff; border-radius: 20rpx; width: 80%; height: 900rpx;margin: 0 auto;">
-			<view style="width: 95%;padding: 30rpx 0;margin: 0 auto;">
+		<view style="background-color: #ffffff; border-radius: 20rpx; width: 80%; height: 90%;margin: 0 auto;">
+			<view style="width: 95%;padding: 30rpx 0;margin: 0 auto;margin-top: 30rpx">
 				<view class="titleNew">
 					<text v-if="questionList.length > 0">{{questionIndex+1}}、{{questionList[questionIndex].content}}</text>
 					<text v-else>题目加载中</text>
@@ -717,7 +717,6 @@
 		background: #93d6ff;
 	}
 
-
 	.questest .texttip {
 		font-size: 28rpx;
 		color: #594e3f;
@@ -727,18 +726,13 @@
 	.back {
 		padding-top: 60rpx;
 		padding-bottom: 120rpx;
-		/* float: left; */
 	}
 	
 	.savebutton {
 		width: 150rpx;
-		/* line-height: 90rpx; */
 		color: #594e3f;
 		font-size: 32rpx;
-		/* font-weight: 700; */
-		/* margin: 40rpx auto; */
 		text-align: center;
-		/* background: url(../../static/background.png) no-repeat 50%/100%; */
 		background-color: #77beff;
 		margin-top: -5rpx;
 	}
@@ -751,7 +745,8 @@
 	    background-color: rgba(215,233,230,0.4);
 		width: 100%;
 		height: 100%;
-		min-height: 1200rpx;
+		/* min-height: 1200rpx; */
+		min-height:90%;
 	}
 	.uLine-progress{
 		width: 80%;

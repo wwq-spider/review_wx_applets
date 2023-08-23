@@ -9,10 +9,13 @@
 				<swiper-item v-if="bannerList.length > 0" v-for="item in bannerList"  :autoplay="autoplay" :interval="interval" :duration="duration">
 					<image :src="item.imgUrl" mode="scaleToFill" :style="{width: `${windowWidth}px`, height: `${windowWidth/2}px`}" />
 				</swiper-item>
+				<swiper-item v-if="bannerList.length == 0 || projectId > 0"  :autoplay="autoplay" :interval="interval" :duration="duration">
+					<image :src="defaultBanner" mode="scaleToFill" :style="{width: `${windowWidth}px`, height: `${windowWidth/2}px`}" />
+				</swiper-item>
 			</swiper>
 		</view>
 		<!-- 通告 -->
-		<view class="notice" v-if="noticeList.length > 0">
+		<view class="notice" v-if="noticeList.length > 0 && pCount == 0">
 			<uni-icons type="sound-filled" size="18" color="#55aaff" style="margin-left: 3px;"></uni-icons>
 			<swiper class="swiper-nav" :circular="true" vertical="true" :autoplay="true" :interval="5000" :duration="1000">
 				<swiper-item style="display: table;"  v-for="(item,index) in noticeList" :key="index">
@@ -22,7 +25,7 @@
 		</view>
 		<uni-notice-bar v-if="noticeList.length == 0" single="true" text="暂无公告" showIcon="true" style="width: 100%; margin-bottom: -10px;" background-color="blank" color="#b9b9b8"></uni-notice-bar>
 		<!-- 服务项目列表 -->
-		<view>
+		<view v-if="pCount == 0">
 			<text class="text">服务项目</text>
 			<view class="imageStyle">
 				<image @click="toPsychometrics" mode="scaleToFill" class="psychometrics" src="/static/psychometrics.png"></image>
@@ -32,6 +35,25 @@
 				<image @click="toPsychologicalMall" mode="scaleToFill" class="psychometrics" src="/static/psychologicalMall.png"></image>
 				<image @click="toProfessionalSupport" mode="scaleToFill" class="psychometrics" src="/static/professionalSupport.png"></image>
 				<image @click="toPharedRoom" mode="scaleToFill" class="psychometrics" src="/static/sharedRoom.png"></image>
+			</view>
+		</view>
+		<!-- 项目测评 -->
+		<view v-if="pCount > 0" class="_scroll-list" color="#cfd6d5">
+			<uni-notice-bar style="width: 100%;" color="#4a4c4b" background-color="blank" :text="`项目介绍：${projectDesc}`"></uni-notice-bar>
+			<uni-notice-bar color="#4a4c4b" style="width: 100%;" background-color="blank" :text="`本次测评共由 ${pCount} 个量表组成，单个量表完成可自动进入下一个量表测评，若中途退出将重新开始测评。`"></uni-notice-bar>
+			<view class="startTest" @click="startTest">开始测试</view>
+		</view>
+		<view  v-if="pCount > 0">
+			<view class="question" v-for="(reviewClass, index) in reviewClassList">
+				<view class="questionr">
+					<view class="questionl">
+						<image class="questionlimg" mode="scaleToFill" :src="reviewClass.bannerImg || defaultCover" @error="imageError(0, index, 2)"></image>
+					</view>
+					<view style="width: 48%;margin-top: 0rpx;">
+						<view class="title">{{reviewClass.title}}</view>
+						<view class="subtitle">{{reviewClass.classDesc}}</view>
+					</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -51,6 +73,12 @@
 				pCount: 0,
 				bannerList: [],
 				noticeList: [],
+				defaultBanner: this.$config.defaultBanner,
+				projectId: 0,
+				hotList: [], // 热门测试
+				projectDesc:'',
+				reviewClassList: [],
+				//isshow : 1,
 			}
 		},
 		onReady() {
@@ -66,8 +94,6 @@
 			if(projectClass && projectClass.length > 0) {
 				this.pCount = projectClass.length
 				return
-			} else {
-				this.pCount = 0
 			}
 		},
 		//分享页面标题设置
@@ -89,26 +115,16 @@
 				path: 'pages/index/indexNew?source=1'
 			})
 			if(option && option.scene) {
-				let arr = decodeURIComponent(option.scene).split("=")
-				let projectId
-				for (let i=0; i<arr.length; i++) {
-					let pairStr = arr[i]
-					let paramPair = pairStr.split("=")
-					if (paramPair[0] == "projectId") {
-						projectId = parseInt(paramPair[1])
-						uni.setStorageSync('projectId', projectId)
-						break
-					}
-				}
-				if(projectId && projectId > 0) {
-					this.projectId = parseInt(arr[1])
+				let arr = decodeURIComponent(option.scene).split("*")
+				if(arr.length == 2) {
+					this.projectId = parseInt(arr[0].split("/")[1])
 					uni.setStorageSync("projectId", this.projectId)
 					this.pCount = 100
 					//设置超时加入用户组
 					let that = this
 					this.$apis.postReviewProjectDetail({"id": this.projectId}).then(res => {
 						if(res.code == 200) {
-							that.defaultBanner = that.$config.aliYunEndpoint +  res.result.cover
+							that.defaultBanner = res.result.cover
 						}
 					})
 					//初始化数据
@@ -131,6 +147,7 @@
 							}, 500)
 						}
 					}, 500);
+					return
 				}
 			} else if(option.source && option.source == '1') {
 				uni.removeStorageSync("projectId")
@@ -141,7 +158,7 @@
 				if (pid && pid != "") {
 					this.$apis.postReviewProjectDetail({"id": pid}).then(res => {
 						if(res.code == 200) {
-							that.defaultBanner = that.$config.aliYunEndpoint +  res.result.cover
+							that.defaultBanner = res.result.cover
 						}
 					})
 				}
@@ -182,6 +199,42 @@
 						})
 					}
 					uni.hideLoading()
+				})
+				//查询分类
+				this.$apis.postReviewClass({"projectId": pid}).then(res => {
+					this.tipShow  = false
+					uni.hideLoading()
+					that.reviewClassList = []
+					that.hotList = []
+					if (res.code == 200) {
+						if(pullRefresh) {
+							uni.stopPullDownRefresh()
+						}
+						let projectClass = []
+						res.result.forEach((row) => {
+							if(that.projectId == 0 && row.type == 2) {
+								that.hotList.push(row)
+							} else {
+								that.reviewClassList.push(row)
+								this.projectDesc = row.projectDesc
+							}
+							if(pid && pid > 0) {
+								projectClass.push({"classId": row.classId, "title": row.title,"projectName":row.projectName})
+							}
+						})
+						//保存到本地缓存中 共下次使用
+						if (projectClass.length > 0) {
+							uni.setStorageSync("projectClass", projectClass)
+							that.pCount = projectClass.length
+						} else {
+							uni.removeStorageSync("projectClass")
+							that.pCount = 0
+						}
+					}
+				}).catch(err => {
+					uni.hideLoading()
+					that.tipShow  = false
+					console.log(err)
 				})
 			},
 			/* 跳转到心理评测页面 */
@@ -232,7 +285,22 @@
 				uni.switchTab({
 					url: '/pages/review/listPage'
 				})
-			}
+			},
+			/* 开始项目测评 */
+			startTest() {
+				//如果未登录且是扫二维码进来的 则跳转到第一个量表
+				let projectClass = uni.getStorageSync("projectClass")
+				if(projectClass && projectClass.length > 0) {
+					let currentClassId = projectClass[0].classId
+					uni.redirectTo({
+						url: '/pages/report/guide?classId=' + currentClassId
+					})
+				} else {
+					uni.showToast({
+						title: '当前用户不支持此操作'
+					})
+				}
+			},
 		}
 	}
 </script>
@@ -309,5 +377,84 @@
 		height: 360rpx;
 		border-radius: 25rpx;
 		margin: 0 auto;
+	}
+	._scroll-list {
+		border-bottom: 20rpx solid #eee;
+		width: 100%;
+	}
+	.startTest {
+		width: 622rpx;
+		line-height: 90rpx;
+		color: #594e3f;
+		font-size: 32rpx;
+		font-weight: 700;
+		margin: 40rpx auto;
+		text-align: center;
+		background-color: #628D3D;
+	}
+	.question {
+		width: 88%;
+		padding: -1rpx;
+		background: rgba(215,233,230,0.41);
+		border-radius: 50rpx;
+		margin: 20rpx auto;
+	}
+	.questionr {
+		display: flex;
+		justify-content: space-around; 
+		flex-flow: wrap row;
+		width: 100%;
+	}
+	.questionl {
+		width: 40%;
+		padding-right: 27px;
+	}
+	.questionl .questionlimg {
+		width: 305rpx;
+		height: 233rpx;
+		border-radius: 20rpx;
+	}
+	.questionr .title {
+		color: #594e3f;
+		font-size: 34rpx;
+		font-weight: 700;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1; //可设置显示的行数
+		line-clamp: 1;
+		-webkit-box-ori5ent: vertical;
+	}
+	.questionr .subtitle {
+		font-size: 28rpx;
+		color: #857f77;
+		margin: 10rpx 0 20rpx 0;
+		line-height: 1.3;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2; //可设置显示的行数
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+	.listtitle2 {
+		color: #3d7a00;
+		font-size: 32rpx;
+		line-height: 32rpx;
+		font-weight: bold;
+		padding-top: 22rpx;
+	}
+	.question-evaluation{
+		width: 150rpx;
+		line-height: 60rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 30rpx;
+		font-weight: 700;
+		margin: -55rpx 10rpx 0 0;
+		border-radius: 22rpx;
+		color: #ffffff;
+		float:right;
+		padding: 2rpx 0 2rpx 0;
 	}
 </style>

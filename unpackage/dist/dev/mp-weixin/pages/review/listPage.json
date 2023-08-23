@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "沃心理SAAS平台",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "u-empty": "/uview-ui/components/u-empty/u-empty",
+    "psychometrics": "/pages/review/psychometrics",
+    "psychological-counsel": "/pages/review/PsychologicalCounsel",
+    "career-plan": "/pages/review/careerPlan",
+    "professional-support-list": "/pages/review/professionalSupportList"
+  }
+}

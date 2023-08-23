@@ -23,7 +23,7 @@
 			</view>
 			
 		</view>
-		<view v-if="this.id != this.dongliangClassId && this.id != dongliangClassProId">
+		<view v-if="id != dongliangClassId && id != dongliangClassProId">
 			<view class="tabbar-bottom">
 				<span>
 					<p style="color: #416F5D; font-size: 34rpx;">{{'￥' + reviewClass.realPrice}}</p>
@@ -32,7 +32,7 @@
 				<span class="buy-button" @click="buy">{{'购买测评'}}</span>
 			</view>
 		</view>
-		<view v-if="this.id == this.dongliangClassId || this.id == dongliangClassProId">
+		<view v-if="id == dongliangClassId || id == dongliangClassProId">
 			<view class="tabbar-bottom">
 				<!-- <span>
 					<p style="color: #416F5D; font-size: 34rpx;">{{'￥' + reviewClass.realPrice}}</p>

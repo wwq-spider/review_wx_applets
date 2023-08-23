@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "预约信息",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-row": "/uview-ui/components/u-row/u-row",
+    "u-col": "/uview-ui/components/u-col/u-col",
+    "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup"
+  }
+}

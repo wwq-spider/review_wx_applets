@@ -1,0 +1,1 @@
+<view><u-empty vue-id="48f6efc4-1" text="该栏目还未开通,敬请期待!" mode="list" bind:__l="__l"></u-empty></view>
