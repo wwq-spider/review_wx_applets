@@ -7,7 +7,7 @@
 			<view style="margin: 0 35rpx;font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;">
 				<view class="title" style="color: #416F5D; font-size: 40rpx;margin-bottom: 20rpx;">{{reviewClass.title}}</view>
 				<view class="content" style="font-size: 32rpx;margin-bottom: 20rpx;color: #555;padding: 0 21rpx;">{{reviewClass.guide}}</view>
-				<view class="time" style="font-size: 28rpx;color: #000000;font-weight: 700;">{{'共'+questionList.length+'题|预计用时'+time+'分钟'}}</view>
+				<view class="time" style="font-size: 28rpx;color: #000000;font-weight: 700;">{{'共'+questionsNum+'题|预计用时'+time+'分钟'}}</view>
 			</view>
 			<view style="width: 100%; height: 20rpx;margin: 20rpx 0;background-color: rgba(237,237,237,0.4);"></view>
 			<view style="background: #ffffff;min-height: 700rpx;">
@@ -24,12 +24,15 @@
 			
 		</view>
 		<view v-if="id != dongliangClassId && id != dongliangClassProId">
-			<view class="tabbar-bottom">
+			<view v-if="isPay == 0" class="tabbar-bottom">
 				<span>
 					<p style="color: #416F5D; font-size: 34rpx;">{{'￥' + reviewClass.realPrice}}</p>
 					<p style="font-size: 22rpx;color:#979797">{{reviewClassNumber + '人测过'}}</p>
 				</span>
 				<span class="buy-button" @click="buy">{{'购买测评'}}</span>
+			</view>
+			<view v-if="isPay == 1" class="tabbar-bottom">
+				<span class="buy-button" @click="beginTest">{{'立即测评'}}</span>
 			</view>
 		</view>
 		<view v-if="id == dongliangClassId || id == dongliangClassProId">
@@ -69,6 +72,8 @@
 				id: '',
 				dongliangClassId : '402880f082eecb960182eee3b1ef0001',
 				dongliangClassProId : '2c9cff928408eab3018413a00d8a006a',
+				isPay:0,
+				questionsNum:0
 			}
 		},
 		computed:{
@@ -94,6 +99,9 @@
 					title:event.title
 				})
 			}
+		},
+		onShow() {
+			this.isBuy()
 		},
 		onReady() {
 			// 开始加载数据，修改 where 条件后才开始去加载 clinetDB 的数据 ，需要等组件渲染完毕后才开始执行 loadData，所以不能再 onLoad 中执行
@@ -138,6 +146,10 @@
 				}).catch(err => {
 					uni.hideLoading()
 					console.log(err)
+				})
+				this.$apis.postQuestionsNum({'classId': this.id}).then(res => {
+					that.questionsNum = res.result
+					that.time = Math.round(that.questionsNum * 15/60)//暂时按一道题15秒计算测评时长
 				})
 				this.$apis.postQuestions({'classId': this.id}).then(res => {
 					that.questionList = res.result
@@ -246,13 +258,17 @@
 				})
 			},
 			beginTest() {
+				console.log('量表信息==========',this.reviewClass.classId)
+				console.log('this.reviewClass.charge==',this.reviewClass.charge)
+				console.log('this.reviewClass.charge===',this.reviewClass.charge)
+				console.log('this.reviewClass.buy===',this.reviewClass.buy)
 				if (!this.reviewClass) {
 					uni.showToast({
 					    title: "量表信息为空"
 					})
 				}
 				//量表是否收费
-				if(this.reviewClass.charge == 0 || (this.reviewClass.charge == 1 && this.reviewClass.buy)) {
+				if(this.reviewClass.charge == 0 || (this.reviewClass.charge == 1 && this.isPay == 1) || this.reviewClass.buy) {
 					//如果是栋梁测试，先跳转测评码输入页面
 					let dongliangClassId = '402880f082eecb960182eee3b1ef0001';
 					let dongliangClassProId = '2c9cff928408eab3018413a00d8a006a';
@@ -273,6 +289,16 @@
 					    title: "用户未购买"
 					})
 				}
+			},
+			isBuy(){
+				this.$apis.postIsPayCalendar({"classId":this.id}).then(res => {
+					if(res.code == 200 && res.result) {
+						this.isPay = 1
+					}
+				}).catch(err => {
+					that.loading = false;
+					console.log(JSON.stringify(err))
+				})
 			},
 		}
 	}

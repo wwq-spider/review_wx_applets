@@ -37,7 +37,8 @@
     "pages/expert/appointExpertDetail",
     "pages/order/reviewOrder",
     "pages/order/reviewOrderDetail",
-    "pages/order/appointExpertOrderDetail"
+    "pages/order/appointExpertOrderDetail",
+    "pages/expert/myAppoint"
   ],
   "subPackages": [],
   "window": {
@@ -54,20 +55,20 @@
       {
         "pagePath": "pages/index/indexNew",
         "text": "首页",
-        "iconPath": "static/shouye.png",
-        "selectedIconPath": "static/shouye.png"
+        "iconPath": "static/home-h.png",
+        "selectedIconPath": "static/home.png"
       },
       {
         "pagePath": "pages/review/listPage",
         "text": "服务",
-        "iconPath": "static/fangtan.png",
-        "selectedIconPath": "static/fangtan.png"
+        "iconPath": "static/service-h.png",
+        "selectedIconPath": "static/service.png"
       },
       {
         "pagePath": "pages/user/index",
         "text": "我的",
-        "iconPath": "static/wode.png",
-        "selectedIconPath": "static/wode.png"
+        "iconPath": "static/user-h.png",
+        "selectedIconPath": "static/user.png"
       }
     ]
   },

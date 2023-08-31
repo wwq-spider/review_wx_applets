@@ -44,25 +44,30 @@
 			</view>
 			<view class="counsel-bar"></view>
 			<view class="counsel-detail">
-				<view style="font-size: 30rpx;color: #000000;display: block;text-align: center;">
+				<!-- <view style="font-size: 30rpx;color: #000000;display: block;text-align: center;">
 					<u-tabs activeColor="#628D3D" :list="tabList" :current="current" @click="changeTab" @change="changeTab"></u-tabs>
-				</view>
+				</view> -->
 				<!-- 介绍 -->
-				<view v-if="current=='0'" class="counsel-detail-content">
+				<!-- <view v-if="current=='0'" class="counsel-detail-content"> -->
+				<view class="counsel-detail-content">
 					<p>{{calendarInfo.introduction}}</p>
-					<p style="font-weight: 700;margin: 10rpx 0;">{{'擅长领域'}}</p>
-					<p>{{expertFieldGroup+'等'}}</p>
+					<p style="font-weight: 700;margin: 10rpx 0;">{{'擅长领域：'}}</p>
+					<p v-if="expertFieldGroup == ''">{{'无'}}</p>
+					<p v-if="expertFieldGroup != ''">{{expertFieldGroup+'等'}}</p>
 				</view>
 				<!-- 预约时间 -->
-				<view v-if="current=='1'" class="counsel-detail-content">
+				<!-- <view v-if="current=='1'" class="counsel-detail-content"> -->
+				<view class="counsel-detail-content">
 					<view class="reservation-btn">
 						<span>
 							<image class="img-size" :src="isReservationFlag?'../../static/Ellipse 9.png':'../../static/Ellipse 10.png'"></image>
-							<span @click="reservationClick">{{'可预约'}}</span>
+							<!-- <span @click="reservationClick">{{'可预约'}}</span> -->
+							<span>{{'可预约'}}</span>
 						</span>
 						<span>
 							<image class="img-size" :src="isNoReservationFlag?'../../static/Ellipse 9.png':'../../static/Ellipse 10.png'"></image>
-							<span @click="noReservableClick">{{'不可预约'}}</span>
+							<!-- <span @click="noReservableClick">{{'不可预约'}}</span> -->
+							<span>{{'不可预约'}}</span>
 						</span>
 					</view>
 					<view style="width: 100%;display: block;float: inline-start;" v-for="(item, index1) in calendarListInfo" :key="index1">
@@ -97,11 +102,33 @@
 						name: '预约时间',
 					}
 				],
-				current:0,
+				//current:0,
 				expertId:"",
 				defaultCover: '../../static/default_cover.jpeg',
 			}
 		},
+		onShow() {
+			console.log('onShow方法执行了')
+			this.calendarListInfo.splice(0,this.calendarListInfo.length)
+			this.$apis.postListCalendarInfo({'expertId': this.id}).then(res => {
+				uni.hideLoading()
+				if (res.code == 200) {
+					res.result.forEach((row) => {
+						this.calendarListInfo.push(row)
+					})
+				} else {
+					uni.showToast({
+						title: res.msg
+					})
+				}
+			}).catch(err => {
+				uni.hideLoading()
+				console.log(err)
+			})
+		},
+		/* mounted() {
+			this.loadData();
+		}, */
 		onLoad(event) {
 			if(event.id){
 				this.id = event.id
@@ -152,7 +179,7 @@
 					console.log(err)
 				})
 				//查询咨询师日历
-				this.$apis.postListCalendarInfo({'expertId': this.id}).then(res => {
+				/* this.$apis.postListCalendarInfo({'expertId': this.id}).then(res => {
 					uni.hideLoading()
 					if (res.code == 200) {
 						res.result.forEach((row) => {
@@ -166,7 +193,7 @@
 				}).catch(err => {
 					uni.hideLoading()
 					console.log(err)
-				})
+				}) */
 			},
 			//预约咨询师
 			orderExpert(isChooseFlag,calendarId,visitDate,beginTime,endTime,expertName,mobilePhone){
@@ -236,18 +263,18 @@
 				})
 			},
 			// 可预约
-			reservationClick(){
+			/* reservationClick(){
 				this.isReservationFlag = true;
 				this.isNoReservationFlag = false;
-			},
+			}, */
 			// 不可预约
-			noReservableClick(){
+			/* noReservableClick(){
 				this.isReservationFlag = false;
 				this.isNoReservationFlag = true;
-			},
-			changeTab(index) {
+			}, */
+			/* changeTab(index) {
 			    this.current = index;
-			},
+			}, */
 			imageError() {
 				this.calendarInfo.avatar = this.defaultCover 
 			},
@@ -374,7 +401,7 @@
 	}
 	.counsel-detail-content{
 		font-size: 30rpx;
-		width: 80%;
+		width: 85%;
 		min-height: 400rpx;
 		background: rgba(215,233,230, 0.4);
 		border: 1rpx solid rgba(106,150,31,0.42);

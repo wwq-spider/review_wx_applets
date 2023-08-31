@@ -64,7 +64,9 @@
 		},
         methods: {
 			changeTab(index) {
+				console.log('导航栏切换了========',index)
 			    this.current = index;
+				getApp().globalData.switchId = index
 			},
 		},
     };

@@ -1,5 +1,6 @@
 <template>
-	<view class="bg-color">
+	<!-- <view class="bg-color"> -->
+	<view>
 		<camera device-position="front" @error="error" style="width: 0px; height: 0px" v-if="showCamera"></camera>
 		<view class="uLine-progress">
 			<view v-if="classCount > 0" style="text-align: center; color: #2fba2f; margin-bottom: 10px;">量表: {{firstfloorindex}}/{{classCount}}</view>

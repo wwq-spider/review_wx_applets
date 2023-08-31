@@ -25,6 +25,17 @@
 	color: #ffffff;
 	float:right
 }
+.have-buy-button{
+	width: 500rpx;
+	line-height: 80rpx;
+	background: #a9aeb0;
+	text-align: center;
+	font-size: 34rpx;
+	font-weight: 700;
+	border-radius: 20rpx;
+	color: #ffffff;
+	float:right
+}
 .question {
 	width: 100%;
 	background: #fff;

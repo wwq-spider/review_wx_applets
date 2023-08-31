@@ -131,8 +131,6 @@ page {
 }
 .img-tab {
   width: 100%;
-  display: flex;
-  justify-content: center;
   background: rgba(215, 233, 230, 0.4);
 }
 .tips {

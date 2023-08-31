@@ -43,7 +43,7 @@ page.data-v-63d6e756 {
 .savebutton.data-v-63d6e756 {
 	width: 622rpx;
 	line-height: 90rpx;
-	color: #594e3f;
+	color: #fff;
 	font-size: 32rpx;
 	font-weight: 700;
 	margin: 40rpx auto;
@@ -52,10 +52,9 @@ page.data-v-63d6e756 {
 	border-radius: 30rpx;
 }
 .msgbutton.data-v-63d6e756 {
-	width: 220rpx;
 	line-height: 70rpx;
-	color: #474747;
-	font-size: 21rpx;
+	color: #fff;
+	font-size: 22rpx;
 	font-weight: 700;
 	text-align: center;
 	background-color: #56ac00;

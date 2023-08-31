@@ -18,19 +18,19 @@
 		<view>
 			<view style="display: inline-flex;">
 				<p style="margin: 0 0 30rpx 30rpx;">订单合计：</p>
-				<p style="margin: 0 20rpx 10rpx 300rpx;color: #000000;">{{'￥'+ orderInfo.orderAmount }}</p>
+				<p style="margin: 0 20rpx 10rpx 230rpx;color: #000000;">{{'￥'+ orderInfo.orderAmount }}</p>
 			</view>
 			<view style="display: inline-flex;">
 				<p style="margin: 0 0 30rpx 30rpx;">实付款：</p>
-				<p style="margin: 0 20rpx 10rpx 330rpx;color: #000000;">{{'￥'+ orderInfo.orderAmount }}</p>
+				<p style="margin: 0 20rpx 10rpx 260rpx;color: #000000;">{{'￥'+ orderInfo.orderAmount }}</p>
 			</view>
 			<view style="display: inline-flex;">
 				<p style="margin: 0 0 30rpx 30rpx;">付款方式：</p>
-				<p style="margin: 0 20rpx 10rpx 300rpx; color: #000000;">{{'微信支付'}}</p>
+				<p style="margin: 0 20rpx 10rpx 230rpx; color: #000000;">{{'微信支付'}}</p>
 			</view>
 			<view style="display: inline-flex;">
 				<p style="margin: 0 0 30rpx 30rpx;">咨询时间：</p>
-				<p style="margin: 0 20rpx 10rpx 300rpx; color: #000000;">{{calendarInfo.visitDate + ' '}} {{calendarInfo.beginTime}}</p>
+				<p style="margin: 0 20rpx 10rpx 0; color: #000000;">{{calendarInfo.visitDate + ' '}} {{calendarInfo.beginTime}} {{'-' + calendarInfo.endTime}}</p>
 			</view>
 		</view>
 		
@@ -38,11 +38,11 @@
 		<view>
 			<view style="display: inline-flex;">
 				<p style="margin: 0 0 30rpx 30rpx;">订单编号:</p>
-				<p>{{orderInfo.orderNo}}</p>
+				<p style="margin: 0 20rpx 10rpx 0;">{{orderInfo.orderNo}}</p>
 			</view>
 			<view style="display: inline-flex;">
 				<p style="margin: 0 0 30rpx 30rpx;">支付时间:</p>
-				<p>{{orderInfo.payTime}}</p>
+				<p style="margin: 0 20rpx 10rpx 0;">{{orderInfo.payTime}}</p>
 			</view>
 		</view>
 	</view>

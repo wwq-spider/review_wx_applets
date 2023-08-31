@@ -49,25 +49,22 @@ page.data-v-5ec33134 {
 .savebutton.data-v-5ec33134 {
 	width: 622rpx;
 	line-height: 90rpx;
-	color: #594e3f;
+	color: #fff;
 	font-size: 32rpx;
 	font-weight: 700;
 	margin: 40rpx auto;
 	text-align: center;
-	/* background: url(../../static/background.png) no-repeat 50%/100%; */
 	background-color: #3d7a00;
-	/* box-shadow: 0 30rpx 0 -10rpx #b3b3b3; */
+	border-radius: 30rpx;
 }
 .msgbutton.data-v-5ec33134 {
 	width: 160rpx;
 	line-height: 70rpx;
-	color: #594e3f;
-	font-size: 21rpx;
-	font-weight: 700;
-	/* margin: 10rpx auto; */
+	color: #fff;
+	font-size: 22rpx;
+	font-weight: 500;
 	text-align: center;
 	background-color: #628D3D;
-	/* margin-bottom: 10px;*/
 	float: right;
 }
 

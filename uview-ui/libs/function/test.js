@@ -13,6 +13,13 @@ function mobile(value) {
 }
 
 /**
+ * 验证年龄格式
+ */
+function age(value) {
+	return /^(?:[1-9]?\d|199)$/.test(value)
+}
+
+/**
  * 验证URL格式
  */
 function url(value) {
@@ -208,6 +215,7 @@ function code(value, len = 6) {
 export default {
 	email,
 	mobile,
+	age,
 	url,
 	date,
 	dateISO,

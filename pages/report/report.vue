@@ -13,7 +13,7 @@
 				<view class="title">测评得分：</view>
 				<view class="_subtitle">{{reviewResult.gradeTotal}}</view>
 			</view> -->
-			<view v-if="reportTips != ''">
+			<view v-if="reportTips != '' && reportTips != null">
 				<uni-card :is-shadow="false" is-full>
 					<text class="uni-h6">{{reportTips}}</text>
 				</uni-card>
@@ -59,7 +59,8 @@
 				},
 				reportTips: '',
 				reportTemplateList: [],
-				limitId:0
+				limitId:0,
+				classId:'',
 			}
 		},
 		onUnload(options) {
@@ -96,6 +97,9 @@
 			if(option.limitId) {
 				this.limitId = option.limitId
 			}
+			if(option.classId) {
+				this.classId = option.classId
+			}
 			let resultId = option.resultId
 			let classId = option.classId
 			let that = this
@@ -103,6 +107,7 @@
 			this.$apis.postReportTemplateList({"classId": classId}).then(res => {
 				if(res.code == 200) {
 					that.reportTips = res.result.reportTips
+					console.log('报告提示语：===============',that.reportTips)
 					that.reportTemplateList = res.result.reportTemplateList
 				} else {
 					uni.showToast({
@@ -198,7 +203,11 @@
 				});
 			},
 			restart(){
-				uni.switchTab({
+				//跳转到当前量表
+				uni.navigateTo({
+					url: '/pages/report/guide?classId=' + this.classId
+				})
+				/* uni.switchTab({
 					url:  '/pages/index/indexNew',
 					success(res) {
 						console.log(res)
@@ -206,7 +215,7 @@
 					fail(err) {
 						console.log(err)
 					}
-				});
+				}); */
 			}
 		}
 	}
@@ -339,7 +348,7 @@
 	.savebutton {
 		width: 622rpx;
 		line-height: 80rpx;
-		color: #594e3f;
+		color: #ffffff;
 		font-size: 32rpx;
 		font-weight: 700;
 		margin: 40rpx auto;

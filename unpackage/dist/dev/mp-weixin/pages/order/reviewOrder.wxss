@@ -79,7 +79,7 @@
 .classNum.data-v-38f5a7ec {
   text-align: center;
   font-size: 30rpx;
-  margin: 70rpx 10rpx 0 0;
+  margin: 70rpx 50rpx 0 0;
   float: right;
   display: inline-flex;
 }
@@ -102,6 +102,17 @@
   width: 400rpx;
   line-height: 80rpx;
   background: #628D3D;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: 700;
+  border-radius: 20rpx;
+  color: #ffffff;
+  float: right;
+}
+.have-buy-button.data-v-38f5a7ec {
+  width: 500rpx;
+  line-height: 80rpx;
+  background: #a9aeb0;
   text-align: center;
   font-size: 34rpx;
   font-weight: 700;

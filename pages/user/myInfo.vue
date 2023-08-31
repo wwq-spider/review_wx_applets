@@ -20,7 +20,7 @@
 					<u-form-item label="手机号" prop="mobilePhone" len="11" required label-width="140" border-bottom>
 						<view style="display: flex; justify-content: space-around; flex-flow: wrap row; width: 100%;">
 							<u-input v-model="form.mobilePhone" placeholder="请输入手机号" style="width: 60%;"/>
-							<button  :disabled="isLock" class="msgbutton" @click="sendMsg()" style="width: 35%;">{{msgVerCode}}</button>
+							<button  :disabled="isLock" class="msgbutton" @click="sendMsg()" style="width: 38%;">{{msgVerCode}}</button>
 						</view>
 					</u-form-item>
 					<u-form-item label="验证码" prop="msgCode" label-width="140" border-bottom>
@@ -208,7 +208,7 @@
 					uni.hideLoading()
 					if (res.code == 200) { //注册成功
 						that.form.msgCode = ''
-						that.form.userId = res.result //用户id赋值
+						that.form.userId = res.result.userId //用户id赋值
 						uni.setStorageSync('userData', that.form)
 						uni.switchTab({
 							url: "/pages/user/index"
@@ -312,7 +312,7 @@
 	.savebutton {
 		width: 622rpx;
 		line-height: 90rpx;
-		color: #594e3f;
+		color: #fff;
 		font-size: 32rpx;
 		font-weight: 700;
 		margin: 40rpx auto;
@@ -321,10 +321,9 @@
 		border-radius: 30rpx;
 	}
 	.msgbutton {
-		width: 220rpx;
 		line-height: 70rpx;
-		color: #474747;
-		font-size: 21rpx;
+		color: #fff;
+		font-size: 22rpx;
 		font-weight: 700;
 		text-align: center;
 		background-color: #56ac00;

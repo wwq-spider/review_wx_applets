@@ -3,7 +3,7 @@
 		<!-- 刷新页面后的顶部提示框 -->
 		<view class="tips" :class="{ 'tips-ani': tipShow }">上拉刷新...</view>
 		<view class="img-tab">
-			<u-tabs :list="tabList" :current="current" @click="changeTab" @change="changeTab"></u-tabs>
+			<u-tabs :list="tabList" :current="current" :scrollable="false" @click="changeTab" @change="changeTab"></u-tabs>
 	    </view>
 		<view class="question" v-for="(consultationInfo, index) in consultationList"  :key="index">
 			<view class="questionr">
@@ -32,7 +32,9 @@
 					name: '待开始(0)',
 				}, {
 					name: '已完成(0)'
-				}, {
+				},{
+					name: '已取消(0)'
+				},{
 					name: '全部(0)'
 				}],
 				bodyShow: true, // 页面显示
@@ -54,13 +56,17 @@
 					this.tipShow  = false
 					uni.hideLoading()
 					that.consultationList = []
+					let undoneCount = 0
 					if (res.code == 200) {
 						console.log(res.result)
 						res.result.forEach((row) => {
 							that.consultationList.push(row)
+							this.tabList[0].name = '待付款(' + row.obligationCount + ')'
+							this.tabList[1].name = '待开始(' + row.toBeginCount + ')'
+							this.tabList[2].name = '已完成(' + row.completedCount + ')'
+							this.tabList[3].name = '已取消(' + row.cancle + ')'
 						})
-						this.tabList[2].name = '已完成(' + that.consultationList.length + ')'
-						this.tabList[3].name = '全部(' + that.consultationList.length + ')'
+						this.tabList[4].name = '全部(' + that.consultationList.length + ')'
 					} else {
 						uni.showToast({
 							title: res.msg
@@ -102,8 +108,8 @@
 	}
 	.img-tab{
 		width:100%;
-		display: flex;
-		justify-content: center;
+		//display: flex;
+		//justify-content: center;
 		background: rgba(215,233,230,0.4);
 	}
 	.tips {

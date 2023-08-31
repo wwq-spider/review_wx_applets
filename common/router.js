@@ -83,6 +83,7 @@ router.beforeEach((to, from, next) => {
 			next()
 		} else {
 			userCheck.checkLogin(function(userData){
+				console.log('检查登录路由结束后==========',userData)
 				//跳转页面
 				if (userData && userData.mobilePhone) {
 					//1.保存用户信息

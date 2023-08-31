@@ -3,7 +3,6 @@
   "navigationBarTitleText": "咨询师详情",
   "usingComponents": {
     "u-row": "/uview-ui/components/u-row/u-row",
-    "u-col": "/uview-ui/components/u-col/u-col",
-    "u-tabs": "/uview-ui/components/u-tabs/u-tabs"
+    "u-col": "/uview-ui/components/u-col/u-col"
   }
 }

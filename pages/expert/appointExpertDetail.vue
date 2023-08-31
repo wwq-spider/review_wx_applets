@@ -28,7 +28,7 @@
 			<view>
 				<view style="display: inline-flex;">
 					<p style="margin: 0 0 30rpx 40rpx;">需支付咨询费</p>
-					<p style="margin: 0 20rpx 10rpx 400rpx;color: #ff0000;">{{'￥'+ calendarInfo.realPrice }}</p>
+					<p style="margin: 0 20rpx 10rpx 360rpx;color: #ff0000;">{{'￥'+ calendarInfo.realPrice }}</p>
 				</view>
 			</view>
 			<view style="width: 100%; height: 20rpx;margin: 20rpx 0;background-color: rgba(237,237,237,0.4);"></view>
@@ -43,12 +43,15 @@
 			</view>
 		</view>
 		<view>
-			<view class="tabbar-bottom">
+			<view v-if="isPay == 0" class="tabbar-bottom">
 				<span style="display: inline-flex;">
 					<p style="margin-left: 20rpx;">你需要支付：</p>
 					<p style="color: #ff0000; font-size: 34rpx;">{{'￥'+calendarInfo.realPrice}}</p>
 				</span>
 				<span class="buy-button" @click="buy">{{'提交订单'}}</span>
+			</view>
+			<view v-if="isPay == 1" class="tabbar-bottom">
+				<span class="have-buy-button">{{'已支付'}}</span>
 			</view>
 			<view class="popup-container">
 					<uni-popup style="width:100%" ref="popup" type="bottom" @change="change">
@@ -85,7 +88,16 @@
 				mobilePhone:"",
 				defaultCover: '../../static/default_cover.jpeg',
 				avatar:"",
+				payStatus:0,
+				isPay:0,
 			}
+		},
+		onShow() {
+			var isBuy = uni.getStorageSync('isBuy')
+			if(isBuy) {
+				this.isPay = 1
+			}
+			uni.removeStorageSync('isBuy')
 		},
 		onLoad(event) {
 			if(event.expertName){
@@ -158,6 +170,7 @@
 								    title: "购买成功",
 									icon: "success"
 								})
+								uni.setStorageSync('isBuy',true)
 								that.cancleOrder()
 								that.loading = false;
 							} else {
@@ -177,6 +190,8 @@
 											    title: "支付成功",
 												icon: "success"
 											})
+											that.payStatus = 1
+											uni.setStorageSync('isBuy',true)
 										} else {
 											uni.showToast({
 											    title: "支付发起失败"
@@ -185,38 +200,39 @@
 								    },
 								    fail: (res) => {
 								        uni.showModal({
-								            content: "支付失败,原因为: " + res.errMsg,
+								            content: "支付失败",
 								            showCancel: false,
 								        })
 								    },
 								    complete: () => {
 										that.cancleOrder()
 								        that.loading = false;
-										console.log('支付成功')
-										this.appoint()
-										uni.navigateTo({
-											url: '/pages/order/appointExpertOrderDetail?payId=' + preOrder.prePayID + '&id='+this.calendarId
-										})
+										if(that.payStatus == 1){
+											this.appoint()
+											uni.navigateTo({
+												url: '/pages/order/appointExpertOrderDetail?payId=' + preOrder.prePayID + '&id='+this.calendarId
+											})
+										}
 								    }
 								})
 							}
 						} else {
 							that.loading = false;
-							that.cancel()
+							that.cancleOrder()
 							uni.showToast({
 								title: res.msg
 							})
 						}
 					} else {
 						that.loading = false;
-						that.cancel()
+						that.cancleOrder()
 						uni.showToast({
 							title: res.msg
 						})
 					}
 				}).catch(err => {
 					that.loading = false;
-					that.cancel()
+					that.cancleOrder()
 					uni.hideLoading()
 					console.log(JSON.stringify(err))
 				})
@@ -341,6 +357,17 @@
 		width: 400rpx;
 		line-height: 80rpx;
 		background: #628D3D;
+		text-align: center;
+		font-size: 34rpx;
+		font-weight: 700;
+		border-radius: 20rpx;
+		color: #ffffff;
+		float:right
+	}
+	.have-buy-button{
+		width: 500rpx;
+		line-height: 80rpx;
+		background: #a9aeb0;
 		text-align: center;
 		font-size: 34rpx;
 		font-weight: 700;

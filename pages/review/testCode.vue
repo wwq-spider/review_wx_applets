@@ -6,33 +6,30 @@
  					<u-form-item label="测评码" prop="evalCode" required label-width="140" border-bottom>
  						<u-input v-model="form.evalCode" placeholder="无测评码？请点击立即购买"/>
  					</u-form-item>
-					<view class="paybutton" @click="evalCodeBuy">立即购买</view>
+					<view style="display: block;">
+						<view><p style="font-size: 24rpx;">{{'测评码价格：￥' + price}}</p></view>
+						<view class="paybutton" @click="evalCodeBuy">立即购买</view>
+					</view>
 					<view style="font-size: 28rpx; margin-top: 20rpx; color: #757575;"><text>可在我的商品中查看已购买的测评码</text></view>
  				</u-form>
 				<view class="savebutton" @click="submit">下一步</view>
  			</view>
- 		</view>
-		
-		<uni-popup ref="showPayConfirm" @change="change">
-			<!-- <text style="color: #628D3D;">暂不支持购买</text> -->
-			<!-- <view class="uni-tip">
-				<text class="uni-tip-title">购买确认</text>
-				<text class="uni-tip-content">测评码购买</text>
-				<text class="uni-tip-content iconfont" style="color: #dc7a54;">价格：&#xe606;{{price}}</text>
-				<view class="uni-tip-group-button">
-					<button class="uni-tip-button" style="margin-right: 30px; background-color: #b7b5b2;" @click="cancel()">取消</button>
-					<button class="uni-tip-button" @click="confirmBuy()" :loading="loading">确定</button>
-				</view>
-			</view> -->
-			<view class="uni-tip">
-				<text class="uni-tip-title">购买确认</text>
-				<text class="uni-tip-content">暂不支持购买</text>
-				<view class="uni-tip-group-button">
-					<button class="uni-tip-button" style="margin-right: 30px; background-color: #b7b5b2;" @click="cancel()">取消</button>
-					<button class="uni-tip-button" @click="confirmBuy1()" :loading="loading">确定</button>
-				</view>
+			<view class="popup-container">
+				<uni-popup style="width:100%" ref="popup" type="bottom" @change="change">
+					<view style="background-color: #eaeaea;padding: 10px;width:100%;height: 600rpx;margin-top: 300rpx;">
+						<view style="font-size: 35rpx;text-align: center;">{{'确认支付'}}</view>
+						<view style="font-size: 32rpx;margin: 30rpx 20rpx 50rpx 10rpx;">{{'支付方式：微信支付'}}</view>
+						<view style="font-size: 32rpx;margin: 30rpx 20rpx 50rpx 10rpx;display: inline-flex;">
+							<p>{{'支付金额：￥0.1'}}</p>
+						</view>
+						<view style="display: inline-flex;">
+							<view class="cancle-button" @click="cancleOrder">{{'取消'}}</view>
+							<view class="submit-button" @click="submitOrder">{{'立即支付'}}</view>
+						</view>
+					</view>
+				</uni-popup>	
 			</view>
-		</uni-popup>
+ 		</view>
 		
 		<view class="notefont">
 			<text>测评技术支持：北京心智栋梁教育科技有限公司</text>
@@ -73,7 +70,7 @@
  				isLock: false,
  				codeBtnColor: "#ede3cb",
 				evalCodeTemp:"",
-				price:""
+				price:0
  			}
  		},
  		methods: {
@@ -82,16 +79,13 @@
 				let that = this
 				this.$apis.postEvalPrice().then(res => {
 					if(res.code == 200){
-						this.price = res.price
+						this.price = res.result.price
 					}
 				})
 			},
 			
-			evalCodeBuy() {
-				this.$nextTick(() => {
-					this.$refs.showPayConfirm.open("center")
-				})
-				//this.$refs.showPayConfirm.open()
+			evalCodeBuy() {	
+				this.$refs.popup.open("bottom")
 			},
  			
  			submit() {
@@ -118,29 +112,27 @@
 			change(e) {
 				console.log('是否打开:' + e.show)
 			},
-			confirmBuy1() {
-				this.$refs.showPayConfirm.close()
+			cancleOrder() {
+				this.$refs.popup.close()
 			},
-			confirmBuy() {
+			submitOrder() {
 				uni.showLoading({
 					title: "数据加载中"
 				})
 				
 				//先获取测评码
 				this.$apis.postGetEvalCode().then(res => {
-					console.log("获取测评码：",res.code)
 					if(res.code == 200){
 						let that = this
 						this.loading = true
-						this.evalCodeTemp = res.evalCode
-						this.$apis.postEvalCodePrePayOrder({"classId": res.evalCode,"orgAmount":that.price}).then(res => {
+						this.evalCodeTemp = res.result
+						this.$apis.postEvalCodePrePayOrder({"classId": res.result,"orderAmount":that.price}).then(res => {
 							uni.hideLoading()
 							if(res.code == 200) {
-								let preOrder = res.data
-								console.log('签名:',preOrder.paySign)
+								let preOrder = res.result
+								console.log('preOrder========',preOrder)
 								if(preOrder && preOrder.prePayID) {
 									if(preOrder.prePayID == "000") {
-										
 										uni.showToast({
 										    title: "购买成功",
 											icon: "success"
@@ -156,6 +148,7 @@
 										    signType: 'MD5',
 										    paySign: preOrder.paySign,
 										    success: (res) => {
+												console.log('===============',res)
 												if(res && res.errMsg == "requestPayment:ok") {
 													//更新订单状态
 													that.$apis.postUpdOrderStatus({"payId": preOrder.prePayID, "status": 2, "orderAmount": that.price}).then(res => {
@@ -176,37 +169,37 @@
 												}
 										    },
 										    fail: (res) => {
-										        uni.showModal({
-										            content: "支付失败,原因为: " + res.errMsg,
-										            showCancel: false,
-										        })
+												uni.showModal({
+												    content: "支付失败",
+												    showCancel: false,
+												})
 												that.$apis.postUpdateEvalCodeStock({"evalCode": this.evalCodeTemp}).then(res => {
 													console.log(JSON.stringify(res))
 												})
 										    },
 										    complete: () => {
-												that.cancel()
+												that.cancleOrder()
 										        that.loading = false;
 										    }
 										})
 									}
 								} else {
 									that.loading = false;
-									that.cancel()
+									that.cancleOrder()
 									uni.showToast({
-										title: res.msg
+										title: '支付失败'
 									})
 								}
 							} else {
 								that.loading = false;
-								that.cancel()
+								that.cancleOrder()
 								uni.showToast({
-									title: res.msg
+									title: '支付失败'
 								})
 							}
 						}).catch(err => {
 							that.loading = false;
-							that.cancel()
+							that.cancleOrder()
 							uni.hideLoading()
 							console.log(JSON.stringify(err))
 						})
@@ -220,9 +213,6 @@
 				})
 				
 			},
-			cancel() {
-				this.$refs.showPayConfirm.close()
-			}
  		}
  	}
  </script>
@@ -233,7 +223,7 @@
  	}
  
  	.roundcenter {
- 		width: 686rpx;
+ 		width: 100%;
  		margin: 60rpx auto 0 auto;
  		background: #ffffff;
  		border: 1px solid #628D3D;
@@ -250,12 +240,13 @@
  	.savebutton {
  		width: 622rpx;
  		line-height: 90rpx;
- 		color: #594e3f;
+ 		color: #fff;
  		font-size: 32rpx;
  		font-weight: 700;
  		margin: 40rpx auto;
  		text-align: center;
  		background-color: #628D3D;
+		border-radius: 30rpx;
  	}
 	.notefont {
 		text-align: center;
@@ -278,31 +269,34 @@
 
 	}
 	.paybutton {
-		width: 25%;
+		width: 22%;
 		line-height: 60rpx;
 		color: #fff;
 		font-size: 30rpx;
 		font-weight: 600;
-		/* margin: 100rpx auto; */
 		text-align: center;
-		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
 		background-color: #628D3D;
 		border-radius: 6px !important;
+		margin: -44rpx 10rpx 0 286rpx;
+	}
+	
+	.uniPopupStyle {
+		position: absolute;
+		display: block;
+		top: 50%;
 	}
 	
 	/* 提示窗口 */
 	.uni-tip {
 		display: flex;
 		flex-direction: column;
-		/* align-items: center; */
+		align-items: center;
 		justify-content: center;
-		padding: 15px;
-		width: 130%;
-		background-color: #e6e3e3;
+		padding: 5%;
+		width: 80%;
+		background-color: #dcdcdc;
 		border-radius: 10px;
-		buttom: 100px;
-		left: 50%;
-		top: 50%;
+		margin: 0 5%;
 	}
 	.uni-tip-title {
 		margin-bottom: 10px;
@@ -323,13 +317,42 @@
 		flex-direction: row;
 		margin-top: 20px;
 	}
-	
 	.uni-tip-button {
 		flex: 1;
 		text-align: center;
 		font-size: 14px;
 		color: #fff;
-		background-color:  #628D3D;
+		background-color: #e6a23c;;
+	}
+	.popup-container{
+		position: absolute;
+		z-index: 1000;
+		width: 100%;
+	}
+	.cancle-button {
+		width: 300rpx;
+		line-height: 80rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 34rpx;
+		font-weight: 700;
+		border-radius: 20rpx;
+		color: #ffffff;
+		margin-top: 150rpx;
+		margin-left: 10rpx;
+	}
+	.submit-button{
+		width: 300rpx;
+		line-height: 80rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 34rpx;
+		font-weight: 700;
+		border-radius: 20rpx;
+		color: #ffffff;
+		margin-top: 150rpx;
+		margin-left: 100rpx;
+			
 	}
 
  </style>

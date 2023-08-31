@@ -48,7 +48,7 @@
 	export default {
 		data() {
 			return {
-				reviewClassList:[
+				/* reviewClassList:[
 					{
 						classId:'111',
 						title:'3434',
@@ -56,7 +56,7 @@
 						jobTitle:'jjjj',
 						label:'7878'
 					}
-				], 
+				], */
 				expertList: [],// 咨询师列表
 				defaultCover: '../../static/default_cover.jpeg',
 				searchValue: "",
@@ -83,7 +83,7 @@
 					console.log(err)
 				})
 				//查询分类
-				this.$apis.postReviewClass().then(res => {
+				/* this.$apis.postReviewClass().then(res => {
 					if (res.code == 200) {
 						res.result.forEach((row) => {
 							that.reviewClassList.push(row)
@@ -91,7 +91,7 @@
 					}
 				}).catch(err => {
 					console.log(err)
-				})
+				}) */
 			},
 			imageError() {
 				this.expertInfo.avatar = this.defaultCover 

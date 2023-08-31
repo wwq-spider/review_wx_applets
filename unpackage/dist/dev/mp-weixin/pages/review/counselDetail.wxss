@@ -117,7 +117,7 @@
 }
 .counsel-detail-content{
 	font-size: 30rpx;
-	width: 80%;
+	width: 85%;
 	min-height: 400rpx;
 	background: rgba(215,233,230, 0.4);
 	border: 1rpx solid rgba(106,150,31,0.42);

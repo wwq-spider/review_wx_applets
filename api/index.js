@@ -115,6 +115,10 @@ export const postBeGoodAtList = (data) => http.post(`${config.baseUrl}/reviewFro
 export const postExpertListByLike = (data) => http.post(`${config.baseUrl}/reviewFront/appointExpert/listByLike`,data)
 //查询订单详情
 export const postReviewOrderDetail = (data) => http.post(`${config.baseUrl}/reviewFront/order/getReviewOrderDetail`,data)
+//咨询预约-查询是否支付
+export const postIsPayCalendar = (data) => http.post(`${config.baseUrl}/reviewFront/order/getIsPayCalendar`,data)
+//量表题目数量
+export const postQuestionsNum = (data) => http.post(`${config.baseUrl}/reviewFront/reviewClass/getQuestionsNum`,data)
 
 /* //创建预约腾讯会议
 export const postCreateTXMeeting = (data) => http.post(`${config.baseUrl}/reviewFront/meeting/creatMeeting`, data) */

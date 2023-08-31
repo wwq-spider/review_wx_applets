@@ -8,7 +8,7 @@
 					</u-form-item>
 					<u-form-item label="性别" prop="sex" required label-width="140" border-bottom>
 						<u-radio-group v-model="form.sex">
-							<u-radio active-color="#55aaff" v-for="(item, index) in sexList" :key="item.code"
+							<u-radio active-color="#628D3D" v-for="(item, index) in sexList" :key="item.code"
 								:name="item.code" :disabled="item.disabled">
 								{{ item.name }}
 							</u-radio>
@@ -62,6 +62,7 @@
 			if (option.toPath) {
 				this.toPath = decodeURIComponent(option.toPath)
 			}
+			console.log('=========toPath--------',this.toPath)
 			this.projectId = option.projectId
 			let userData = uni.getStorageSync('userData')
 			if (userData && userData.mobilePhone) {
@@ -136,11 +137,21 @@
 						message: '请选择性别',
 						trigger: ['change', 'blur']
 					}],
-					age: [{
-						required: true,
-						message: '请输入年龄',
-						trigger: ['change', 'blur']
-					}],
+					age: [
+						{
+							required: true,
+							message: '请输入年龄',
+							trigger: ['change', 'blur']
+						},
+						{
+							validator: (rule, value, callback) => {
+								return this.$u.test.age(value);
+							},
+							message: '年龄不正确',
+							// 触发器可以同时用blur和change
+							trigger: ['change', 'blur'],
+						}
+					],
 					msgCode: [{
 						required: true,
 						message: '请输入短信验证码',
@@ -188,7 +199,7 @@
 				if (!this.form.mobilePhone || !this.$u.test.mobile(this.form.mobilePhone)) {
 					uni.showToast({
 						icon: 'fail',
-						title: '手机号为空或格式不正确'
+						title: '手机号为空或格式不正确',
 					})
 					return
 				}
@@ -242,9 +253,18 @@
 				}
 			},
 			toOrgPath(toPath) {
-				uni.redirectTo({
+				/* uni.redirectTo({
 					url: decodeURIComponent(toPath)
-				})
+				}) */
+				uni.switchTab({
+					url: toPath,
+					success(res) {
+						console.log(res);
+					},
+					fail(err) {
+						console.log(err);
+					}
+				});
 			},
 			toIndex(projectId) {
 				uni.switchTab({
@@ -271,10 +291,8 @@
 						that.form.userId = res.result //用户id赋值
 						uni.setStorageSync('userData', that.form)
 						if (that.toPath && that.toPath != "" && that.toPath != "/pages/index/indexNew") {
-							console.log("that.toPath====" + that.toPath)
 							that.toOrgPath(that.toPath)
 						} else {
-							console.log("that.toIndex======")
 							that.toIndex(that.projectId)
 						}
 					} else { //注册失败
@@ -289,6 +307,51 @@
 				})
 			},
 			submit() {
+				if(!this.secrecy) {
+					uni.showToast({
+						title: "请选择同意用户隐私协议",
+						icon:"none"
+					})
+					return 
+				}
+				console.log('开始提交')
+				let that = this
+				uni.showLoading({
+					title: '信息提交中'
+				})
+				this.$refs.uForm.validate(valid => {
+					if (valid) {
+						let openid = uni.getStorageSync("openid")
+						if(openid && openid != "") {
+							this.form.openid = openid
+							that.postLogin()
+						} else {
+							uni.login({
+								provider: 'weixin',
+								success(login) {
+									console.log(login);
+									that.$apis.postGetOpenid({"code": login.code}).then(res => {
+										if (res.code == 200) {
+											that.form.openid = res.result
+											uni.setStorageSync("openid", res.result)
+											that.postLogin()
+										} else {
+											uni.showToast({
+												title: res.msg,
+												icon: "error",
+												duration: 3000
+											})
+										}
+									})
+								}
+							})
+						}
+					} else {
+						console.log('验证失败');
+					}
+				});
+			}
+			/* submit() {
 				if(!this.secrecy) {
 					uni.showToast({
 						title: "请选择同意用户隐私协议",
@@ -348,7 +411,7 @@
 						console.log('验证失败');
 					}
 				});
-			}
+			} */
 		},
 		onReady() {
 			this.$refs.uForm.setRules(this.rules);
@@ -416,25 +479,22 @@
 	.savebutton {
 		width: 622rpx;
 		line-height: 90rpx;
-		color: #594e3f;
+		color: #fff;
 		font-size: 32rpx;
 		font-weight: 700;
 		margin: 40rpx auto;
 		text-align: center;
-		/* background: url(../../static/background.png) no-repeat 50%/100%; */
 		background-color: #3d7a00;
-		/* box-shadow: 0 30rpx 0 -10rpx #b3b3b3; */
+		border-radius: 30rpx;
 	}
 	.msgbutton {
 		width: 160rpx;
 		line-height: 70rpx;
-		color: #594e3f;
-		font-size: 21rpx;
-		font-weight: 700;
-		/* margin: 10rpx auto; */
+		color: #fff;
+		font-size: 22rpx;
+		font-weight: 500;
 		text-align: center;
 		background-color: #628D3D;
-		/* margin-bottom: 10px;*/
 		float: right;
 	}
 </style>

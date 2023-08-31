@@ -35,15 +35,15 @@
 			<view style="background: #ffffff;min-height: 200rpx;">
 				<view style="font-size: 28rpx;color: #000000;display: block;text-align: center;">{{'咨询须知'}}</view>
 				<view style="font-size: 24rpx;width: 85%;min-height: 150rpx;background: rgba(215,233,230, 0.4);border: 1rpx solid rgba(106,150,31,0.42);margin: 20rpx auto;padding: 20rpx;color: #555555;">
-					<p>{{'1、咨询开始前24小时内概不退款，'}}</p>
-					<p>{{'2、咨询开始24小时前可随时取消预约;'}}</p>
-					<p>{{'3、咨询前15分钟可进去“咨询室”等待咨询师;'}}</p>
-					<p>{{'4、咨询期间中断可在咨询时间段内再次进入，'}}</p>
+					<p>{{'1、咨询开始前24小时内概不退款；'}}</p>
+					<p>{{'2、咨询开始24小时前可随时取消预约；'}}</p>
+					<p>{{'3、咨询前15分钟可进去“咨询室”等待咨询师；'}}</p>
+					<p>{{'4、咨询期间中断可在咨询时间段内再次进入。'}}</p>
 				</view>
 			</view>
 		</view>
 		<view>
-			<view class="tabbar-bottom" v-if="consultationDetail.status == '1' && consultationDetail.buy!=true">
+			<view class="tabbar-bottom" v-if="consultationDetail.isCancle == '1'">
 				<span class="buy-button" @click="cancelReservation">{{'取消预约'}}</span>
 			</view>
 		</view>
@@ -59,7 +59,8 @@
 				parentOpenid: '',
 				openid: '',
 				localtionPlatform: '',
-				defaultCover: '../../static/man.png',
+				//defaultCover: '../../static/man.png',
+				defaultCover: '../../static/default_cover.jpeg',
 				buyBtnText: "立即支付",
 				videoConsult:'',
 				isConfirmByExpert:''
@@ -134,7 +135,7 @@
 				})
 			},
 			imageError() {
-				this.calendarInfo.avatar = this.defaultCover 
+				this.consultationDetail.avatar = this.defaultCover 
 			},
 		}
 	}

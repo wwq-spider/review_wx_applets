@@ -26,6 +26,11 @@
 				<text style="padding-left: 10px;">我的咨询</text>
 				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
 			</view>
+			<view v-if="isExpert==true" @click="toPage('/pages/expert/myAppoint')" class="user-item">
+				<image class="img-icon" src="../../static/icons8-lab-coat-48 1.png"></image>
+				<text style="padding-left: 10px;">我的预约</text>
+				<image class="icon-back" src="../../static/icons8-back-48 1.png"></image>
+			</view>
 			<view @click="toPage('/pages/user/myCourse')" class="user-item">
 				<image class="img-icon" src="../../static/icons8-school-48 1.png"></image>
 				<text style="padding-left: 10px;">我的课程</text>
@@ -104,7 +109,8 @@
 			}
 			//判断是否为专家
 			this.$apis.postIsExpert({'mobilePhone': userData.mobilePhone}).then(res => {
-				if(res.code == 200 && res.isExpert == true){
+				console.log('判断是否为专家=======',res)
+				if(res.code == 200 && res.result == true){
 					that.isExpert = true
 				}
 			}).catch(err => {

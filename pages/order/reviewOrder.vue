@@ -32,13 +32,15 @@
 			</view>
 		</view> -->
 		<view>
-			<view class="tabbar-bottom">
+			<view v-if="isPay == 0" class="tabbar-bottom">
 				<span style="display: inline-flex;">
 					<p style="margin-left: 20rpx;">你需要支付：</p>
 					<p style="color: #ff0000; font-size: 34rpx;">{{'￥'+reviewInfo.realPrice}}</p>
 				</span>
 				<span class="buy-button" @click="buy">{{'提交订单'}}</span>
-			
+			</view>
+			<view v-if="isPay == 1" class="tabbar-bottom">
+				<span class="have-buy-button">{{'已支付'}}</span>
 			</view>
 			<view class="popup-container">
 					<uni-popup style="width:100%" ref="popup" type="bottom" @change="change">
@@ -67,10 +69,20 @@
 			return {
 				reviewInfo: {},
 				show: false,
-				showPopup:false
+				showPopup:false,
+				payStatus:0,
+				isPay:0,
 			}
 		},
+		onShow() {
+			var isBuy = uni.getStorageSync('isBuy')
+			if(isBuy) {
+				this.isPay = 1
+			}
+			uni.removeStorageSync('isBuy')
+		},
 		onLoad(event) {
+			console.log('是否执行了onload')
 			var data = uni.getStorageSync('reviewClass')
 			this.reviewInfo = data
 			uni.removeStorageSync('reviewClass')
@@ -103,6 +115,7 @@
 								    title: "购买成功",
 									icon: "success"
 								})
+								uni.setStorageSync('isBuy',true)
 								that.cancleOrder()
 								that.loading = false;
 								this.beginTest()
@@ -115,15 +128,18 @@
 								    paySign: preOrder.paySign,
 								    success: (res) => {
 										if(res && res.errMsg == "requestPayment:ok") {
+											console.log('进入更新订单状态')
 											that.reviewInfo.buy = true
 											//更新订单状态
 											that.$apis.postUpdOrderStatus({"payId": preOrder.prePayID, "status": 2, "orderAmount": that.reviewInfo.realPrice}).then(res => {
-												console.log(JSON.stringify(res))
+												console.log('更新订单状态返回：=====',JSON.stringify(res))
 											})
 											uni.showToast({
 											    title: "支付成功",
 												icon: "success"
 											})
+											that.payStatus = 1
+											uni.setStorageSync('isBuy',true)
 										} else {
 											uni.showToast({
 											    title: "支付发起失败"
@@ -132,18 +148,23 @@
 								    },
 								    fail: (res) => {
 								        uni.showModal({
-								            content: "支付失败,原因为: " + res.errMsg,
+								            content: "支付失败",
 								            showCancel: false,
 								        })
 								    },
-								    complete: () => {
+									complete: () => {
 										that.cancleOrder()
-								        that.loading = false;
+									    that.loading = false;
 										/* this.beginTest() */
-										uni.navigateTo({
+										/* uni.navigateTo({
 											url: '/pages/order/reviewOrderDetail?payId=' + preOrder.prePayID + '&calssId='+this.reviewInfo.classId
-										})
-								    }
+										}) */
+										if(that.payStatus == 1){
+											uni.navigateTo({
+												url: '/pages/order/reviewOrderDetail?payId=' + preOrder.prePayID + '&calssId='+this.reviewInfo.classId
+											})
+										}
+									}
 								})
 							}
 						} else {
@@ -165,6 +186,11 @@
 					that.cancleOrder()
 					uni.hideLoading()
 					console.log(JSON.stringify(err))
+				})
+			},
+			beginOrderDetail(){
+				uni.navigateTo({
+					url: '/pages/order/reviewOrderDetail?payId=' + preOrder.prePayID + '&calssId='+this.reviewInfo.classId
 				})
 			},
 			beginTest() {
@@ -256,7 +282,7 @@
 	.classNum{
 		text-align: center;
 		font-size: 30rpx;
-		margin: 70rpx 10rpx 0 0;
+		margin: 70rpx 50rpx 0 0;
 		float:right;
 		display: inline-flex;
 	}
@@ -279,6 +305,17 @@
 		width: 400rpx;
 		line-height: 80rpx;
 		background: #628D3D;
+		text-align: center;
+		font-size: 34rpx;
+		font-weight: 700;
+		border-radius: 20rpx;
+		color: #ffffff;
+		float:right
+	}
+	.have-buy-button{
+		width: 500rpx;
+		line-height: 80rpx;
+		background: #a9aeb0;
 		text-align: center;
 		font-size: 34rpx;
 		font-weight: 700;

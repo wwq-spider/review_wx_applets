@@ -140,7 +140,7 @@
 	.savebutton {
 		width: 622rpx;
 		line-height: 80rpx;
-		color: #594e3f;
+		color: #fff;
 		font-size: 32rpx;
 		font-weight: 700;
 		margin: 100rpx auto;

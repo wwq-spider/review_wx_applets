@@ -3,7 +3,7 @@ page.data-v-6e0a0fe6 {
  		background-color: #EFE4C8;
 }
 .roundcenter.data-v-6e0a0fe6 {
- 		width: 686rpx;
+ 		width: 100%;
  		margin: 60rpx auto 0 auto;
  		background: #ffffff;
  		border: 1px solid #628D3D;
@@ -18,12 +18,13 @@ page.data-v-6e0a0fe6 {
 .savebutton.data-v-6e0a0fe6 {
  		width: 622rpx;
  		line-height: 90rpx;
- 		color: #594e3f;
+ 		color: #fff;
  		font-size: 32rpx;
  		font-weight: 700;
  		margin: 40rpx auto;
  		text-align: center;
  		background-color: #628D3D;
+		border-radius: 30rpx;
 }
 .notefont.data-v-6e0a0fe6 {
 		text-align: center;
@@ -45,31 +46,33 @@ page.data-v-6e0a0fe6 {
 		font-size: 30rpx;
 }
 .paybutton.data-v-6e0a0fe6 {
-		width: 25%;
+		width: 22%;
 		line-height: 60rpx;
 		color: #fff;
 		font-size: 30rpx;
 		font-weight: 600;
-		/* margin: 100rpx auto; */
 		text-align: center;
-		/* background: url(@/static/savebtn.png) no-repeat 50%/100%; */
 		background-color: #628D3D;
 		border-radius: 6px !important;
+		margin: -44rpx 10rpx 0 286rpx;
+}
+.uniPopupStyle.data-v-6e0a0fe6 {
+		position: absolute;
+		display: block;
+		top: 50%;
 }
  
  	/* 提示窗口 */
 .uni-tip.data-v-6e0a0fe6 {
 		display: flex;
 		flex-direction: column;
-		/* align-items: center; */
+		align-items: center;
 		justify-content: center;
-		padding: 15px;
-		width: 130%;
-		background-color: #e6e3e3;
+		padding: 5%;
+		width: 80%;
+		background-color: #dcdcdc;
 		border-radius: 10px;
-		buttom: 100px;
-		left: 50%;
-		top: 50%;
+		margin: 0 5%;
 }
 .uni-tip-title.data-v-6e0a0fe6 {
 		margin-bottom: 10px;
@@ -95,7 +98,36 @@ page.data-v-6e0a0fe6 {
 		text-align: center;
 		font-size: 14px;
 		color: #fff;
-		background-color:  #628D3D;
+		background-color: #e6a23c;
+}
+.popup-container.data-v-6e0a0fe6{
+		position: absolute;
+		z-index: 1000;
+		width: 100%;
+}
+.cancle-button.data-v-6e0a0fe6 {
+		width: 300rpx;
+		line-height: 80rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 34rpx;
+		font-weight: 700;
+		border-radius: 20rpx;
+		color: #ffffff;
+		margin-top: 150rpx;
+		margin-left: 10rpx;
+}
+.submit-button.data-v-6e0a0fe6{
+		width: 300rpx;
+		line-height: 80rpx;
+		background: #628D3D;
+		text-align: center;
+		font-size: 34rpx;
+		font-weight: 700;
+		border-radius: 20rpx;
+		color: #ffffff;
+		margin-top: 150rpx;
+		margin-left: 100rpx;
 }
 
  
