@@ -67,10 +67,10 @@
 				that.form.openid = userData.openid
 				that.form.userId = userData.userId
 				that.orgMobilePhone = userData.mobilePhone
-			}).catch(err => {
+			});/* .catch(err => {
 				uni.hideLoading()
 				console.log(err)
-			});
+			}); */
 		},
 		data() {
 			return {
@@ -322,12 +322,13 @@
 	.savebutton {
 		width: 622rpx;
 		line-height: 90rpx;
-		color: #594e3f;
+		color: #fff;
 		font-size: 32rpx;
 		font-weight: 700;
 		margin: 40rpx auto;
 		text-align: center;
-		background-color: #3d7a00;
+		background-color: #628D3D;
+		border-radius: 30rpx;
 	}
 	.msgbutton {
 		width: 200rpx;

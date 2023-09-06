@@ -110,7 +110,7 @@
 
 <style>
 	.page {
-		background-color: #55aaff;
+		background-color: #83bc51;
 	}
 
 	.userimg {

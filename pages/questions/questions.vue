@@ -4,7 +4,7 @@
 		<camera device-position="front" @error="error" style="width: 0px; height: 0px" v-if="showCamera"></camera>
 		<view class="uLine-progress">
 			<view v-if="classCount > 0" style="text-align: center; color: #2fba2f; margin-bottom: 10px;">量表: {{firstfloorindex}}/{{classCount}}</view>
-			<view style="width:85%;display: inline-block;float: left;">
+			<view style="width:76%;display: inline-block;float: left;">
 				<u-line-progress :percent="secondfloorper" inactiveColor="#92B473" activeColor="#628D3D" :show-percent="false" height="22"></u-line-progress>
 			</view>
 			<view style="float: right;color: #628D3D;font-size: 28rpx;float: left;margin-top: 10rpx;margin-left: 10rpx;">{{questionIndex+1}}/{{questionList.length}}</view>
@@ -339,7 +339,7 @@
 					projectId = 0
 				}
 				//如果是项目测评 就保存当前测评进度
-				if (projectId > 0 || this.classId == '402880f082eecb960182eee3b1ef0001') {
+				//if (projectId > 0 || this.classId == '402880f082eecb960182eee3b1ef0001') {
 					//存储当前量表
 					uni.setStorageSync("currentClassId", this.classId)
 					let classReviewRecord = uni.getStorageSync(this.reviewRecordKey)
@@ -356,7 +356,7 @@
 					}
 					classReviewRecord[curQuestion.questionId] = classQuestionAnswer
 					uni.setStorageSync(this.reviewRecordKey, classReviewRecord)
-				}
+				//}
 			},
 			closeCamera() {
 				this.cameraContext.stopRecord({})
@@ -531,6 +531,11 @@
 									})
 									uni.removeStorageSync("currentClassId")
 									uni.removeStorageSync(this.reviewRecordKey)
+									//重新输入测评码
+									uni.setStorageSync("paramList", paramList)
+									uni.navigateTo({
+										url: '/pages/review/testCodeAagin'
+									})
 								}
 							}).catch(err => {
 								console.log('进入异常')
@@ -787,7 +792,8 @@
 	}
 	.topic-btn{
 		width: 95%; 
-		height: 100rpx;
+		/* height: 100rpx; */
+		height:auto;
 		border: 1rpx solid rgba(212,184,132,0.3);
 		margin-bottom: 20rpx;
 		line-height: 100rpx;

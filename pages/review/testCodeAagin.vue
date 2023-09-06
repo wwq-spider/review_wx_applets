@@ -97,7 +97,7 @@
  		width: 686rpx;
  		margin: 60rpx auto 0 auto;
  		background: #ffffff;
- 		border: 1px solid #55aaff;
+ 		border: 1px solid #628D3D;
  		border-radius: 50rpx;
  	}
  	.formcontent {
@@ -111,12 +111,13 @@
  	.savebutton {
  		width: 622rpx;
  		line-height: 90rpx;
- 		color: #594e3f;
+ 		color: #fff;
  		font-size: 32rpx;
  		font-weight: 700;
  		margin: 40rpx auto;
  		text-align: center;
- 		background-color: #70bdff;
+ 		background-color: #628D3D;
+ 		border-radius: 30rpx;
  	}
 	.notefont {
 		text-align: center;

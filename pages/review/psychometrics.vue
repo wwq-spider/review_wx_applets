@@ -33,7 +33,8 @@
 					</view>
 					<view style="width: 48%;margin-top: 0rpx;">
 						<view class="title">{{reviewClass.title}}</view>
-						<view class="subtitle">{{reviewClass.classDesc}}</view>
+						<view class="subtitle" v-if="reviewClass.classDesc != null">{{reviewClass.classDesc}}</view>
+						<view class="subtitle" v-if="reviewClass.classDesc == null"></view>
 						<!-- <view v-if="reviewClass.charge==1">
 							<span class="iconfont" style="color: #df7a58;font-size: 9px;">&#xe606;{{reviewClass.realPrice}}</span>
 							<span class="iconfont" style="padding-left: 5px; color: #857f77;font-size: 9px;text-decoration:line-through;" v-if="reviewClass.dicounPrice != '0' && reviewClass.dicounPrice != '0.00'">&#xe606;{{reviewClass.orgPrice}}</span>

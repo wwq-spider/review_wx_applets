@@ -42,9 +42,7 @@ function loginAction(callback,parentOpenid) {
 
 //检查登陆
 function checkLogin(callback){
-	console.log('=========进入检查登录')
 	let openid = uni.getStorageSync("openid")
-	console.log('是否有openid==========',openid)
 	if (openid && openid != "") {
 		http.post(`${config.baseUrl}/reviewFront/user/getUserInfoByOpenid`, {"openid": openid}).then(res => {
 			console.log("checkLogin:getUserInfoByOpenid:result:" + JSON.stringify(res))
@@ -56,16 +54,13 @@ function checkLogin(callback){
 			}
 		})
 	} else {
-		console.log('进入login===========')
 		uni.login({
 			provider: 'weixin',
 			success(login) {
 				http.post(`${config.baseUrl}/reviewFront/user/getOpenid`, {"code": login.code}).then(res => {
-					console.log('========获取openid========',res)
 					if (res.code == 200) {
 						uni.setStorageSync("openid", res.result)
 						http.post(`${config.baseUrl}/reviewFront/user/getUserInfoByOpenid`, {"openid": res.result}).then(res => {
-							console.log('获取用户信息通过openid：=============',res)
 							if (res.code == 200 && res.result && res.result.mobilePhone) {//如果用户信息已经完善 直接跳转到测评项目页面
 								callback && callback(res.result);
 							}else{//未注册，回调进入注册页面

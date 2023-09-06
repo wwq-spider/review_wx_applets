@@ -233,14 +233,15 @@
 		//-webkit-box-orient: vertical;
 	}
 	.consultationr .testbutton {
-		width: 140rpx;
+		width: 100rpx;
 		line-height: 54rpx;
 		background: #92B473;
 		text-align: center;
 		font-size: 26rpx;
 		color: #fff;
 		border-radius: 10rpx;
-		margin-left: 100rpx;
+		margin-left: 50rpx;
+		margin-top: -10rpx;
 	}
 	/* 提示窗口 */
 	.uni-tip {

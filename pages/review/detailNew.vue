@@ -23,15 +23,15 @@
 			</view>
 			
 		</view>
-		<view v-if="id != dongliangClassId && id != dongliangClassProId">
-			<view v-if="isPay == 0" class="tabbar-bottom">
+		<view v-if="id != dongliangClassId && id != dongliangClassProId && id != dongliangClassId">
+			<view v-if="isPay == 0 && charge == 1 && realPrice > 0 " class="tabbar-bottom">
 				<span>
 					<p style="color: #416F5D; font-size: 34rpx;">{{'￥' + reviewClass.realPrice}}</p>
 					<p style="font-size: 22rpx;color:#979797">{{reviewClassNumber + '人测过'}}</p>
 				</span>
 				<span class="buy-button" @click="buy">{{'购买测评'}}</span>
 			</view>
-			<view v-if="isPay == 1" class="tabbar-bottom">
+			<view v-if="isPay == 1 || charge == 0 || realPrice == 0.00" class="tabbar-bottom">
 				<span class="buy-button" @click="beginTest">{{'立即测评'}}</span>
 			</view>
 		</view>
@@ -73,7 +73,9 @@
 				dongliangClassId : '402880f082eecb960182eee3b1ef0001',
 				dongliangClassProId : '2c9cff928408eab3018413a00d8a006a',
 				isPay:0,
-				questionsNum:0
+				questionsNum:0,
+				charge:1,
+				realPrice:0.00,
 			}
 		},
 		computed:{
@@ -131,6 +133,8 @@
 					uni.hideLoading()
 					if(res.code == 200) {
 						that.reviewClass = res.result
+						that.charge = res.result.charge
+						that.realPrice = res.result.realPrice
 						if(that.title == '' && that.reviewClass.title){
 							that.title = that.reviewClass.title
 							uni.setNavigationBarTitle({
@@ -258,17 +262,13 @@
 				})
 			},
 			beginTest() {
-				console.log('量表信息==========',this.reviewClass.classId)
-				console.log('this.reviewClass.charge==',this.reviewClass.charge)
-				console.log('this.reviewClass.charge===',this.reviewClass.charge)
-				console.log('this.reviewClass.buy===',this.reviewClass.buy)
 				if (!this.reviewClass) {
 					uni.showToast({
 					    title: "量表信息为空"
 					})
 				}
 				//量表是否收费
-				if(this.reviewClass.charge == 0 || (this.reviewClass.charge == 1 && this.isPay == 1) || this.reviewClass.buy) {
+				if(this.reviewClass.charge == 0 || (this.reviewClass.charge == 1 && this.isPay == 1) || this.reviewClass.buy || this.reviewClass.realPrice == 0.00) {
 					//如果是栋梁测试，先跳转测评码输入页面
 					let dongliangClassId = '402880f082eecb960182eee3b1ef0001';
 					let dongliangClassProId = '2c9cff928408eab3018413a00d8a006a';

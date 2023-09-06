@@ -291,7 +291,10 @@
 				//如果未登录且是扫二维码进来的 则跳转到第一个量表
 				let projectClass = uni.getStorageSync("projectClass")
 				if(projectClass && projectClass.length > 0) {
-					let currentClassId = projectClass[0].classId
+					let currentClassId = uni.getStorageSync("currentClassId")
+					if (!currentClassId || currentClassId == '') {
+						currentClassId = projectClass[0].classId
+					}
 					uni.redirectTo({
 						url: '/pages/report/guide?classId=' + currentClassId
 					})
@@ -300,6 +303,17 @@
 						title: '当前用户不支持此操作'
 					})
 				}
+				/* let projectClass = uni.getStorageSync("projectClass")
+				if(projectClass && projectClass.length > 0) {
+					let currentClassId = projectClass[0].classId
+					uni.redirectTo({
+						url: '/pages/report/guide?classId=' + currentClassId
+					})
+				} else {
+					uni.showToast({
+						title: '当前用户不支持此操作'
+					})
+				} */
 			},
 		}
 	}
